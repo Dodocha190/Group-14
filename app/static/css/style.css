@@ -1,0 +1,90 @@
+:root {
+    --primary-color: #ABB7FF;      
+    --secondary-color: #B4E1FF;     
+    --accent-color: #FFACE4;      
+    --background-light: #F5FFC6;    
+    --text-primary: #49438C;       
+    --text-secondary: #666666;     
+    --success-color: #C1FF9B;
+    --disabled-color: #D9D9D9;
+}
+
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-light); 
+    color: var(--text-primary); 
+    padding-top: 100px;
+    padding-left: 20px; 
+    padding-right: 20px;
+}
+
+.log-in-button {
+    background-color: transparent;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--text-primary); 
+    font-size: 20px;
+}
+
+.sign-up-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer; 
+    font-size: 20px;
+}   
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.primary-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.secondary-button {
+    background-color: transparent;
+    border: 1px solid var(--primary-color); 
+    color: var(--primary-color);
+    padding: 12px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.main-header {
+    background-color: white; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 100px;
+    /* Fixes header at top of the page - to change this behaviour, delete below styling */
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 1000; 
+    align-items: center; 
+}
+
+.stretch-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;   
+    padding-left: 20px; 
+    padding-right: 20px;
+}
