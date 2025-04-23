@@ -1,4 +1,8 @@
 {% extends 'header.html' %}
+
+{# import the macro from our component file #}
+{% from 'components/info_box.html' import info_box %}
+
 {% block body %}
     <main>
         <section>
@@ -8,5 +12,24 @@
                 <li>Edit this content to match the Figma design for the homepage</li>
             </ul>
         </section>
+
+        <!-- testing info-container component -->
+        <section class="info-container">
+            {{ info_box(
+                'images/ICN-flash.png',
+                'Elective Finder',
+                'Struggling to choose an elective? Find your best match based on…'
+            ) }}
+            {{ info_box(
+                'images/ICN-heart.png',
+                'Rate a Unit',
+                'Rate units on difficulty, lecturer, assessments, and workload — all anonymous!'
+            ) }}
+            {{ info_box(
+                'images/ICN-stats.png',
+                'Unit at a Glance',
+                'Get stats on any unit: difficulty, assessments, average grade…'
+            ) }}
+          </section>
     </main>
 {% endblock %}

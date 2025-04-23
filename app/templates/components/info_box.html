@@ -1,0 +1,12 @@
+{# templates/components/info_box.html #}
+{% macro info_box(icon_path, title, description) %}
+  <div class="info-box">
+    <div class="info-header">
+      <img src="{{ url_for('static', filename=icon_path) }}"
+           alt="{{ title }} icon"
+           class="info-icon">
+      <h3 class="info-title">{{ title }}</h3>
+    </div>
+    <p class="info-description">{{ description }}</p>
+  </div>
+{% endmacro %}
