@@ -1,10 +1,10 @@
 $(document).ready(function() {
-    const $usernameInput = $('#username');
+    const $emailInput = $('#email');
     const $passwordInput = $('#password');
     const $submitButton = $('#submit-button');
 
     function checkLoginValidation() {
-        if ($usernameInput.val().trim() !== '' && $passwordInput.val().trim() !== '') {
+        if ($emailInput.val().trim() !== '' && $passwordInput.val().trim() !== '') {
             $submitButton.prop('disabled', false);
         } else {
             $submitButton.prop('disabled', true);
@@ -12,7 +12,6 @@ $(document).ready(function() {
     }
 
     $submitButton.prop('disabled', true);
-
-    $usernameInput.on('input', checkLoginValidation);
+    $emailInput.on('input', checkLoginValidation);
     $passwordInput.on('input', checkLoginValidation);
 });
