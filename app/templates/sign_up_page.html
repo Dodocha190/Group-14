@@ -1,52 +1,49 @@
-{% extends 'header.html' %}
-{% block body %}
+{% extends 'header.html' %} {% block body %}
 <div class="container-fluid" style="margin-left: 60px">
-    <div class="row">
-      <div class="col-sm-5" style="margin-top: 100px">
-        <h3 style="color:var(--background-light);  ">Review and share data</h3>
-        <p>In order to share your unit data and see your past reviews, you must create an account using a valid student email</p>
-        <p>You will still have the option to review a unit anonymously </p>
-      </div>
-      <div class="col-sm-7" style="padding-left:40px;">
-        <div class="form-container sign-up-form" style="margin-right: 60px;">
-            <div class="form-header">
-                Create your account to get started
-            </div>
-            <form name="signup" action="" method="post">
-                <div>
-                    {{ form.hidden_tag() }}
-                    <div class="form-label">{{ form.email.label }}</div>
-                        <p>
-                        <!-- TODO: Add validation-->
-                        {{ form.email(class="form-input", id="email") }}
-                        {% for error in form.email.errors %}
-                        <span class="error-message">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    </div>
-                    <div>
-                        <div class="form-label">{{ form.username.label }}</div>
-                        <p>
-                        {{ form.username(class="form-input", id="username") }}
-                        {% for error in form.username.errors %}
-                        <span class="error-message">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    </div>
-                    <div>
-                  
-                        <div class="form-label">{{ form.password.label }}</div>
-                      <p>
-                        {{ form.password(class="form-input", id="password") }} 
-                        {% for error in form.password.errors %}
-                        <span class="error-message">[{{ error }}]</span>
-                        {% endfor %}
-                    </p>
-                    <div>{{ form.submit(class="form-submit", id="submit-button") }}</div>
-                </div>
-            </form>
-        </div>
+  <div class="row">
+    <div class="col-sm-5" style="margin-top: 100px">
+      <h3 style="color: var(--background-light)">Review and share data</h3>
+      <p>
+        In order to share your unit data and see your past reviews, you must
+        create an account using a valid student email
+      </p>
+      <p>You will still have the option to review a unit anonymously</p>
+    </div>
+    <div class="col-sm-7" style="padding-left: 40px">
+      <div class="form-container sign-up-form" style="margin-right: 60px">
+        <h3 class="form-header">Create your account to get started</h3>
+        <form name="signup" action="" method="post">
+          <div>
+            {{ form.hidden_tag() }}
+            <p class="form-label">{{ form.email.label }}</p>
+            <p>
+              <!-- TODO: Add validation-->
+              {{ form.email(class="form-input", id="email") }} {% for error in
+              form.email.errors %}
+              <span class="error-message">[{{ error }}]</span>
+              {% endfor %}
+            </p>
+
+            <p class="form-label">{{ form.username.label }}</p>
+            <p>
+              {{ form.username(class="form-input", id="username") }} {% for
+              error in form.username.errors %}
+              <span class="error-message">[{{ error }}]</span>
+              {% endfor %}
+            </p>
+
+            <p class="form-label">{{ form.password.label }}</p>
+            <p>
+              {{ form.password(class="form-input", id="password") }} {% for
+              error in form.password.errors %}
+              <span class="error-message">[{{ error }}]</span>
+              {% endfor %}
+            </p>
+            <p>{{ form.submit(class="form-submit", id="submit-button") }}</p>
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
