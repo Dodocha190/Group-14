@@ -122,12 +122,12 @@ a:hover {
 
 
 .form-container {
-    border-radius: 20px;        /* Rounded corners */
-    padding: 20px 75px;              /* Add some padding inside the container */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Subtle shadow for depth */
-    max-width: 800;      /* Limit the maximum width of the container */
+    border-radius: 20px; 
+    padding: 20px 75px;  
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    max-width: 800;      
     margin-top: 40px;    
-    margin-right: 0px;      /* Center the container horizontally */
+    margin-right: 0px;    
     font-family: sans-serif;
     color: var(--text-tertiary); 
     text-align: center;
