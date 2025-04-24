@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #ABB7FF;      
-    --secondary-color: #B4E1FF;     
+    --primary-color:#B4E1FF;      
+    --secondary-color: #ABB7FF;     
     --accent-color: #FFACE4;      
     --background-light: #F5FFC6;    
     --text-primary: #49438C;       
@@ -13,7 +13,7 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: var(--background-light); 
+    background-color: var(--primary-color); 
     color: var(--text-primary); 
     padding-top: 100px;
     padding-left: 20px; 
@@ -87,4 +87,54 @@ body {
     align-items: center;   
     padding-left: 20px; 
     padding-right: 20px;
+}
+
+/* info-box component */
+
+.info-box {
+  background-color: var(--background-light);
+  border-radius: 40px;
+  padding: 30px;
+  width: 280px;
+  height: 110px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  text-align:center;
+  color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 10px;
+}
+
+.info-header { /*contains icon and title on same line*/
+  display: flex;
+  align-items: center;
+  gap: 20px;           
+  margin-bottom: 8px;  
+}  
+
+.info-box .info-icon { /* img */
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.info-box .info-title {
+  font-size: 25px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.info-box .info-description {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.info-container { /* container to line multiple info-boxes */
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 40px 0;
 }
