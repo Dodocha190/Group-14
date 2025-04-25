@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <script>
+        function toggleGuest(checkbox) {
+            const username = document.getElementById("username");
+            const password = document.getElementById("password");
+            const isGuest = checkbox.checked;
+
+            <!-- Disables the username and password input if user opted to continue as guest -->
+            username.disabled = isGuest;
+            password.disabled = isGuest;
+        }
+    </script>
+</head>
+<body>
+    <h2>Login</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <p>Don't have an account? <a href="{{ url_for('main.register') }}">Register here</a></p>
+        <p>
+            {{ form.username.label }}
+            {{ form.username(id="username") }}
+        </p>
+        <p>
+            {{ form.password.label }}
+            {{ form.password(id="password") }}
+        </p>
+        <p>
+            {{ form.guest(onclick="toggleGuest(this)") }} {{ form.guest.label }}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+</body>
+</html>
