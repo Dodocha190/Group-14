@@ -1,8 +1,23 @@
-from flask import Flask, render_template
+from flask import Flask
+from .config import Config
+from .routes import main
+from .models import db, User
+from flask_login import LoginManager
 
-application = Flask(__name__)
+login_manager = LoginManager()
 
-import app.routes
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
 
-if __name__ == '__main__':
-    application.run(debug=True)
+    db.init_app(app)
+    login_manager.init_app(app)
+    login_manager.login_view = 'main.login' #redirect if not logged in
+
+    app.register_blueprint(main)
+
+    return app
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
