@@ -1,6 +1,6 @@
 #CUSTOM -add the name of your virtual environment here
 project_env/
-
+.DS_Store
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
