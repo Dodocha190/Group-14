@@ -4,16 +4,18 @@ $(document).ready(function() {
     const $emailInput = $('#email');
     const $passwordInput = $('#password');
     const $submitButton = $('#submit-button');
-     const $guestCheckbox = $('#guest'); //check if checkbox has the id 'guest'
+    const $guestCheckbox = $('#guest');
+    const $guestContainer = $('#continue-guest-container'); // container for the guest link
+    const $guestLink = $('#continue-guest-link');
     
     function checkLoginValidation() {
         const isGuest = $guestCheckbox.prop('checked');
-        const hasUsername = $usernameInput.val().trim() !== '';
+        const hasEmail = $emailInput.val().trim() !== '';
         const hasPassword = $passwordInput.val().trim() !== '';
         
         if (isGuest) {
             $submitButton.prop('disabled', false);
-        } else if (hasUsername && hasPassword) {
+        } else if (hasEmail && hasPassword) {
             $submitButton.prop('disabled', false);
         } else {
             $submitButton.prop('disabled', true);
@@ -23,9 +25,17 @@ $(document).ready(function() {
     function toggleGuest() {
         const isGuest = $guestCheckbox.prop('checked');
 
-        $usernameInput.prop('disabled', isGuest);
+        $emailInput.prop('disabled', isGuest);
         $passwordInput.prop('disabled', isGuest);
-        checkLoginValidation();  // re-check validation status
+        checkLoginValidation();
+
+        if ($guestContainer.length) {
+            if (isGuest) {
+                $guestContainer.show();
+            } else {
+                $guestContainer.hide();
+            }
+        }
     }
 
     $submitButton.prop('disabled', true);
@@ -33,18 +43,18 @@ $(document).ready(function() {
     $emailInput.on('input', checkLoginValidation);
     $passwordInput.on('input', checkLoginValidation);
 }
-    const $registerUsername = $('#register-username');
+    const $registerEmail = $('#register-email');
     const $registerPassword = $('#register-password');
     const $registerConfirm = $('#register-confirm');
     const $registerSubmit = $('#register-submit');
 
     function checkRegisterValidation() {
-        const hasUsername = $registerUsername.val().trim() !== '';
+        const hasEmail = $registerEmail.val().trim() !== '';
         const hasPassword = $registerPassword.val().trim() !== '';
         const hasConfirm = $registerConfirm.val().trim() !== '';
         const passwordsMatch = $registerPassword.val() === $registerConfirm.val();
 
-        if (hasUsername && hasPassword && hasConfirm && passwordsMatch) {
+        if (hasEmail && hasPassword && hasConfirm && passwordsMatch) {
             $registerSubmit.prop('disabled', false);
         } else {
             $registerSubmit.prop('disabled', true);
@@ -52,7 +62,7 @@ $(document).ready(function() {
     }
 
     $registerSubmit.prop('disabled', true);
-    $registerUsername.on('input', checkRegisterValidation);
+    $registerEmail.on('input', checkRegisterValidation);
     $registerPassword.on('input', checkRegisterValidation);
     $registerConfirm.on('input', checkRegisterValidation);
 });
