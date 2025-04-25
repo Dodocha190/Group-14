@@ -1,14 +1,11 @@
-{% extends 'base.html' %}
-
-{% block header %}
-    <header class="main-header">
-        <div class="stretch-container" style="height: 100px;">
-            <h1 style="font-weight: 500;">ClassMate</h1>
-            <div>
-            <button class="sign-up-button">Join!</button>
-            <button class="log-in-button">Log In</button>
-        </div>
-        </div>
-    </header>
+{% extends 'base.html' %} {% block header %}
+<header class="main-header">
+  <div class="stretch-container" style="height: 100px">
+    <h1 style="font-weight: 500"><a class="home-button"href="{{ url_for('home')}}">ClassMate</a></h1>
+    <div>
+      <a href="{{ url_for('signup') }}" class="sign-up-button">Join </a>
+      <a href="{{ url_for('login') }}" class="log-in-button">Log In</a>
+    </div>
+  </div>
+</header>
 {% endblock %}
-

@@ -1,7 +1,8 @@
 from flask import Flask
-from .config import Config
-from .routes import main
-from .models import db, User
+import app.config
+import app.routes
+import app.models
+import app.forms
 from flask_login import LoginManager
 
 login_manager = LoginManager()
