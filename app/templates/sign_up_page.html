@@ -5,47 +5,47 @@
       <h3 style="color: var(--background-light)">Review and share data</h3>
       <p>
         In order to share your unit data and see your past reviews, you must
-        create an account using a valid student email
+        create an account using a valid student email.
       </p>
-      <p>You will still have the option to review a unit anonymously</p>
+      <p>You will still have the option to review a unit anonymously.</p>
     </div>
+
     <div class="col-sm-7" style="padding-left: 40px">
       <div class="form-container sign-up-form" style="margin-right: 60px">
         <h3 class="form-header">Create your account to get started</h3>
         <form name="signup" action="" method="post">
-          <div>
-            {{ form.hidden_tag() }}
-            <p class="form-label">{{ form.email.label }}</p>
-            <p>
-              <!-- TODO: Add validation-->
-              {{ form.email(class="form-input", id="email") }} {% for error in
-              form.email.errors %}
-              <span class="error-message">[{{ error }}]</span>
-              {% endfor %}
-            </p>
+          {{ form.hidden_tag() }}
 
-            <p class="form-label">{{ form.username.label }}</p>
-            <p>
-              {{ form.username(class="form-input", id="username") }} {% for
-              error in form.username.errors %}
-              <span class="error-message">[{{ error }}]</span>
-              {% endfor %}
-            </p>
+          <p class="form-label">{{ form.email.label }}</p>
+          <p>
+            {{ form.email(class="form-input", id="register-email") }}
+            {% for error in form.email.errors %}
+              <span class="error-message">{{ error }}</span>
+            {% endfor %}
+          </p>
 
-            <p class="form-label">{{ form.password.label }}</p>
-            <p>
-              {{ form.password(class="form-input", id="password") }} {% for
-              error in form.password.errors %}
-              <span class="error-message">[{{ error }}]</span>
-              {% endfor %}
-            </p>
-            <p>{{ form.submit(class="form-submit", id="submit-button") }}</p>
-          </div>
+          <p class="form-label">{{ form.password.label }}</p>
+          <p>
+            {{ form.password(class="form-input", id="register-password") }}
+            {% for error in form.password.errors %}
+              <span class="error-message">{{ error }}</span>
+            {% endfor %}
+          </p>
+
+          <p class="form-label">{{ form.confirm.label }}</p>
+          <p>
+            {{ form.confirm(class="form-input", id="register-confirm") }}
+            {% for error in form.confirm.errors %}
+              <span class="error-message">{{ error }}</span>
+            {% endfor %}
+          </p>
+
+          <p>{{ form.submit(class="form-submit", id="register-submit") }}</p>
         </form>
+
         <div style="margin-top: 20px;">
           <p>Already have an account?
-            <a href="{{ url_for('application.login') }}">Log in</a>
-          </p>
+            <a href="{{ url_for('main.login') }}">Log in</a>
         </div>
       </div>
     </div>
