@@ -53,15 +53,4 @@
     </div>
   </div>
 </main>
-
-<script>
-  function toggleGuest(checkbox) {
-    const username = document.getElementById("username");
-    const password = document.getElementById("password");
-    const isGuest = checkbox.checked;
-
-    username.disabled = isGuest;
-    password.disabled = isGuest;
-  }
-</script>
 {% endblock %}
