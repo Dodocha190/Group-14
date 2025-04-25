@@ -42,6 +42,11 @@
             <p>{{ form.submit(class="form-submit", id="submit-button") }}</p>
           </div>
         </form>
+        <div style="margin-top: 20px;">
+          <p>Already have an account?
+            <a href="{{ url_for('application.login') }}">Log in</a>
+          </p>
+        </div>
       </div>
     </div>
   </div>
