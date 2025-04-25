@@ -20,6 +20,15 @@
         <form name="login" action="" method="post">
           <div>
             {{ form.hidden_tag() }}
+
+            <p>
+              {{ form.guest(id="guest") }} {{ form.guest.label }}
+            </p>
+            
+            <p id="continue-guest-container" style="margin-top: 5px; margin-bottom: 20px; display: none;">
+              <a href="#" id="continue-guest-link">Continue as Guest</a>
+            </p>
+            
             <p class="form-label">{{ form.email.label }}</p>
             <p>
               {{ form.email(class="form-input", id="email") }} {% for error in
