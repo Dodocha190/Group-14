@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+/// --- For Login Form ---
     const $emailInput = $('#email');
     const $passwordInput = $('#password');
     const $submitButton = $('#submit-button');
@@ -30,4 +32,27 @@ $(document).ready(function() {
     $guestCheckbox.on('change', toggleGuest);
     $emailInput.on('input', checkLoginValidation);
     $passwordInput.on('input', checkLoginValidation);
+}
+    const $registerUsername = $('#register-username');
+    const $registerPassword = $('#register-password');
+    const $registerConfirm = $('#register-confirm');
+    const $registerSubmit = $('#register-submit');
+
+    function checkRegisterValidation() {
+        const hasUsername = $registerUsername.val().trim() !== '';
+        const hasPassword = $registerPassword.val().trim() !== '';
+        const hasConfirm = $registerConfirm.val().trim() !== '';
+        const passwordsMatch = $registerPassword.val() === $registerConfirm.val();
+
+        if (hasUsername && hasPassword && hasConfirm && passwordsMatch) {
+            $registerSubmit.prop('disabled', false);
+        } else {
+            $registerSubmit.prop('disabled', true);
+        }
+    }
+
+    $registerSubmit.prop('disabled', true);
+    $registerUsername.on('input', checkRegisterValidation);
+    $registerPassword.on('input', checkRegisterValidation);
+    $registerConfirm.on('input', checkRegisterValidation);
 });
