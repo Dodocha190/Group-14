@@ -1,0 +1,17 @@
+$(document).ready(function() {
+    const $emailInput = $('#email');
+    const $passwordInput = $('#password');
+    const $submitButton = $('#submit-button');
+
+    function checkLoginValidation() {
+        if ($emailInput.val().trim() !== '' && $passwordInput.val().trim() !== '') {
+            $submitButton.prop('disabled', false);
+        } else {
+            $submitButton.prop('disabled', true);
+        }
+    }
+
+    $submitButton.prop('disabled', true);
+    $emailInput.on('input', checkLoginValidation);
+    $passwordInput.on('input', checkLoginValidation);
+});
