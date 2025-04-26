@@ -1,0 +1,268 @@
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #a8d1f0;
+  color: #222;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #3b0a75;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.action-buttons a {
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background-color: #f3a1fa;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.action-buttons a:hover {
+  background-color: #e1bee7;
+}
+
+.intro-hero {
+  background-color: #a8d1f0;
+  min-height: 100vh;
+  padding: 6rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.brand-title {
+  font-size: 7rem;
+  color: white;
+  font-weight: 700;
+  margin-bottom: 0rem;
+}
+
+.brand-subtitle {
+  font-size: 1.2rem;
+  color: #3b0a75;
+  margin-bottom: 1.5rem;
+  margin-top: 0.25rem;
+  font-weight:600;
+}
+
+.link {
+  font-size: 1.3rem;
+  color: #3b0a75;
+  margin-top: 0.8rem;
+  font-weight: 600;
+}
+
+.intro-description {
+  font-size: 1rem;
+  color: #3b0a75;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+}
+
+.emphasis {
+  font-size: 1.3rem;
+  color: #3b0a75;
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+}
+
+.action-set {
+  display: flex;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.btn-primary {
+  background-color: #3b0a75;
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 18px 48px;
+  border-radius: 30px;
+  border: none;
+  cursor: pointer;
+}
+
+.scroll-indicator {
+  margin-top: 0rem;
+  top: 0.1rem;
+  margin-bottom: 4rem;
+  font-size: 2.5rem;
+  color: white;
+  animation: fadeBounce 2s infinite;
+  text-align: center;
+  width: 100%;
+}
+
+@keyframes fadeBounce {
+  0% { transform: translateY(0); opacity: 0; }
+  20% { opacity: 1; }
+  40% { transform: translateY(10px); }
+  60% { transform: translateY(5px); }
+  80% { transform: translateY(10px); }
+  100% { transform: translateY(0); }
+}
+
+.card {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-in-out;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cards-section {
+  margin-top: 0.5rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cards {
+  display: flex;
+  gap: 5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background-color: #f3f3cf;
+  padding: 1.5rem;
+  border-radius: 40px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  color:#3b0a75;
+  font-weight:500;
+}
+
+.what-btn-container {
+  margin: 2rem 0;
+}
+
+.what-btn {
+  background-color: transparent;
+  border: 2px solid #f5f5d1;
+  color: #f5f5d1;
+  padding: 10px 50px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-size: 1.5rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.search-container {
+  background: white;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  gap: 1rem;
+  width: 600px;
+  max-width: 90%;
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #5e3bbf;
+  text-align: center;
+}
+
+.search-input::placeholder {
+  color: #a084ca;
+}
+
+.divider {
+  width: 1px;
+  height: 30px;
+  background-color: #ccc;
+}
+
+.university-select {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #b2d8f6;
+  background: transparent;
+  padding-left: 10px;
+}
+
+.university-select.selected {
+  color: #263b74;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #5e3bbf;
+  gap: 0.5rem;
+}
+
+#user-name {
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .action-set {
+    flex-direction: column;
+  }
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .card {
+    width: 80%;
+  }
+}
