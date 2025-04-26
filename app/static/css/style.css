@@ -258,3 +258,26 @@ margin-bottom: 20px;
   flex-wrap: wrap;
   padding: 40px 0;
 }
+
+.large-search-bar {
+  background-color: white;
+  border: none;
+  border-radius: 40px;
+  align-items: center;
+}
+
+.unit-name-search {
+  color: var(--text-primary);
+  font-size: 200%;
+  border: none;
+  outline: none;
+  margin: 10px 40px;
+}
+
+.uni-search {
+  color: var(--primary-color);
+  font-size: 150%;
+  border: none;
+  outline: none;
+  margin: 10px 40px;
+}
