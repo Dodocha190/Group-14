@@ -1,3 +1,4 @@
+// For login and signup pages ===
 $(document).ready(function() {
     const $emailInput = $('#email');
     const $passwordInput = $('#password');
@@ -30,4 +31,32 @@ $(document).ready(function() {
     $guestCheckbox.on('change', toggleGuest);
     $emailInput.on('input', checkLoginValidation);
     $passwordInput.on('input', checkLoginValidation);
+});
+
+// For both home pages ===
+
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.intro-description, .card').forEach(el => {
+        observer.observe(el);
+    });
+
+    const universitySelect = document.getElementById('university-select');
+
+    if (universitySelect) {
+        universitySelect.addEventListener('change', function() {
+            if (universitySelect.value) {
+                universitySelect.classList.add('selected');
+            } else {
+                universitySelect.classList.remove('selected');
+            }
+        });
+    }
 });
