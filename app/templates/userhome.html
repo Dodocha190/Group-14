@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClassMate Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/sharedhome.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <header>
+    <h1>ClassMate</h1>
+    <div class="user-info">
+      Welcome, <span id="user-name">user@example.com</span>
+    </div>
+  </header>
+
+<section class="intro-hero" style="min-height: auto; padding-top: 4rem;">
+  <h1 class="brand-title">ClassMate</h1>
+  <p class="brand-subtitle">Get to know a unit before Week 1.</p>
+
+  <div class="search-bar">
+    <div class="search-container">
+      <span class="search-icon">🔍</span> <!-- (you will replace this span with your own image later) -->
+      <input type="text" class="search-input" placeholder="Enter a unit code to get started">
+      <div class="divider"></div>
+      <select class="university-select" id="university-select">
+        <option value="" disabled selected hidden>Select university</option>
+        <option value="uwa">UWA</option>
+      </select>
+    </div>
+  </div>
+</section>
+
+<section class="cards-section">
+  <div class="cards">
+    <div class="card fade-in-on-scroll">
+      <h3>⚡ Elective Finder</h3>
+      <p>Struggling to choose an elective? Find your best match based on difficulty, reviews and stats.</p>
+    </div>
+    <div class="card fade-in-on-scroll">
+      <h3>💜 Rate a unit</h3>
+      <p>Rate units based on difficulty, assessments, lecturers and more...</p>
+    </div>
+    <div class="card fade-in-on-scroll">
+      <h3>📊 Unit at a Glance</h3>
+      <p>Get to know your units based on difficulty, lecturer, assessments, and data-driven stats.</p>
+    </div>
+  </div>
+</section>
+
+<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
+</body>
+</html>
