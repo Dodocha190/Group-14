@@ -1,55 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClassMate Home</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/sharedhome.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
+{% extends 'header.html' %}
+{% from 'components/info_box.html' import info_box %}
 
-  <header>
-    <h1>ClassMate</h1>
-    <div class="user-info">
-      Welcome, <span id="user-name">user@example.com</span>
-    </div>
-  </header>
+{% block body %}
+<main>
+  <section class="intro-hero" style="min-height: auto; padding-top: 4rem;">
+    <h1 class="brand-title">ClassMate</h1>
+    <p class="brand-subtitle">Get to know a unit before Week 1.</p>
 
-<section class="intro-hero" style="min-height: auto; padding-top: 4rem;">
-  <h1 class="brand-title">ClassMate</h1>
-  <p class="brand-subtitle">Get to know a unit before Week 1.</p>
+    <div class="large-search-bar">
+      <div class="stretch-container">
+        <img src="{{ url_for('static', filename='images/ICN-search.png') }}" alt="Search" class="info-icon">
+        <input type="text" class="unit-name-search" placeholder="Enter a unit code to get started">
+        <select class="uni-search" id="university-select">
+          <option value="" disabled selected hidden>Select university</option>
+          <option value="uwa">UWA</option>
+        </select>
+      </div>
+    </div>
+  </section>
 
-  <div class="search-bar">
-    <div class="search-container">
-      <img src="{{ url_for('static', filename='images/ICN-search.png') }}" alt="Search" class="icon">
-      <input type="text" class="search-input" placeholder="Enter a unit code to get started">
-      <div class="divider"></div>
-      <select class="university-select" id="university-select">
-        <option value="" disabled selected hidden>Select university</option>
-        <option value="uwa">UWA</option>
-      </select>
-    </div>
-  </div>
-</section>
-
-<section class="cards-section">
-  <div class="cards">
-    <div class="card fade-in-on-scroll">
-      <h3><img src="{{ url_for('static', filename='images/ICN-flash.png') }}" alt="Flash" class="icon"> Elective Finder</h3>
-      <p>Find your best match based on difficulty, reviews and stats.</p>
-    </div>
-    <div class="card fade-in-on-scroll">
-      <h3><img src="{{ url_for('static', filename='images/ICN-heart.png') }}" alt="Heart" class="icon"> Rate a Unit</h3>
-      <p>Rate units based on difficulty, assessments, lecturers and more...</p>
-    </div>
-    <div class="card fade-in-on-scroll">
-      <h3><img src="{{ url_for('static', filename='images/ICN-stats.png') }}" alt="Stats" class="icon"> Unit at a Glance</h3>
-      <p>See aggregated stats for each unit — workload, assessments, lecturers and more.</p>
-    </div>
-  </div>
-</section>
-
-<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
-</body>
-</html>
+  <section class="info-container">
+    {{ info_box('images/ICN-flash.png', 'Elective Finder', 'Struggling to choose an elective? Find your best match based on difficulty, reviews and stats.') }}
+    {{ info_box('images/ICN-heart.png', 'Rate a Unit', 'Rate units based on difficulty, assessments, lecturers and more...') }}
+    {{ info_box('images/ICN-stats.png', 'Unit at a Glance', 'Get to know your units based on difficulty, lecturer, assessments, and data-driven stats.') }}
+  </section>
+</main>
+{% endblock %}
