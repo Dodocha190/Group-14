@@ -47,7 +47,7 @@ $(document).ready(function () {
         });
     }
 
-    // --- For Registration Form ---
+    // --- For Sign Up Form ---
     const $registerEmail = $('#register-email');
     const $registerPassword = $('#register-password');
     const $registerConfirm = $('#register-confirm');
