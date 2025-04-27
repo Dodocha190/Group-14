@@ -1,8 +1,9 @@
-{% macro search_result(rate, unit, uni) %}
-<div class="result-box">
-    <div class="result-rating">{{rate}}</div>
-    <div class="result-unit">{{unit}}</div>
-    <div class="result-uni">{{uni}}</div>
-</div>
-<!--temporary ids for example search result-->
+{% macro search_result(rate, unitcode, unitname, uni) %}
+<table class="result-box" style="display:none">
+    <tr>
+        <td class="result-rating">{{rate}}</td>
+        <td><p class="result-unit-code">{{unitcode}}</p><p class="result-unit-name">{{unitname}}</p></td>
+        <td class="result-uni">{{uni}}</td>
+    </tr>
+</table>
 {% end macro %}

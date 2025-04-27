@@ -5,7 +5,7 @@
 <div>
     <form class="large-search-bar" action="">
         <!--no action yet-->
-        <input type="submit", onclick=""> <!--need to put a search icon here-->
+        <button type="submit"><img src="app/static/images/ICN-search.png"></button>
         <input class="unit-name-search" type="text" placeholder="Search unit">
         <select class="uni-search ">
             <option>Select university</option>
@@ -19,7 +19,7 @@
 <!--made an example search result which will be shown when any input is submitted-->
 <div style="display:none">
     {{search_result(
-        "5.0", "CITS3403", "UWA"
+        "5.0", "CITS3403","Agile Web Development", "UNIVERSITY OF WESTERN AUSTRALIA"
     )}}
 </div>
 {% endblock %}

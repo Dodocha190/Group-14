@@ -297,29 +297,33 @@ margin-bottom: 20px;
 }
 
 .result-rating{
+  text-align: center;
   font-size: 300%;
-  background-color: #F5FFC6; /*to be replaced with star icon*/
+  background-color: #F5FFC6; /*can set png as background*/
   color:#49438C;
-  width:fit-content;
-  display: inline-block;
-  padding: 10px 10px;
-  margin:0 10px;
+  width: fit-content;
+  padding: 10px;
 }
 
-.result-unit{
+.result-unit-code{
   font-size: 300%;
-  width:35%;
   color: white;
-  display: inline-block;
-  padding: 10px 10px;
-  margin:0 10px;
+  width:auto;
+  margin:0;
+  padding: 0 10px;
+}
+
+.result-unit-name{
+  color: white;
+  width: auto;
+  margin:0;
+  padding: 0 10px;
 }
 
 .result-uni{
-  font-size: 150%;
-  width:40%;
   color:white;
-  display: inline-block;
-  padding: 10px 10px;
-  margin:0 10px;
+  width:40%;
+  border-left-style: solid;
+  border-left-color: white;
+  padding: 10px;
 }
