@@ -1,24 +1,14 @@
 from flask import Flask
-import app.config
-import app.routes
-import app.models
-import app.forms
-from flask_login import LoginManager
-
-login_manager = LoginManager()
+from .config import Config
+from .models import db
+from .routes import register_routes
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
     db.init_app(app)
-    login_manager.init_app(app)
-    login_manager.login_view = 'main.login' #redirect if not logged in
 
-    app.register_blueprint(main)
+    register_routes(app)  # Attach routes
 
     return app
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
