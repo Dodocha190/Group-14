@@ -1,8 +1,11 @@
-{% extends 'header.html' %} {% block body %}
+{% extends 'header.html' %}
+{% from 'components/search_result.html' import search_result %}
+
+{% block body %}
 <div>
     <form class="large-search-bar" action="">
         <!--no action yet-->
-        <input type="submit"> <!--need to put a search icon here-->
+        <input type="submit", onclick=""> <!--need to put a search icon here-->
         <input class="unit-name-search" type="text" placeholder="Search unit">
         <select class="uni-search ">
             <option>Select university</option>
@@ -11,4 +14,19 @@
         </select>
     </form>
 </div>
+
+
+<!--made an example search result which will be shown when any input is submitted-->
+<div style="display:none">
+    {{search_result(
+        "5.0", "CITS3403", "UWA"
+    )}}
+</div>
 {% endblock %}
+
+<script>
+    document.querySelector(".large-search-bar").addEventListener("submit", (e) => {
+        e.preventDefault();
+        document.querySelector(".result-box").style.display = "block";
+    });
+</script>

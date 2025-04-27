@@ -286,3 +286,40 @@ margin-bottom: 20px;
   width:fit-content;
   margin-right: 30px;
 }
+
+.result-box {
+  background-color: #49438C;
+  margin: 10% 20%;
+  border-radius: 40px;
+  padding: 30px;
+  border: none;
+  align-items: center;
+}
+
+.result-rating{
+  font-size: 300%;
+  background-color: #F5FFC6; /*to be replaced with star icon*/
+  color:#49438C;
+  width:fit-content;
+  display: inline-block;
+  padding: 10px 10px;
+  margin:0 10px;
+}
+
+.result-unit{
+  font-size: 300%;
+  width:35%;
+  color: white;
+  display: inline-block;
+  padding: 10px 10px;
+  margin:0 10px;
+}
+
+.result-uni{
+  font-size: 150%;
+  width:40%;
+  color:white;
+  display: inline-block;
+  padding: 10px 10px;
+  margin:0 10px;
+}
