@@ -1,10 +1,10 @@
-from flask import Flask, render_template
+from flask import Flask
+from .config import Config
+from .models import db
+from .routes import register_routes
 
 application = Flask(__name__)
-application.config['SECRET_KEY'] = 'your_secret_key_here' ##TODO: Change this to a random secret key
+application.config.from_object(Config)
 
-import app.routes
-import app.forms
-
-if __name__ == '__main__':
-    application.run(debug=True)
+db.init_app(application)
+register_routes(application)
