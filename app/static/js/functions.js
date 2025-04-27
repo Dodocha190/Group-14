@@ -34,7 +34,7 @@ $(document).ready(function() {
 });
 
 // For both home pages ===
-
+// For the info-box to fade in nicely when scrolled down upon (optional) ===
 document.addEventListener('DOMContentLoaded', () => {
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
@@ -44,11 +44,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.3 });
 
-    document.querySelectorAll('.intro-description, .card').forEach(el => {
+    document.querySelectorAll('.info-box').forEach(el => {
         observer.observe(el);
     });
 
-    const universitySelect = document.getElementById('university-select');
+    // For the search bar or university to be pale/soft coloured before inputting anything and turning dark colored after having value (animation) ===
+    const universitySelect = document.getElementById('uni-search');
 
     if (universitySelect) {
         universitySelect.addEventListener('change', function() {
