@@ -18,14 +18,22 @@
             Log in to your ClassMate account
           </h4>
         </div>
+        <form name="login" action="" method="post">
+          <div>
+            {{ form.hidden_tag() }}
 
-        <form name="login" action="" method="POST">
-          {{ form.hidden_tag() }}
-
-          <p class="form-label">{{ form.username.label }}</p>
-          <p>
-            {{ form.username(class="form-input", id="username") }}
-            {% for error in form.username.errors %}
+            <p>
+              {{ form.guest(id="guest") }} {{ form.guest.label }}
+            </p>
+            
+            <p id="continue-guest-container" style="display: none; opacity: 0;">
+                <a href="#" id="continue-guest-link">Continue as Guest</a>
+            </p>
+            
+            <p class="form-label">{{ form.email.label }}</p>
+            <p>
+              {{ form.email(class="form-input", id="email") }} {% for error in
+              form.email.errors %}
               <span class="error-message">{{ error }}</span>
             {% endfor %}
           </p>
@@ -53,4 +61,5 @@
     </div>
   </div>
 </main>
+<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
 {% endblock %}
