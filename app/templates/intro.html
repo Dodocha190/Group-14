@@ -1,62 +1,35 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ClassMate</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/sharedhome.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body>
+{% extends 'header.html' %}
+{% from 'components/info_box.html' import info_box %}
 
-<header>
-  <h1 style="color: #3b0a75;">ClassMate</h1>
-  <div class="action-buttons">
-    <a href="#">Join!</a>
-    <a href="#">Log in</a>
-  </div>
-</header>
+{% block body %}
+<main>
+  <section class="intro-hero">
+    <h1 class="brand-title">ClassMate</h1>
+    <p class="brand-subtitle">Get to know a unit before Week 1.</p>
 
-<section class="intro-hero">
-  <h1 class="brand-title">ClassMate</h1>
-  <p class="brand-subtitle">Get to know a unit before Week 1.</p>
-
-  <div class="action-set">
-    <button class="btn-primary">Join for free!</button>
-    <a href="#" class="link" >Log in</a>
-  </div>
-
-  <div class="what-btn-container">
-    <a href="#cards" class="what-btn">What is ClassMate?</a>
-  </div>
-
-  <p class="intro-description">
-    A university unit review tool that lets you rate units you've taken and explore electives based on workload, difficulty, assessments, and more.
-  </p>
-
-  <p class="emphasis">Choose smarter. Study Better.</p>
-</section>
-
-<div class="scroll-indicator">↓</div>
-
-<section class="cards-section">
-  <div class="cards">
-    <div class="card fade-in-on-scroll">
-      <h3><img src="{{ url_for('static', filename='images/ICN-flash.png') }}" alt="Flash" class="icon"> Elective Finder</h3>
-      <p>Find your best match based on difficulty, reviews and stats.</p>
+    <div class="action-set">
+      <a href="{{ url_for('signup') }}" class="primary-button">Join for free!</a>
+      <a href="{{ url_for('login') }}" class="home-button">Log in</a>
     </div>
-    <div class="card fade-in-on-scroll">
-      <h3><img src="{{ url_for('static', filename='images/ICN-heart.png') }}" alt="Heart" class="icon"> Rate a Unit</h3>
-      <p>Rate units based on difficulty, assessments, lecturers and more...</p>
-    </div>
-    <div class="card fade-in-on-scroll">
-      <h3><img src="{{ url_for('static', filename='images/ICN-stats.png') }}" alt="Stats" class="icon"> Unit at a Glance</h3>
-      <p>See aggregated stats for each unit — workload, assessments, lecturers and more.</p>
-    </div>
-  </div>
-</section>
 
-<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
-</body>
-</html>
+    <div class="button-group">
+      <a href="#info-container" class="secondary-button">What is ClassMate?</a>
+    </div>
+
+    <p class="intro-description">
+      A university unit review tool that lets you rate units you've taken and explore electives based on workload, difficulty, assessments, and more.
+    </p>
+
+    <p class="emphasis">Choose smarter. Study Better.</p>
+  </section>
+
+  <div class="scroll-indicator">↓</div>
+
+  <section id="info-container" class="info-container">
+    {{ info_box('images/ICN-flash.png', 'Elective Finder', 'Find your best match based on difficulty, reviews and stats.') }}
+    {{ info_box('images/ICN-heart.png', 'Rate a Unit', 'Rate units based on difficulty, assessments, lecturers and more...') }}
+    {{ info_box('images/ICN-stats.png', 'Unit at a Glance', 'See aggregated stats for each unit — workload, assessments, lecturers and more.') }}
+  </section>
+</main>
+{% endblock %}
