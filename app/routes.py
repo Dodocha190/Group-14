@@ -30,17 +30,16 @@ def login():
     if form.validate_on_submit():
         if form.guest.data:
             guest = User.query.filter_by(email='guest@classmate.com').first()
-                if not guest:
-                    guest = User(email='guest@classmate.com')
-                    guest.set_password('')
-                    db.session.add(guest)
-                    db.session.commit()
-                return redirect(url_for('dashboard')) #dashboard for now, will decide on it later
+            if not guest:
+                guest = User(email='guest@classmate.com')
+                guest.set_password('')
+                db.session.add(guest)
+                db.session.commit()
+                return redirect(url_for('userhome')) #dashboard for now, will decide on it later
         else:
             user = User.query.filter_by(email=form.email.data).first()
-                if user and user.check_password(form.password.data):
-                    login_user(user)
-                    return redirect(url_for('dashboard'))
-                flash("Invalid email or password.")
+            if user and user.check_password(form.password.data):
+                return redirect(url_for('userhome'))
+            flash("Invalid email or password.")
 
     return render_template('login_page.html', form=form)
