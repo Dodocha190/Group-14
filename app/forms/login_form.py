@@ -4,8 +4,8 @@ from wtforms.validators import DataRequired, Email
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password')
-    submit = SubmitField('Sign In')
+    password = PasswordField('Enter your password', validators=[DataRequired()])
+    submit = SubmitField('Log In')
     guest = BooleanField('Continue as Guest')
 
     def validate(self, extra_validators=None):
