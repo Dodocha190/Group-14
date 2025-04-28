@@ -21,14 +21,6 @@
         <form name="login" action="" method="post">
           <div>
             {{ form.hidden_tag() }}
-
-            <p>
-              {{ form.guest(id="guest") }} {{ form.guest.label }}
-            </p>
-            
-            <p id="continue-guest-container" style="display: none; opacity: 0;">
-                <a href="#" id="continue-guest-link">Continue as Guest</a>
-            </p>
             
             <p class="form-label">{{ form.email.label }}</p>
             <p>
@@ -45,21 +37,18 @@
               <span class="error-message">{{ error }}</span>
             {% endfor %}
           </p>
-
-          <p>
-            {{ form.guest(onclick="toggleGuest(this)") }}
-            {{ form.guest.label }}
-          </p>
-
+          <div id="continue-guest-container">
+            {{ form.guest(id="guest") }} {{ form.guest.label }}
+          </div>
+        
           <p>{{ form.submit(class="form-submit", id="submit-button") }}</p>
         </form>
 
         <p style="margin-top: 30px; color: var(--text-tertiary)">
-          New to ClassMate? <a href="{{ url_for('main.register') }}">Sign Up</a>
+          New to ClassMate? <a href="{{ url_for('signup') }}">Sign Up</a>
         </p>
       </div>
     </div>
   </div>
 </main>
-<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
 {% endblock %}

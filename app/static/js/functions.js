@@ -26,11 +26,6 @@ $(document).ready(function () {
         $emailInput.prop('disabled', isGuest);
         $passwordInput.prop('disabled', isGuest);
         checkLoginValidation();
-
-        if ($guestContainer.length) {
-            if (isGuest) {$guestContainer.show();} 
-            else {$guestContainer.hide();}
-        }
     }
 
     if ($submitButton.length) {$submitButton.prop('disabled', true);}
