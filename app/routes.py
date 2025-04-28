@@ -9,6 +9,11 @@ from flask_login import login_user, logout_user, login_required, current_user
 def home():
     return render_template('home.html')
 
+@application.route('/unit-summary')
+def unit_summary():
+    return render_template('unit_summary.html')
+
+
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
 @login_required
 def dashboard():
@@ -32,18 +37,17 @@ def login():
     if form.validate_on_submit():
         if form.guest.data:
             guest = User.query.filter_by(email='guest@classmate.com').first()
-                if not guest:
-                    guest = User(email='guest@classmate.com')
-                    guest.set_password('')
-                    db.session.add(guest)
-                    db.session.commit()
-                login_user(guest)
-                return redirect(url_for('dashboard')) #dashboard for now, will decide on it later
+        if not guest:
+            guest = User(email='guest@classmate.com')
+            guest.set_password('')
+            db.session.add(guest)
+            db.session.commit()
+            return redirect(url_for('dashboard')) #dashboard for now, will decide on it later
         else:
             user = User.query.filter_by(email=form.email.data).first()
-                if user and user.check_password(form.password.data):
-                    login_user(user)
-                    return redirect(url_for('dashboard'))
+            if user and user.check_password(form.password.data):
+                login_user(user)
+                return redirect(url_for('dashboard'))
                 flash("Invalid email or password.")
 
     return render_template('login_page.html', form=form)
