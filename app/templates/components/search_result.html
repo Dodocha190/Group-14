@@ -1,8 +1,8 @@
 {% macro search_result(rate, unitcode, unitname, uni) %}
-<table class="result-box" style="display:none">
+<table class="result-box">
     <tr>
         <td class="result-rating">{{rate}}</td>
-        <td><p class="result-unit-code">{{unitcode}}</p><p class="result-unit-name">{{unitname}}</p></td>
+        <td class="result-unit"><p class="result-unit-code">{{unitcode}}</p><p class="result-unit-name">{{unitname}}</p></td>
         <td class="result-uni">{{uni}}</td>
     </tr>
 </table>

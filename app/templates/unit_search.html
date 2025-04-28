@@ -15,18 +15,10 @@
     </form>
 </div>
 
-
-<!--made an example search result which will be shown when any input is submitted-->
-<div style="display:none">
+<!--example search result-->
+<div>
     {{search_result(
         "5.0", "CITS3403","Agile Web Development", "UNIVERSITY OF WESTERN AUSTRALIA"
     )}}
 </div>
-
-<script>
-    document.querySelector(".large-search-bar").addEventListener("submit", (e) => {
-        e.preventDefault();
-        document.querySelector(".result-box").style.display = "block";
-    });
-</script>
 {% endblock %}

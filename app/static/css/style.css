@@ -288,42 +288,43 @@ margin-bottom: 20px;
 }
 
 .result-box {
-  background-color: #49438C;
-  margin: 10% 20%;
+  margin: 0 20%;
+  background-color: var(--text-primary);
   border-radius: 40px;
-  padding: 30px;
   border: none;
-  align-items: center;
+  display: flex;
+  padding: 30px 30px;
 }
 
 .result-rating{
   text-align: center;
   font-size: 300%;
   background-color: #F5FFC6; /*can set png as background*/
-  color:#49438C;
-  width: fit-content;
+  color:var(--text-primary);
   padding: 10px;
+  width:fit-content;
+}
+
+.result-unit{
+  width:100%;
 }
 
 .result-unit-code{
   font-size: 300%;
   color: white;
-  width:auto;
-  margin:0;
-  padding: 0 10px;
+  padding: 0 20px;
+  margin-bottom: 0;
 }
 
 .result-unit-name{
   color: white;
-  width: auto;
-  margin:0;
-  padding: 0 10px;
+  padding: 0 20px;
 }
 
 .result-uni{
   color:white;
-  width:40%;
   border-left-style: solid;
   border-left-color: white;
-  padding: 10px;
+  padding: 20px;
+  width:50%;
 }
