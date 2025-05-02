@@ -10,7 +10,7 @@ def home():
 
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
-        return render_template('userhome.html, show_user_info=True, user_email=current_user.email')
+        return render_template('userhome.html', show_user_info=True, user_email='current_user.email')
 
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
