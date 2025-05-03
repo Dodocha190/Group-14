@@ -2,6 +2,7 @@ from app import application
 from flask import render_template, redirect, url_for, flash
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
+from app.forms.unit_review import reviewForm
 from .models import db, User
 
 @application.route('/')
@@ -43,3 +44,8 @@ def login():
             flash("Invalid email or password.")
 
     return render_template('login_page.html', form=form)
+
+@application.route('/submit_review')
+def review():
+    form = reviewForm()
+    return render_template('unit_review.html', form=form)
