@@ -135,6 +135,9 @@ a:hover {
     flex-direction: column;
     min-height: 80vh;
 }
+.form-container a:hover {
+    color: var(--text-tertiary);
+}
 
 .login-form {
     background-color: var(--text-primary);
@@ -287,13 +290,6 @@ margin-bottom: 20px;
   margin-right: 30px;
 }
 
-#continue-guest-container {
-  color: var(--text-tertiary);
-  transition: opacity 0.5s ease;
-  display: block;
-  align-items: center;
-}
-
 .result-box {
   margin: 0 20%;
   background-color: var(--text-primary);
@@ -340,4 +336,11 @@ margin-bottom: 20px;
   color:white;
   padding: 20px;
   flex:1;
+}
+
+#continue-guest-container {
+    color: var(--text-tertiary);
+    transition: opacity 0.5s ease;
+    display: block;
+    align-items: center;
 }

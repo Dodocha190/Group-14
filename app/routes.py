@@ -2,14 +2,13 @@ from app import application
 from flask import render_template, redirect, url_for, flash
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
-
+from .models import db, User
 
 @application.route('/')
 def home():
     return render_template('home.html')
 
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
-@login_required
 def dashboard():
         return render_template('dashboard.html', username=current_user.email)
 
@@ -37,14 +36,15 @@ def login():
                 db.session.add(guest)
                 db.session.commit()
                 return redirect(url_for('userhome')) #dashboard for now, will decide on it later
-            else:
-                user = User.query.filter_by(email=form.email.data).first()
-                if user and user.check_password(form.password.data):
-                    return redirect(url_for('userhome'))
-                flash("Invalid email or password.")
+        else:
+            user = User.query.filter_by(email=form.email.data).first()
+            if user and user.check_password(form.password.data):
+                return redirect(url_for('userhome'))
+            flash("Invalid email or password.")
 
     return render_template('login_page.html', form=form)
 
+  
 @application.route('/search')
 def search():
     return render_template('unit_search.html')
