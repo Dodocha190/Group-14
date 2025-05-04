@@ -2,6 +2,7 @@ from app import application
 from flask import render_template, redirect, url_for, flash
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
+from app.forms.unit_review import addUnitForm
 from app.forms.unit_review import reviewForm
 from .models import db, User
 
@@ -49,3 +50,8 @@ def login():
 def review():
     form = reviewForm()
     return render_template('unit_review.html', form=form)
+
+@application.route('/add_unit')
+def addunit():
+    form = addUnitForm()
+    return render_template('add_unit.html', form=form)

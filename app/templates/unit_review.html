@@ -1,18 +1,17 @@
 {% extends 'header.html' %}
 {% block body %}
-<div class="form-container" style="margin:10%">
+<div class="form-container" style="margin:10%; background-color:var(--accent-color);">
     <h2>Submit a Review</h2>
     <form action="" method="post">
         {{form.hidden_tag()}}
         <p>{{form.revuni.label}} {{form.revuni}}</p>
-        <p>{{form.revfaculty.label}} {{form.revfaculty}}</p>
         <p>{{form.revcode.label}} {{form.revcode}}</p>
-        <p>{{form.revunitname.label}} {{form.revunitname}}</p>
         <p>{{form.revunitco.label}}<br>{{form.revunitco}}</p>
         <p>{{form.revdifficulty.label}}<br>{{form.revdifficulty}}</p>
         <p>{{form.revhours.label}}<br>{{form.revhours}}</p>
         <p>{{form.revassessments.label}}<br>{{form.revassessments}}</p>
         <p>{{form.revrating.label}}<br>{{form.revrating}}</p>
+        <p>{{form.revsubmit.label}}<br>{{form.revsubmit}}</p>
     </form>
 </div>
 {% endblock %}
