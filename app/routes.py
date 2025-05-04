@@ -48,3 +48,7 @@ def login():
 @application.route('/search')
 def search():
     return render_template('unit_search.html')
+
+@application.route('/unit_diary')
+def diary():
+    return render_template('unitdiary.html')
