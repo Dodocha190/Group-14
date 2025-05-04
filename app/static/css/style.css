@@ -293,20 +293,28 @@ margin-bottom: 20px;
   border-radius: 40px;
   border: none;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 30px 30px;
 }
 
 .result-rating{
   text-align: center;
   font-size: 300%;
-  background-color: #F5FFC6; /*can set png as background*/
   color:var(--text-primary);
   padding: 10px;
-  width:fit-content;
+  background-image: url("/static/images//ICN-star.png");
 }
 
 .result-unit{
   width:100%;
+  flex:1;
+  border-right-style: solid;
+  border-right-color: white;
+}
+
+.result-unit:hover{
+  color: var(--background-light);
 }
 
 .result-unit-code{
@@ -323,8 +331,6 @@ margin-bottom: 20px;
 
 .result-uni{
   color:white;
-  border-left-style: solid;
-  border-left-color: white;
   padding: 20px;
-  width:50%;
+  flex:1;
 }
