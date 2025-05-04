@@ -344,3 +344,13 @@ margin-bottom: 20px;
     display: block;
     align-items: center;
 }
+
+.navbar{
+  background-color: var(--text-primary);
+  position: fixed;
+  height:100%;
+  width:20%;
+  top:0;
+  left:0;
+  padding:30px;
+}
