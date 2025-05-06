@@ -20,10 +20,12 @@
     </div>
   </section>
 
-  <section class="info-container">
-    {{ info_box('images/ICN-flash.png', 'Elective Finder', 'Struggling to choose an elective? Find your best match based on difficulty, reviews and stats.') }}
-    {{ info_box('images/ICN-heart.png', 'Rate a Unit', 'Rate units based on difficulty, assessments, lecturers and more...') }}
-    {{ info_box('images/ICN-stats.png', 'Unit at a Glance', 'Get to know your units based on difficulty, lecturer, assessments, and data-driven stats.') }}
+ <section id="info-container" class="info-container">
+    <div class = "info-boxes">
+      {{ info_box('images/ICN-flash.png', 'Elective Finder', 'Find your best match based on difficulty, reviews and stats.') }}
+      {{ info_box('images/ICN-heart.png', 'Rate a Unit', 'Rate units based on difficulty, assessments, lecturers and more...') }}
+      {{ info_box('images/ICN-stats.png', 'Unit at a Glance', 'See aggregated stats for each unit — workload, assessments, lecturers and more.') }}
+    </div>
   </section>
 </main>
 {% endblock %}
