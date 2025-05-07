@@ -135,6 +135,9 @@ a:hover {
     flex-direction: column;
     min-height: 80vh;
 }
+.form-container a:hover {
+    color: var(--text-tertiary);
+}
 
 .login-form {
     background-color: var(--text-primary);
@@ -463,4 +466,11 @@ margin-bottom: 20px;
 .review-semester {
   color: var(--text-secondary);
   font-size: 0.875rem;
+}
+
+#continue-guest-container {
+    color: var(--text-tertiary);
+    transition: opacity 0.5s ease;
+    display: block;
+    align-items: center;
 }

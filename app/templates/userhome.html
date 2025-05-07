@@ -1,0 +1,28 @@
+{% extends 'header.html' %}
+{% from 'components/info_box.html' import info_box %}
+
+{% block body %}
+<main>
+  <section class="intro-hero" style="min-height: auto; padding-top: 4rem;">
+    <h1 class="brand-title">ClassMate</h1>
+    <p class="brand-subtitle">Get to know a unit before Week 1.</p>
+
+    <div class="large-search-bar">
+      <div class="stretch-container">
+        <img src="{{ url_for('static', filename='images/ICN-search.png') }}" alt="Search" class="info-icon">
+        <input type="text" class="unit-name-search" placeholder="Enter a unit code to get started">
+        <select class="uni-search" id="university-select">
+          <option value="" disabled selected hidden>Select university</option>
+          <option value="uwa">UWA</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-container">
+    {{ info_box('images/ICN-flash.png', 'Elective Finder', 'Struggling to choose an elective? Find your best match based on difficulty, reviews and stats.') }}
+    {{ info_box('images/ICN-heart.png', 'Rate a Unit', 'Rate units based on difficulty, assessments, lecturers and more...') }}
+    {{ info_box('images/ICN-stats.png', 'Unit at a Glance', 'Get to know your units based on difficulty, lecturer, assessments, and data-driven stats.') }}
+  </section>
+</main>
+{% endblock %}

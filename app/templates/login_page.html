@@ -1,4 +1,5 @@
-{% extends 'header.html' %} {% block body %}
+{% extends 'header.html' %}
+{% block body %}
 <main class="container-fluid" style="margin-left: 60px">
   <div class="row">
     <div class="col-sm-5" style="margin-top: 100px">
@@ -20,42 +21,34 @@
         <form name="login" action="" method="post">
           <div>
             {{ form.hidden_tag() }}
-
-            <p>
-              {{ form.guest(id="guest") }} {{ form.guest.label }}
-            </p>
-            
-            <p id="continue-guest-container" style="display: none; opacity: 0;">
-                <a href="#" id="continue-guest-link">Continue as Guest</a>
-            </p>
             
             <p class="form-label">{{ form.email.label }}</p>
             <p>
               {{ form.email(class="form-input", id="email") }} {% for error in
               form.email.errors %}
               <span class="error-message">{{ error }}</span>
-              {% endfor %}
-            </p>
-        
+            {% endfor %}
+          </p>
 
-            <p class="form-label">{{ form.password.label }}</p>
-            <p>
-              {{ form.password(class="form-input", id="password") }} {% for
-              error in form.password.errors %}
+          <p class="form-label">{{ form.password.label }}</p>
+          <p>
+            {{ form.password(class="form-input", id="password") }}
+            {% for error in form.password.errors %}
               <span class="error-message">{{ error }}</span>
-              {% endfor %}
-            </p>
-         
-              {{ form.submit(class="form-submit", id="submit-button") }}
-         
+            {% endfor %}
+          </p>
+          <div id="continue-guest-container">
+            {{ form.guest(id="guest") }} {{ form.guest.label }}
           </div>
+        
+          <p>{{ form.submit(class="form-submit", id="submit-button") }}</p>
         </form>
-        <p style="margin-top: 30px; color:var(--text-tertiary)">
+
+        <p style="margin-top: 30px; color: var(--text-tertiary)">
           New to ClassMate? <a href="{{ url_for('signup') }}">Sign Up</a>
         </p>
       </div>
     </div>
   </div>
 </main>
-<script src="{{ url_for('static', filename='js/functions.js') }}"></script>
 {% endblock %}
