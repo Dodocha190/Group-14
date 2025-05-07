@@ -4,7 +4,7 @@ from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
 from app.forms.unit_review import AddUnitForm
 from app.forms.unit_review import ReviewForm
-from .models import db, User
+from .models import db, User, Unit, DiaryEntry, Faculty
 
 @application.route('/')
 def home():
@@ -27,8 +27,9 @@ def signup():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash("Registration successful. Please log in.")
+        alert("Registration successful. Please log in.")
         return redirect(url_for('login'))
+    flash("Please fill in all fields.")
     return render_template('sign_up_page.html', form=form)
 
 @application.route('/login', methods=['GET', 'POST'])
@@ -51,12 +52,49 @@ def login():
 
     return render_template('login_page.html', form=form)
 
-@application.route('/submit_review')
+@application.route('/submit_review', methods=['GET', 'POST'])
 def review():
     form = ReviewForm()
-    return render_template('unit_review.html', form=form)
+    if form.validate_on_submit():
+        unit = Unit.query.filter_by(code=form.rev_code.data).first()
+        if not unit:
+            flash("Unit not found.")
+            return redirect(url_for('add_unit'))
+        dataEntry = DiaryEntry(
+            user_email='test', #To replace with current_user.email
+            unit_id=form.rev_code.data,
+            semester=form.rev_semester.data,
+            year=form.rev_year.data,
+            grade=form.rev_grade.data,
+            overall_rating=form.rev_rating.data,
+            difficulty_rating=form.rev_difficulty.data,
+            coordinator_rating=form.rev_unit_coord_rating.data,
+            workload_hours_per_week=form.rev_avg_hours.data
+        )
+        db.session.add(dataEntry)
+        db.session.commit()
+        flash("Review submitted successfully!")
+        return redirect(url_for('unit_summary'))
+    return render_template('add_unit.html', form=form)
 
-@application.route('/add_unit')
-def addunit():
+@application.route('/add_unit', methods=['GET', 'POST'])
+def add_unit():
     form = AddUnitForm()
+    if form.validate_on_submit():
+        faculty = Faculty.query.filter_by(name=form.add_faculty.data).first()
+        if not faculty:
+            #Adds non-existing faculty to the database
+            faculty = Faculty(name=form.add_faculty.data, university_id=form.add_uni.data)
+            db.session.add(faculty)
+            db.session.commit()
+        unit = Unit(
+            code=form.add_code.data,
+            title=form.add_unit_name.data,
+            faculty_id=form.add_faculty.data,
+            level=form.add_unit_level.data
+        )
+        db.session.add(unit)
+        db.session.commit()
+        flash("Unit added successfully!")
+        return redirect(url_for('unit_summary'))
     return render_template('add_unit.html', form=form)
