@@ -1,14 +1,24 @@
-{% extends 'header.html' %} {% block body %}
+{% extends 'header.html' %}
+{% from 'components/search_result.html' import search_result %}
+
+{% block body %}
 <div>
     <form class="large-search-bar" action="">
         <!--no action yet-->
-        <a><input type="submit"></a> <!--need to put a search icon here-->
-        <a><input class="unit-name-search" type="text" placeholder="Search unit"></a>
-        <a><select class="uni-search ">
+        <button type="submit" style="border:none; background-color: transparent"><img src="/static/images/ICN-search.png" style="height:2em"></button>
+        <input class="unit-name-search" type="text" placeholder="Search unit">
+        <select class="uni-search ">
             <option>Select university</option>
             <option>University of Western Australia</option>
             <option>Other...</option>
-        </select></a>
+        </select>
     </form>
+</div>
+
+<!--example search result-->
+<div>
+    {{search_result(
+        "5.0", "CITS3403","Agile Web Development", "UNIVERSITY OF WESTERN AUSTRALIA"
+    )}}
 </div>
 {% endblock %}
