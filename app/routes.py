@@ -1,10 +1,11 @@
 from app import application
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
 from app.forms.unit_review import AddUnitForm
 from app.forms.unit_review import ReviewForm
 from .models import db, User, Unit, DiaryEntry, Faculty
+import difflib
 
 @application.route('/')
 def home():
@@ -97,10 +98,17 @@ def add_unit():
             code=form.add_code.data,
             title=form.add_unit_name.data,
             faculty_id=form.add_faculty.data,
-            level=form.add_unit_level.data
+            level=form.add_unit_level.data,
+            university_id=form.add_uni.data
         )
         db.session.add(unit)
         db.session.commit()
         flash("Unit added successfully!")
         return redirect(url_for('unit_summary'))
     return render_template('add_unit.html', form=form)
+
+@application.route('/search_results', methods=['GET'])
+def search_results():  
+    all_units = Unit.query.all()
+
+    return render_template('unit_search.html', results=all_units)
