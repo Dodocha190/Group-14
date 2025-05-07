@@ -2,11 +2,18 @@ from app import application
 from flask import render_template, redirect, url_for, flash
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
+from app.forms.unit_review import addUnitForm
+from app.forms.unit_review import reviewForm
 from .models import db, User
 
 @application.route('/')
 def home():
     return render_template('home.html')
+
+@application.route('/unit-summary')
+def unit_summary():
+    return render_template('unit_summary.html')
+
 
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
@@ -43,7 +50,6 @@ def login():
             flash("Invalid email or password.")
 
     return render_template('login_page.html', form=form)
-
   
 @application.route('/search')
 def search():
@@ -52,3 +58,13 @@ def search():
 @application.route('/unit_diary')
 def diary():
     return render_template('unitdiary.html')
+
+@application.route('/submit_review')
+def review():
+    form = reviewForm()
+    return render_template('unit_review.html', form=form)
+
+@application.route('/add_unit')
+def addunit():
+    form = addUnitForm()
+    return render_template('add_unit.html', form=form)

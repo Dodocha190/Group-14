@@ -1,0 +1,83 @@
+{% extends 'header.html' %}
+
+{% block body %}
+<main class="summary-page">
+
+  <!-- Action Bar: Back & Review -->
+  <div class="action-bar">
+    <button class="back-button">← Back</button>
+    <button class="review-button">Review This Unit!</button>
+  </div>
+
+  <div class="summary-container">
+
+    <!-- LEFT PANEL: Unit Summary Card -->
+    <div class="unit-summary-card">
+
+      <!-- Header: Unit Info + Overall Rating -->
+      <div class="usc-header">
+        <div class="unit-info">
+          <h2 class="usc-code">CITS3403 <span class="usc-level-badge">LEV 3</span></h2>
+          <p class="usc-title">Agile Web Development</p>
+          <small class="usc-subtitle">University of Western Australia · School of Computer Science</small>
+        </div>
+        <div class="overall-rating">
+          <div class="rating-stars">★ ★ ★ ★ ☆</div>
+          <small class="rating-text">4.5 Overall · 17 Reviews</small>
+        </div>
+      </div>
+
+      <!-- Row 1: Bar Chart & Pie Chart -->
+      <div class="summary-row">
+        <div class="summary-section">
+          <h5 class="section-title">Overall Ratings</h5>
+          <canvas class="chart-placeholder"></canvas>
+        </div>
+        <div class="summary-section">
+          <h5 class="section-title">Assessments</h5>
+          <canvas class="chart-placeholder"></canvas>
+        </div>
+      </div>
+
+      <!-- Row 2: Workload & Sliders -->
+      <div class="summary-row">
+        <div class="summary-section">
+          <h5 class="section-title">Unit Coordinator</h5>
+          <canvas class="chart-placeholder" id="coordinatorChart"></canvas>
+          <h5 class="section-title">Difficulty Level</h5>
+          <canvas class="chart-placeholder" id="difficultyChart"></canvas>
+        </div>
+        <div class="summary-section">
+            <h5 class="section-title">Workload</h5>
+            <canvas class="chart-placeholder"></canvas>
+          </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT PANEL: Recent Reviews -->
+    <div class="reviews-panel">
+      <h5 class="reviews-title">See students' reviews:</h5>
+
+      <div class="review-card">
+        <p>“Dr. Cogan is very nice and always helpful during office hours. Although, the lectures are boring and hard to follow because…”</p>
+        <div class="review-stars">★ ★ ★ ★ ☆</div>
+        <small class="review-semester">SEM 1 2024</small>
+      </div>
+
+      <div class="review-card">
+        <p>“The exams are hard and you never really know what will be on them. You have to study a lot on your own.”</p>
+        <div class="review-stars">★ ★ ★ ☆ ☆</div>
+        <small class="review-semester">SEM 1 2024</small>
+      </div>
+
+      <div class="review-card">
+        <p>“Boring and hard.”</p>
+        <div class="review-stars">★ ☆ ☆ ☆ ☆</div>
+        <small class="review-semester">SEM 1 2023</small>
+      </div>
+    </div>
+
+  </div>
+</main>
+{% endblock %}
