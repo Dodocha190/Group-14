@@ -16,9 +16,9 @@
 </div>
 
 <!--example search result-->
-<div>
+<div href="{{ url_for('unit_summary') }}">
     {{search_result(
-        "5.0", "CITS3403","Agile Web Development", "UNIVERSITY OF WESTERN AUSTRALIA"
+        "4.5", "CITS3403","Agile Web Development", "UNIVERSITY OF WESTERN AUSTRALIA"
     )}}
 </div>
 {% endblock %}
