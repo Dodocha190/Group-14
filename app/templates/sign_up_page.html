@@ -39,6 +39,13 @@
               <span class="error-message">[{{ error }}]</span>
               {% endfor %}
             </p>
+            <p class="form-label">{{ form.study_field.label }}</p>
+            <p>
+              {{ form.study_field(class="form-input", id="study-field") }}
+              {% for error in form.study_field.errors %}
+                <span class="error-message">[{{ error }}]</span>
+              {% endfor %}
+            </p>
             <p>{{ form.submit(class="form-submit", id="submit-button") }}</p>
           </div>
         </form>
