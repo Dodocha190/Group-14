@@ -303,10 +303,9 @@ margin-bottom: 20px;
 
 .result-rating{
   text-align: center;
-  font-size: 300%;
+  font-size: 250%;
   color:var(--text-primary);
-  padding: 10px;
-  background-image: url("/static/images//ICN-star.png");
+  padding: 20px;
 }
 
 .result-unit{
