@@ -37,6 +37,7 @@ class Unit(db.Model):
     title         = db.Column(db.String(150), nullable=False)
     faculty_id    = db.Column(db.Integer, db.ForeignKey('faculties.id'), nullable=False)
     level         = db.Column(db.Integer, nullable=False)
+    university_id = db.Column(db.Integer, db.ForeignKey('universities.id'), nullable=False)
 
 
 class DiaryEntry(db.Model):
