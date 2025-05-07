@@ -8,6 +8,11 @@ from .models import db, User
 def home():
     return render_template('home.html')
 
+@application.route('/unit-summary')
+def unit_summary():
+    return render_template('unit_summary.html')
+
+
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
         return render_template('dashboard.html', username=current_user.email)
