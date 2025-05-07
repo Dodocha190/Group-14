@@ -1,6 +1,7 @@
 :root {
     --primary-color:#B4E1FF;      
     --secondary-color: #C6B5EF;     
+    --secondary-color: #C6B5EF;     
     --accent-color: #FFACE4;      
     --background-light: #F5FFC6;    
     --text-primary: #49438C;       
@@ -317,14 +318,7 @@ margin-bottom: 20px;
   flex: 1;
   border: none;
   outline: none;
-  font-size: 1rem;
-  background: transparent;
-  padding-left: 10px;
-  text-align: center;
-}
-
-.uni-search.selected {
-  color: #263b74;
+  margin: 10px 40px;
 }
 
 /* Page wrapper */
