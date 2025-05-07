@@ -8,7 +8,7 @@
 
     {% if show_user_info %}
       <div class="user-info">
-        Welcome, <span id="user-name">{{ user_email }}</span>
+        Welcome, <span id="user-name">{{ current_user.username }}</span>
       </div>
     {% else %}
       <div>
