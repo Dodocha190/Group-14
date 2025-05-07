@@ -7,7 +7,8 @@ db = SQLAlchemy()
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    email = db.Column(db.String(64), unique=True, nullable=False, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
 
     def set_password(self, password):
