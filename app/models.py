@@ -7,8 +7,12 @@ db = SQLAlchemy()
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    email = db.Column(db.String(64), unique=True, nullable=False, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    username = db.Column(db.String(64), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    study_field = db.Column(db.String(100), nullable=False)
+
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
