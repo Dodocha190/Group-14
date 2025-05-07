@@ -82,7 +82,7 @@ def review():
         db.session.commit()
         flash("Review submitted successfully!")
         return redirect(url_for('unit_summary'))
-    return render_template('add_unit.html', form=form)
+    return render_template('unit_review.html', form=form)
 
 @application.route('/add_unit', methods=['GET', 'POST'])
 def add_unit():
