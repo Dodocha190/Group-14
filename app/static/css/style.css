@@ -530,13 +530,16 @@ a:hover {
 
 .navbar{
   background-color: var(--text-primary);
-  color:white;
   position: fixed;
   height:100%;
   width:20%;
   top:auto;
   left:0;
   padding:30px;
+}
+
+.navbar p {
+  color: var(--text-tertiary);
 }
 
 .diary-box{
