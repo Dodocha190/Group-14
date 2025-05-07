@@ -65,4 +65,30 @@ $(document).ready(function () {
     if ($registerEmail.length) {$registerEmail.on('input', checkRegisterValidation);}
     if ($registerPassword.length) {$registerPassword.on('input', checkRegisterValidation);}
     if ($registerConfirm.length) {$registerConfirm.on('input', checkRegisterValidation);}
-});w
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.intro-description, .info-box').forEach(el => {
+        observer.observe(el);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const universitySelect = document.getElementById('university-select');
+
+    universitySelect.addEventListener('change', function() {
+        if (universitySelect.value) {
+            universitySelect.classList.add('selected');
+        } else {
+            universitySelect.classList.remove('selected');
+        }
+    });
+});
