@@ -2,8 +2,8 @@ from app import application
 from flask import render_template, redirect, url_for, flash
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
-from app.forms.unit_review import addUnitForm
-from app.forms.unit_review import reviewForm
+from app.forms.unit_review import AddUnitForm
+from app.forms.unit_review import ReviewForm
 from .models import db, User
 
 @application.route('/')
@@ -53,10 +53,10 @@ def login():
 
 @application.route('/submit_review')
 def review():
-    form = reviewForm()
+    form = ReviewForm()
     return render_template('unit_review.html', form=form)
 
 @application.route('/add_unit')
 def addunit():
-    form = addUnitForm()
+    form = AddUnitForm()
     return render_template('add_unit.html', form=form)
