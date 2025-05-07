@@ -51,6 +51,12 @@ def login():
 
     return render_template('login_page.html', form=form)
 
+  
+@application.route('/search')
+def search():
+    return render_template('unit_search.html')
+
+
 @application.route('/submit_review')
 def review():
     form = reviewForm()
