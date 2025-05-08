@@ -211,7 +211,7 @@ a:hover {
   font-size: 18px;
   transition: background-color 0.3s ease;
   margin-top: 20px;
-margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .form-submit:hover {
@@ -555,6 +555,48 @@ margin-bottom: 20px;
     transition: opacity 0.5s ease;
     display: block;
     align-items: center;
+}
+
+.navbar{
+  background-color: var(--text-primary);
+  position: fixed;
+  height:100%;
+  width:20%;
+  top:auto;
+  left:0;
+  padding:30px;
+}
+
+.navbar p {
+  color: var(--text-tertiary);
+}
+
+.diary-box{
+  margin: 25%;
+  background-color: var(--secondary-color);
+  color: var(--accent-color);
+  border-radius: 10px;
+  border: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px;
+}
+
+.semestertag{
+  background-color: var(--background-light);
+  text-align: center;
+  border-radius: 20px;
+  color: var(--text-primary);
+  padding: 4px 20px;
+}
+
+.diary-unit-code{
+  font-size: 200%;
+  font-weight: bold;
+  color: var(--text-primary);
+  padding: 0 20px;
+  margin-bottom: 0;
 }
 
 .home-search-bar {

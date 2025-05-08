@@ -58,6 +58,14 @@ def login():
             flash("Invalid email or password.")
 
     return render_template('login_page.html', form=form)
+  
+@application.route('/search')
+def search():
+    return render_template('unit_search.html')
+
+@application.route('/unit_diary')
+def diary():
+    return render_template('unitdiary.html')
 
   
 @application.route('/search')
