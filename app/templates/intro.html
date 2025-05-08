@@ -10,11 +10,11 @@
 
     <div class="action-set">
       <a href="{{ url_for('signup') }}" class="primary-button">Join for free!</a>
-      <a href="{{ url_for('login') }}" class="home-button">Log in</a>
+      <a href="{{ url_for('login') }}" class="link">Log in</a>
     </div>
 
-    <div class="button-group">
-      <a href="#info-container" class="secondary-button">What is ClassMate?</a>
+    <div class="what-button-container">
+      <a href="#info-container" class="what-button">What is ClassMate?</a>
     </div>
 
     <p class="intro-description">
@@ -27,9 +27,11 @@
   <div class="scroll-indicator">↓</div>
 
   <section id="info-container" class="info-container">
-    {{ info_box('images/ICN-flash.png', 'Elective Finder', 'Find your best match based on difficulty, reviews and stats.') }}
-    {{ info_box('images/ICN-heart.png', 'Rate a Unit', 'Rate units based on difficulty, assessments, lecturers and more...') }}
-    {{ info_box('images/ICN-stats.png', 'Unit at a Glance', 'See aggregated stats for each unit — workload, assessments, lecturers and more.') }}
+    <div class = "info-boxes">
+      {{ info_box('images/ICN-flash.png', 'Elective Finder', 'Find your best match based on difficulty, reviews and stats.') }}
+      {{ info_box('images/ICN-heart.png', 'Rate a Unit', 'Rate units based on difficulty, assessments, lecturers and more...') }}
+      {{ info_box('images/ICN-stats.png', 'Unit at a Glance', 'See aggregated stats for each unit — workload, assessments, lecturers and more.') }}
+    </div>
   </section>
 </main>
 {% endblock %}

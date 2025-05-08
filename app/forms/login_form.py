@@ -1,26 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Email
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, Length
 
 class LoginForm(FlaskForm):
-    email = StringField('Enter your email', validators=[DataRequired(), Email()])
-    password = PasswordField('Enter your password', validators=[DataRequired()])
+    email = StringField(
+        'Enter your email',validators=[DataRequired(message="Email is required."),
+                                    Email(message="Enter a valid email address.")])
+    
+    password = PasswordField('Enter your password', validators=[DataRequired(message="Password is required."),
+                                                                Length(min=6, message="Password must be at least 6 characters long.")])
     submit = SubmitField('Log In')
-    guest = BooleanField('Continue as Guest')
-
-    def validate(self, extra_validators=None):
-        # default Flask-WTF validators (email format, required fields, etc.)
-        rv = super().validate(extra_validators)
-        if not rv:
-            return False
-        
-        # If not logging in as guest, ensure email and password are filled
-        if not self.guest.data:
-            if not self.email.data:
-                self.email.errors.append("Email is required.")
-                return False
-            if not self.password.data:
-                self.password.errors.append("Password is required.")
-                return False
-
-        return True

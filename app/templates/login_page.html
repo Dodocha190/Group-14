@@ -8,7 +8,6 @@
         In order to share your unit data and see your past reviews, you must
         create an account using a valid student email
       </p>
-      <p>You will still have the option to review a unit anonymously</p>
     </div>
     <div class="col-sm-7" style="padding-left: 40px">
       <div class="form-container login-form" style="margin-right: 60px">
@@ -37,10 +36,6 @@
               <span class="error-message">{{ error }}</span>
             {% endfor %}
           </p>
-          <div id="continue-guest-container">
-            {{ form.guest(id="guest") }} {{ form.guest.label }}
-          </div>
-        
           <p>{{ form.submit(class="form-submit", id="submit-button") }}</p>
         </form>
 
