@@ -29,7 +29,7 @@ def signup():
         user = User(
             email=form.email.data,
             username=form.username.data,
-            password_hash=generate_password_hash(form.password.data),
+            password_hash=generate_password_hash(form.password.data, method='pbkdf2'),
             study_field=form.study_field.data)
         user.set_password(form.password.data)
         db.session.add(user)
