@@ -30,7 +30,8 @@ def signup():
             email=form.email.data,
             username=form.username.data,
             password_hash=generate_password_hash(form.password.data, method='pbkdf2'),
-            study_field=form.study_field.data)
+            study_field=form.study_field.data
+          )
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
@@ -41,24 +42,23 @@ def signup():
 
 @application.route('/login', methods=['GET', 'POST'])
 def login():
+
+    if current_user.is_authenticated:
+            return redirect(url_for('dashboard'))  # Redirect if already logged in
+
     form = LoginForm()
     if form.validate_on_submit():
-        if form.guest.data:
-            guest = User.query.filter_by(email='guest@classmate.com').first()
-            if not guest:
-                guest = User(email='guest@classmate.com')
-                guest.set_password('')
-                db.session.add(guest)
-                db.session.commit()
-                return redirect(url_for('userhome')) #dashboard for now, will decide on it later
+        user = User.query.filter_by(email=form.email.data).first()
+        if user and user.check_password(form.password.data):
+            login_user(user) 
+            return redirect(url_for('dashboard')) 
         else:
-            user = User.query.filter_by(email=form.email.data).first()
-            if user and user.check_password(form.password.data):
-                return redirect(url_for('userhome'))
-            flash("Invalid email or password.")
+            flash('Invalid email or password.')
 
     return render_template('login_page.html', form=form)
   
+
+
 @application.route('/search')
 def search():
     return render_template('unit_search.html')
@@ -66,12 +66,6 @@ def search():
 @application.route('/unit_diary')
 def diary():
     return render_template('unitdiary.html')
-
-  
-@application.route('/search')
-def search():
-    return render_template('unit_search.html')
-
 
 @application.route('/submit_review', methods=['GET', 'POST'])
 def review():
@@ -126,3 +120,13 @@ def search_results():
     all_units = Unit.query.all()
 
     return render_template('unit_search.html', results=all_units)
+
+@application.route('/logout')
+@login_required
+def logout():
+    """
+    Logs the user out and redirects them to the login page.
+    """
+    logout_user()
+    flash('You have been logged out.')
+    return redirect(url_for('login'))

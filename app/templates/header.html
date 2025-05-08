@@ -9,6 +9,7 @@
     {% if show_user_info %}
       <div class="user-info">
         Welcome, <span id="user-name">{{ current_user.username }}</span>
+        <a href="{{ url_for('logout') }}" class="log-in-button">Log Out</a>
       </div>
     {% else %}
       <div>
