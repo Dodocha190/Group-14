@@ -22,9 +22,6 @@ migrate = Migrate(application, db)
 
 import app.routes
 
-with application.app_context():
-    db.create_all()
-
 @application.context_processor
 def inject_user():
     from flask_login import current_user

@@ -1,8 +1,8 @@
-"""Initial schema: users, units, diary, shares
+"""Initial full schema
 
-Revision ID: 641c58f9dcfc
+Revision ID: de5ed3e794ba
 Revises: 
-Create Date: 2025-05-05 00:04:40.884099
+Create Date: 2025-05-08 16:17:29.562325
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '641c58f9dcfc'
+revision = 'de5ed3e794ba'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,9 +25,12 @@ def upgrade():
     sa.UniqueConstraint('name')
     )
     op.create_table('users',
+    sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('email', sa.String(length=64), nullable=False),
+    sa.Column('username', sa.String(length=64), nullable=False),
     sa.Column('password_hash', sa.String(length=128), nullable=False),
-    sa.PrimaryKeyConstraint('email'),
+    sa.Column('study_field', sa.String(length=100), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
     op.create_table('diary_shares',
@@ -60,7 +63,8 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_email', sa.String(length=64), nullable=False),
     sa.Column('unit_id', sa.Integer(), nullable=False),
-    sa.Column('semester', sa.String(length=20), nullable=False),
+    sa.Column('semester', sa.Integer(), nullable=False),
+    sa.Column('year', sa.Integer(), nullable=False),
     sa.Column('grade', sa.Float(), nullable=True),
     sa.Column('overall_rating', sa.Integer(), nullable=True),
     sa.Column('difficulty_rating', sa.Integer(), nullable=True),
