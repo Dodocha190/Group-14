@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, ValidationError
+from app.models import User
 
 class SignUpForm(FlaskForm):
     email = StringField('Enter your email:', validators=[
@@ -11,7 +12,8 @@ class SignUpForm(FlaskForm):
     study_field = StringField('Enter your study field:', validators=[DataRequired()])
     submit = SubmitField('Join for free')
 
-def validate_email(self, email):
-        existing_email = User.query.filter_by(email=email.data).first()
-        if existing_email:
-            raise ValidationError("An account with this email already exists.")
+    def validate_email(self, email):
+            existing_email = User.query.filter_by(email=email.data).first()
+            if existing_email:
+                raise ValidationError("An account with this email already exists.")
+
