@@ -1,7 +1,7 @@
 """Add university_id to Unit model
 
 Revision ID: 1e514d930219
-Revises: 641c58f9dcfc
+Revises: de5ed3e794ba
 Create Date: 2025-05-07 16:31:39.040250
 
 """
@@ -11,7 +11,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '1e514d930219'
-down_revision = '641c58f9dcfc'
+down_revision = 'de5ed3e794ba'
 branch_labels = None
 depends_on = None
 
