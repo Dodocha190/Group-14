@@ -34,7 +34,7 @@ def signup():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        alert("Registration successful. Please log in.")
+        flash("Registration successful. Please log in.")
         return redirect(url_for('login'))
     flash("Please fill in all fields.")
     return render_template('sign_up_page.html', form=form)
