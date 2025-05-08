@@ -3,7 +3,7 @@
 <header class="main-header">
   <div class="stretch-container" style="height: 100px">
     <h1 style="font-weight: 600">
-      <a class="home-button" href="{{ url_for('home') }}">ClassMate</a>
+      <a class="home-button" href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('home') }}">ClassMate</a>
     </h1>
 
     {% if show_user_info %}
