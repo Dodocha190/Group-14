@@ -1,14 +1,21 @@
-#Defines database schema using SQLAlchemy, will change if requirements says otherwise
+# Defines database schema using SQLAlchemy, will change if requirements says otherwise
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from sqlalchemy import MetaData
 
-db = SQLAlchemy()
+metadata = MetaData(naming_convention={
+    "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+})
+db = SQLAlchemy(metadata=metadata)
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
-    email = db.Column(db.String(64), unique=True, nullable=False, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    email = db.Column(db.String(64), unique=True, nullable=False)
+    username = db.Column(db.String(64), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
+    study_field = db.Column(db.String(100), nullable=False)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password, method='pbkdf2:sha256')
@@ -19,53 +26,54 @@ class User(UserMixin, db.Model):
 
 class University(db.Model):
     __tablename__ = 'universities'
-    id   = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
 
 
 class Faculty(db.Model):
     __tablename__ = 'faculties'
-    id            = db.Column(db.Integer, primary_key=True)
-    name          = db.Column(db.String(100), unique=True, nullable=False)
-    university_id = db.Column(db.Integer, db.ForeignKey('universities.id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), unique=True, nullable=False)
+    university_id = db.Column(db.Integer, db.ForeignKey('universities.id', name='fk_faculties_universities_university_id'), nullable=False)
 
 
 class Unit(db.Model):
     __tablename__ = 'units'
-    id            = db.Column(db.Integer, primary_key=True)
-    code          = db.Column(db.String(10), unique=True, nullable=False)
-    title         = db.Column(db.String(150), nullable=False)
-    faculty_id    = db.Column(db.Integer, db.ForeignKey('faculties.id'), nullable=False)
-    level         = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10), unique=True, nullable=False)
+    title = db.Column(db.String(150), nullable=False)
+    faculty_id = db.Column(db.Integer, db.ForeignKey('faculties.id', name='fk_units_faculties_faculty_id'), nullable=False)
+    level = db.Column(db.Integer, nullable=False)
+    university_id = db.Column(db.Integer, db.ForeignKey('universities.id', name='fk_units_universities_university_id'), nullable=False)
 
 
 class DiaryEntry(db.Model):
     __tablename__ = 'diary_entries'
-    id                       = db.Column(db.Integer, primary_key=True)
-    user_email               = db.Column(db.String(64), db.ForeignKey('users.email'), nullable=False)
-    unit_id                  = db.Column(db.Integer, db.ForeignKey('units.id'), nullable=False)
-    semester                 = db.Column(db.Integer, nullable=False)
-    year                     = db.Column(db.Integer, nullable=False)
-    grade                    = db.Column(db.Float)
-    overall_rating           = db.Column(db.Integer)
-    difficulty_rating        = db.Column(db.Integer)
-    coordinator_rating       = db.Column(db.Integer)
-    workload_hours_per_week  = db.Column(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    user_email = db.Column(db.String(64), db.ForeignKey('users.email', name='fk_diary_entries_users_user_email'), nullable=False)
+    unit_id = db.Column(db.Integer, db.ForeignKey('units.id', name='fk_diary_entries_units_unit_id'), nullable=False)
+    semester = db.Column(db.Integer, nullable=False)
+    year = db.Column(db.Integer, nullable=False)
+    grade = db.Column(db.Float)
+    overall_rating = db.Column(db.Integer)
+    difficulty_rating = db.Column(db.Integer)
+    coordinator_rating = db.Column(db.Integer)
+    workload_hours_per_week = db.Column(db.Integer)
     __table_args__ = (
-        db.UniqueConstraint('user_email','unit_id','semester', name='uix_user_unit_sem'),
+        db.UniqueConstraint('user_email', 'unit_id', 'semester', name='uix_user_unit_sem'),
     )
 
 
 class AssessmentBreakdown(db.Model):
     __tablename__ = 'assessment_breakdowns'
-    id         = db.Column(db.Integer, primary_key=True)
-    entry_id   = db.Column(db.Integer, db.ForeignKey('diary_entries.id'), nullable=False)
-    type       = db.Column(db.String(50), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    entry_id = db.Column(db.Integer, db.ForeignKey('diary_entries.id', name='fk_assessment_breakdowns_diary_entries_entry_id'), nullable=False)
+    type = db.Column(db.String(50), nullable=False)
     percentage = db.Column(db.Integer, nullable=False)
 
 
 class DiaryShare(db.Model):
     __tablename__ = 'diary_shares'
-    id                = db.Column(db.Integer, primary_key=True)
-    owner_email       = db.Column(db.String(64), db.ForeignKey('users.email'), nullable=False)
-    recipient_email   = db.Column(db.String(64), db.ForeignKey('users.email'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    owner_email = db.Column(db.String(64), db.ForeignKey('users.email', name='fk_diary_shares_users_owner_email'), nullable=False)
+    recipient_email = db.Column(db.String(64), db.ForeignKey('users.email', name='fk_diary_shares_users_recipient_email'), nullable=False)

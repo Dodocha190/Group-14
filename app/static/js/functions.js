@@ -65,4 +65,69 @@ $(document).ready(function () {
     if ($registerEmail.length) {$registerEmail.on('input', checkRegisterValidation);}
     if ($registerPassword.length) {$registerPassword.on('input', checkRegisterValidation);}
     if ($registerConfirm.length) {$registerConfirm.on('input', checkRegisterValidation);}
-});w
+});
+
+// --- For Search Bar filtering ---
+$(document).ready(function () {
+    const $unitNameInput = $('#unitNameInput');
+    const $universitySelect = $('#universitySelect');
+    const $searchResultsContainer = $('#searchResultsContainer');
+    const $noResultsMessage = $('#noResults');
+
+    function filterUnits() {
+        const searchTerm = $unitNameInput.val().toLowerCase();
+        const selectedUniversity = $universitySelect.val();
+        const $unitElements = $searchResultsContainer.find('.search-result-item');
+        let resultsFound = 0;
+
+        $unitElements.each(function () {
+            const $this = $(this);
+            const title = $this.data('title') || '';
+            const code = $this.data('code') || '';
+            const universityId = $this.data('university-id');
+
+            const titleMatch = title.includes(searchTerm);
+            const codeMatch = code.includes(searchTerm);
+            const universityMatch = selectedUniversity === '' || universityId == selectedUniversity;
+
+            if ((titleMatch || codeMatch || searchTerm == '') && universityMatch) {
+                $this.show();
+                resultsFound++;
+            } else {
+                $this.hide();
+            }
+        });
+
+        $noResultsMessage.css('display', resultsFound === 0 ? 'block' : 'none');
+    }
+
+    $unitNameInput.on('input', filterUnits);
+    $universitySelect.on('change', filterUnits);
+}
+);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.intro-description, .info-box').forEach(el => {
+        observer.observe(el);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const universitySelect = document.getElementById('university-select');
+
+    universitySelect.addEventListener('change', function() {
+        if (universitySelect.value) {
+            universitySelect.classList.add('selected');
+        } else {
+            universitySelect.classList.remove('selected');
+        }
+    });
+});

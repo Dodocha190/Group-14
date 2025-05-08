@@ -1,0 +1,15 @@
+{% macro diary_entry(unitcode, unitname, sem, grade) %}
+<div class="diary-box">
+    <div>
+        <p>
+            <a class="diary-unit-code">{{unitcode}}</a>
+            <a class="semestertag">{{sem}}</a>
+        </p>
+        <p class="result-unit-name">{{unitname}}</p>
+    </div>
+    <div style="text-align: center; color:var(--background-light);">
+        <p>FINAL MARK</p>
+        <p style="font-weight: bold">{{grade}}</p>
+    </div>
+</div>
+{% endmacro %}
