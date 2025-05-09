@@ -298,7 +298,7 @@ a:hover {
   border-radius: 40px;
   display: flex;
   align-items: center;
-  margin:10% 20%;
+  margin:10% 20% 60px 20%;
   padding: 10px;
 }
 
@@ -345,12 +345,9 @@ a:hover {
   border-right-color: white;
 }
 
-.result-unit:hover{
-  color: var(--background-light);
-}
-
 .result-unit-code{
   font-size: 300%;
+  font-weight: bold;
   color: white;
   padding: 0 20px;
   margin-bottom: 0;
