@@ -13,11 +13,12 @@
     <script src="{{ url_for('static', filename='js/functions.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
+<body class="{% if current_user.is_authenticated %}authenticated{% endif %}">
     {% block header %}
     {% endblock %}
-
+    <div class="main-content">
     {% block body %}
     {% endblock %}
+    </div>
 </body>
 </html>

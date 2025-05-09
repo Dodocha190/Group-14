@@ -6,7 +6,7 @@
         {{form.hidden_tag()}}
         <p>{{form.rev_uni.label}} {{form.rev_uni}}</p>
         <p>{{form.rev_semester.label}} {{form.rev_semester}}</p>
-        <p>{{form.rev_code.label}} {{form.rev_code}}</p>
+        <p>{{form.rev_code.label}} {{form.rev_code(style="text-transform: uppercase;")}}</p> <!--capslocks inputted unit code (frontend only)-->
         <p>{{form.rev_year.label}} {{form.rev_year}}</p>
         <p>{{form.rev_unit_coord_rating.label}}<br>{{form.rev_unit_coord_rating}}</p>
         <p>{{form.rev_difficulty.label}}<br>{{form.rev_difficulty}}</p>
