@@ -23,7 +23,7 @@ def dashboard():
     units_taken = get_diary_entries_with_units(current_user.email)
     return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email', units_taken=units_taken)
 
-def get_diary_entries_with_units(user_email):
+def get_diary_entries_from_user(user_email):
     """
     Fetches all diary entries associated with a given user email, including their units.
     """ 
