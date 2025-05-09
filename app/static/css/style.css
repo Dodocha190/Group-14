@@ -298,7 +298,8 @@ a:hover {
   border-radius: 40px;
   display: flex;
   align-items: center;
-  margin:10% 20% 60px 20%;
+  margin: 1rem auto 2rem auto;
+  width: 60%;
   padding: 10px;
 }
 
@@ -810,4 +811,13 @@ body.authenticated .main-content {
   margin-left: 200px;      /* = sidebar width + a little gutter */
   transition: margin-left 0.2s ease;
   padding-top: 2rem;
+}
+
+#searchResultsContainer {
+  margin-top: 0rem;          
+}
+
+.search-result-item {
+  display: block;           
+  margin-bottom: 1.5rem;  
 }
