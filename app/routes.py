@@ -77,7 +77,7 @@ def review():
             return redirect(url_for('add_unit'))
         dataEntry = DiaryEntry(
             user_email='test', #To replace with current_user.email
-            unit_id=form.rev_code.data,
+            unit_id=form.rev_code.data.upper(), #capslocks unit code before adding to database
             semester=form.rev_semester.data,
             year=form.rev_year.data,
             grade=form.rev_grade.data,
@@ -103,7 +103,7 @@ def add_unit():
             db.session.add(faculty)
             db.session.commit()
         unit = Unit(
-            code=form.add_code.data,
+            code=form.add_code.data.upper(), #capslocks unit code before adding to database
             title=form.add_unit_name.data,
             faculty_id=form.add_faculty.data,
             level=form.add_unit_level.data,
