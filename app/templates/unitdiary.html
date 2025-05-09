@@ -31,10 +31,12 @@
   </div>
 </div>
 
-<!--example unit diary entry-->
 <div>
-    {{diary_entry(
-        "CITS3403","Agile Web Development","S1 2024","85"
-    )}}
+  {% if units_taken %} 
+  <h3 class="diary-title">Study Snapshot</h3>
+  {% for diary, unit in units_taken %}
+  {{ diary_entry( unit.code, unit.title, diary.semester, diary.grade, diary.year) }}
+  {% endfor %}
+  {% endif %}
 </div>
 {% endblock %}
