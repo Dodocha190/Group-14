@@ -8,6 +8,7 @@ from .models import db, User, Unit, DiaryEntry, Faculty
 import difflib
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
+from sqlalchemy.orm import joinedload
 
 @application.route('/')
 def home():
@@ -20,7 +21,16 @@ def unit_summary():
 
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
-        return render_template('userhome.html', show_user_info=True, user_email='current_user.email')
+    units_taken = get_diary_entries_with_units(current_user.email)
+    return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email', units_taken=units_taken)
+
+def get_diary_entries_with_units(user_email):
+    """
+    Fetches all diary entries associated with a given user email, including their units.
+    """ 
+    query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
+    results = query.filter(DiaryEntry.user_email == user_email).all()
+    return results
 
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -63,9 +73,10 @@ def login():
 def search():
     return render_template('unit_search.html')
 
-@application.route('/unit_diary')
-def diary():
-    return render_template('unitdiary.html')
+@application.route('/shared_diary')
+def shared_diary():
+    #TODO
+    return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email')
 
 @application.route('/submit_review', methods=['GET', 'POST'])
 def review():
@@ -76,8 +87,8 @@ def review():
             flash("Unit not found.")
             return redirect(url_for('add_unit'))
         dataEntry = DiaryEntry(
-            user_email='test', #To replace with current_user.email
-            unit_id=form.rev_code.data.upper(), #capslocks unit code before adding to database
+            user_email=current_user.email, 
+            unit_id=unit.id,
             semester=form.rev_semester.data,
             year=form.rev_year.data,
             grade=form.rev_grade.data,
@@ -89,7 +100,7 @@ def review():
         db.session.add(dataEntry)
         db.session.commit()
         flash("Review submitted successfully!")
-        return redirect(url_for('unit_summary'))
+        return redirect(url_for('dashboard'))
     return render_template('unit_review.html', form=form)
 
 @application.route('/add_unit', methods=['GET', 'POST'])
@@ -112,7 +123,7 @@ def add_unit():
         db.session.add(unit)
         db.session.commit()
         flash("Unit added successfully!")
-        return redirect(url_for('unit_summary'))
+        return redirect(url_for('search_results'))
     return render_template('add_unit.html', form=form)
 
 @application.route('/search_results', methods=['GET'])
