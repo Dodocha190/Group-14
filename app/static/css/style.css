@@ -561,15 +561,12 @@ a:hover {
   background-color: var(--text-primary);
   position: fixed;
   height:100%;
-  width:20%;
+  width:16%;
   top:auto;
   left:0;
   padding:30px;
 }
 
-.navbar p {
-  color: var(--text-tertiary);
-}
 
 .diary-box{
   margin: 25%;
@@ -753,4 +750,67 @@ html {
     align-items: center;
     gap: 2.5rem; /* increase vertical spacing between stacked boxes */
   }
+}
+
+/* -----SIDEBAR NAV----- */
+   .side-nav {
+    position: fixed;
+    top: 100px;                     /* move below your 100px-tall header */
+    left: 0;
+    width: 200px;
+    height: calc(100vh - 100px);    /* fill the rest of the viewport */
+    background-color: var(--text-primary);
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    padding: 1.5rem 1rem;           /* give breathing room at top */
+    box-sizing: border-box;
+    z-index: 900;
+  }
+  
+  .side-nav__title {
+    margin: 1rem;
+    font-size: 1.5rem;
+    font-weight: 450;
+    color: var(--accent-color);
+  }
+  
+  .side-nav__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .side-nav__item {
+    margin-bottom: 1rem;
+  }
+  
+  .side-nav__link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  
+  .side-nav__link .side-nav__icon {
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  
+  .side-nav__link:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+  
+  .side-nav__link.is-active {
+    background-color: var(--secondary-color);
+    color: var(--text-primary);
+  }  
+
+/* SHIFT YOUR CONTENT WHEN LOGGED IN */
+body.authenticated .main-content {
+  margin-left: 200px;      /* = sidebar width + a little gutter */
+  transition: margin-left 0.2s ease;
+  padding-top: 2rem;
 }
