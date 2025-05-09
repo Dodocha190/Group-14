@@ -1,11 +1,15 @@
-{% macro diary_entry(unitcode, unitname, sem, grade) %}
+{% macro diary_entry(unitcode, unitname, sem, grade, unityear) %}
 <div class="diary-box">
     <div>
         <p>
             <a class="diary-unit-code">{{unitcode}}</a>
             <a class="semestertag">{{sem}}</a>
         </p>
-        <p class="result-unit-name">{{unitname}}</p>
+        <div style="display: flex; align-items: baseline; gap: 10px; padding-left: 20px;">
+            <p class="diary-unit-name">{{unitname}}</p>
+            <p class="diary-unit-year">{{unityear}}</p>
+        </div>
+
     </div>
     <div style="text-align: center; color:var(--background-light);">
         <p>FINAL MARK</p>
