@@ -66,16 +66,9 @@ def login():
 
     return render_template('login_page.html', form=form)
   
-
-
-@application.route('/search')
-def search():
-    return render_template('unit_search.html')
-
-@application.route('/shared_diary')
-def shared_diary():
-    #TODO
-    return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email')
+@application.route('/unit_diary')
+def diary():
+    return render_template('unitdiary.html')
 
 @application.route('/submit_review', methods=['GET', 'POST'])
 def review():
