@@ -1,16 +1,24 @@
 {% extends 'header.html' %} {% from 'components/search_result.html' import
 search_result %} {% block body %}
 <div>
-    <form class="large-search-bar" id="searchForm">
-        <button type="submit" style="border:none; background-color: transparent"><img src="/static/images/ICN-search.png" style="height:2em"></button>
-        <input class="unit-name-search" type="text" placeholder="Search unit" name="unit_name" id="unitNameInput">
-        <select class="uni-search " name="university" id="universitySelect">
-            <option value="">Select university</option>
-            <option value="1">University of Western Australia</option>
-            <option value="2">Another University</option>
-            <option value="Other">Other...</option>
-        </select>
-    </form>
+  <form class="large-search-bar" id="searchForm">
+    <button type="submit" style="border: none; background-color: transparent">
+      <img src="/static/images/ICN-search.png" style="height: 2em" />
+    </button>
+    <input
+      class="unit-name-search"
+      type="text"
+      placeholder="Search unit"
+      name="unit_name"
+      id="unitNameInput"
+    />
+    <select class="uni-search" name="university" id="universitySelect">
+      <option value="">Select university</option>
+      <option value="1">University of Western Australia</option>
+      <option value="2">Another University</option>
+      <option value="Other">Other...</option>
+    </select>
+  </form>
 </div>
 
 <div id="searchResultsContainer">

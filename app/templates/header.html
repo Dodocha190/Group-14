@@ -26,8 +26,8 @@
     <h2 class="side-nav__title">NAVIGATION</h2>
     <ul class="side-nav__list">
       <li class="side-nav__item">
-        <a href="{{ url_for('diary') }}"
-          class="side-nav__link{% if active_page=='diary' %} is-active{% endif %}">
+        <a href="{{ url_for('dashboard') }}"
+          class="side-nav__link{% if active_page=='dashboard' %} is-active{% endif %}">
           <span class="side-nav__icon">★</span>
           Unit diary
         </a>
@@ -54,8 +54,8 @@
         </a>
       </li>
       <li class="side-nav__item">
-        <a href="{{ url_for('diary') }}"
-          class="side-nav__link{% if active_page=='diary' %} is-active{% endif %}">
+        <a href="{{ url_for('shared_diary') }}"
+          class="side-nav__link{% if active_page=='shared_diary' %} is-active{% endif %}">
           <span class="side-nav__icon">☆</span>
           Shared diares
         </a>

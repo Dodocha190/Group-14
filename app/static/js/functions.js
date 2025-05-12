@@ -73,7 +73,7 @@ $(document).ready(function () {
     const $universitySelect = $('#universitySelect');
     const $searchResultsContainer = $('#searchResultsContainer');
     const $noResultsMessage = $('#noResults');
-
+    $noResultsMessage.css('display', 'none');
     function filterUnits() {
         const searchTerm = $unitNameInput.val().toLowerCase();
         const selectedUniversity = $universitySelect.val();
