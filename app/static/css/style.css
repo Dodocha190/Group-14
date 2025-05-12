@@ -566,7 +566,7 @@ a:hover {
 
 
 .diary-box{
-  margin: 25%;
+  margin: 20px 20px;
   background-color: var(--secondary-color);
   color: var(--accent-color);
   border-radius: 10px;
@@ -585,12 +585,26 @@ a:hover {
   padding: 4px 20px;
 }
 
-.diary-unit-code{
+.diary-box .diary-unit-code{
   font-size: 200%;
   font-weight: bold;
   color: var(--text-primary);
   padding: 0 20px;
   margin-bottom: 0;
+}
+
+.diary-box .diary-unit-year{
+  color: white;
+  font-weight: 500;
+  padding: 0 20px;
+}
+
+.diary-title{
+  color: var(--text-primary);
+  padding: 20px 20px;
+  font-size: 200%;
+  font-weight: bold;
+  text-align: center;
 }
 
 .home-search-bar {
