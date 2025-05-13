@@ -22,7 +22,14 @@ def unit_summary():
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
     units_taken = get_diary_entries_from_user(current_user.email)
-    return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email', units_taken=units_taken)
+#data summary for viz card
+    total_units_logged = db.session.query(func.count(DiaryEntry.unit_id)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email)
+    highest_wam_area = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
+    percent_by_faculty = db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email).group_by(Unit.faculty_id).all()
+    total_credits = db.session.query(6*func.count(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email, DiaryEntry.grade>=50).first()
+    avg_difficulty = db.session.query(func.avg(DiaryEntry.difficulty_rating)).filter(DiaryEntry.user_email == current_user.email).first()
+    return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email', units_taken=units_taken,
+                           highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty)
 
 def get_diary_entries_from_user(user_email):
     """
@@ -31,13 +38,6 @@ def get_diary_entries_from_user(user_email):
     query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
     results = query.filter(DiaryEntry.user_email == user_email).all()
     return results
-
-def summarise_diary_entries(user_email):
-    highest_wam_area = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == user_email).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
-    percent_by_faculty = db.session.query(Unit.faculty_id, 100*func.count(Unit.faculty_id)/func.sum(func.count(Unit.faculty_id))).join(DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == user_email).group_by(Unit.faculty_id)
-    total_credits = db.session.query(6*func.count(DiaryEntry)).join(DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == user_email, DiaryEntry.grade>=50)
-    avg_difficulty = db.session.query(func.avg(DiaryEntry.difficulty_rating)).join(DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == user_email)
-    return highest_wam_area, percent_by_faculty, total_credits, avg_difficulty
 
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
