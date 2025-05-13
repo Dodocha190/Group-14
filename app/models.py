@@ -59,6 +59,8 @@ class DiaryEntry(db.Model):
     difficulty_rating = db.Column(db.Integer)
     coordinator_rating = db.Column(db.Integer)
     workload_hours_per_week = db.Column(db.Integer)
+    optional_comments = db.Column(db.String(250), nullable=True)
+    assessments = db.relationship('AssessmentBreakdown', backref='diary_entry', lazy=True)
     __table_args__ = (
         db.UniqueConstraint('user_email', 'unit_id', 'semester', name='uix_user_unit_sem'),
     )
