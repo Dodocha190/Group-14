@@ -50,7 +50,7 @@ class Unit(db.Model):
 class DiaryEntry(db.Model):
     __tablename__ = 'diary_entries'
     id = db.Column(db.Integer, primary_key=True)
-    user_email = db.Column(db.String(64), db.ForeignKey('users.email', name='fk_diary_entries_users_user_email'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', name='fk_diary_entries_users_user_id'), nullable=False)
     unit_id = db.Column(db.Integer, db.ForeignKey('units.id', name='fk_diary_entries_units_unit_id'), nullable=False)
     semester = db.Column(db.Integer, nullable=False)
     year = db.Column(db.Integer, nullable=False)
@@ -60,7 +60,7 @@ class DiaryEntry(db.Model):
     coordinator_rating = db.Column(db.Integer)
     workload_hours_per_week = db.Column(db.Integer)
     __table_args__ = (
-        db.UniqueConstraint('user_email', 'unit_id', 'semester', name='uix_user_unit_sem'),
+        db.UniqueConstraint('user_id', 'unit_id', 'semester', name='uix_user_unit_sem'),
     )
 
 
@@ -75,5 +75,5 @@ class AssessmentBreakdown(db.Model):
 class DiaryShare(db.Model):
     __tablename__ = 'diary_shares'
     id = db.Column(db.Integer, primary_key=True)
-    owner_email = db.Column(db.String(64), db.ForeignKey('users.email', name='fk_diary_shares_users_owner_email'), nullable=False)
-    recipient_email = db.Column(db.String(64), db.ForeignKey('users.email', name='fk_diary_shares_users_recipient_email'), nullable=False)
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id', name='fk_diary_shares_users_owner_id'), nullable=False)
+    recipient_id = db.Column(db.Integer, db.ForeignKey('users.id', name='fk_diary_shares_users_recipient_id'), nullable=False)
