@@ -1,4 +1,5 @@
 {% extends 'header.html' %}
+{% from 'components/overall_rating.html' import overall_rating_bar_chart %}
 
 {% block body %}
 <main class="summary-page">
@@ -15,15 +16,16 @@
     <div class="unit-summary-card">
 
       <!-- Header: Unit Info + Overall Rating -->
+      {% if not no_reviews %}
       <div class="usc-header">
         <div class="unit-info">
-          <h2 class="usc-code">CITS3403 <span class="usc-level-badge">LEV 3</span></h2>
-          <p class="usc-title">Agile Web Development</p>
-          <small class="usc-subtitle">University of Western Australia · School of Computer Science</small>
+          <h2 class="usc-code">{{ unit.code }} <span class="usc-level-badge">LEV {{ level }}</span></h2>
+          <p class="usc-title">{{ unit.title }}</p>
+          <small class="usc-subtitle">{{ unit.university_id }} · {{ unit.faculty_id }}</small>
         </div>
         <div class="overall-rating">
           <div class="rating-stars">★ ★ ★ ★ ☆</div>
-          <small class="rating-text">4.5 Overall · 17 Reviews</small>
+          <small class="rating-text">{{ avg_rating }} Overall · {{ review_count }} Reviews</small>
         </div>
       </div>
 
@@ -31,7 +33,7 @@
       <div class="summary-row">
         <div class="summary-section">
           <h5 class="section-title">Overall Ratings</h5>
-          <canvas class="chart-placeholder"></canvas>
+         {{ overall_rating_bar_chart(overall_rating_count) }}
         </div>
         <div class="summary-section">
           <h5 class="section-title">Assessments</h5>
@@ -43,13 +45,13 @@
       <div class="summary-row">
         <div class="summary-section">
           <h5 class="section-title">Unit Coordinator</h5>
-          <canvas class="chart-placeholder" id="coordinatorChart"></canvas>
+          <p class="section-title">{{ unit_coord_rating }}</p>
           <h5 class="section-title">Difficulty Level</h5>
-          <canvas class="chart-placeholder" id="difficultyChart"></canvas>
+          <p class="section-title"> {{ difficulty_level }}</p>
         </div>
         <div class="summary-section">
             <h5 class="section-title">Workload</h5>
-            <canvas class="chart-placeholder"></canvas>
+            <p class="section-title">{{ workload }} hours</p>
           </div>
       </div>
 
@@ -58,26 +60,19 @@
     <!-- RIGHT PANEL: Recent Reviews -->
     <div class="reviews-panel">
       <h5 class="reviews-title">See students' reviews:</h5>
-
+      {% for review in unit_reviews %}
       <div class="review-card">
-        <p>“Dr. Cogan is very nice and always helpful during office hours. Although, the lectures are boring and hard to follow because…”</p>
-        <div class="review-stars">★ ★ ★ ★ ☆</div>
-        <small class="review-semester">SEM 1 2024</small>
+        <p>“{{ review.optional_comments }}”</p>
+        <div class="review-stars">review: {{review.overall_rating}}</div>
+        <small class="review-semester">semester: {{ review.semester }}</small>
       </div>
-
-      <div class="review-card">
-        <p>“The exams are hard and you never really know what will be on them. You have to study a lot on your own.”</p>
-        <div class="review-stars">★ ★ ★ ☆ ☆</div>
-        <small class="review-semester">SEM 1 2024</small>
-      </div>
-
-      <div class="review-card">
-        <p>“Boring and hard.”</p>
-        <div class="review-stars">★ ☆ ☆ ☆ ☆</div>
-        <small class="review-semester">SEM 1 2023</small>
-      </div>
+      {% endfor %}
     </div>
-
+    {% else %}
+    <div >
+      <h2>No reviews available for this unit yet.</h2>
+      <p>Be the first to share your experience!</p>
   </div>
+    {% endif %}
 </main>
 {% endblock %}

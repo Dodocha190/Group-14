@@ -1,10 +1,10 @@
-{% macro search_result(rate, unitcode, unitname, uni) %}
+{% macro search_result(rate, unit) %}
 <div class="result-box">
     <div class="result-rating" style="background-image: url('/static/images/ICN-star.png'); background-size:contain; background-repeat: no-repeat; background-position: center;">{{rate}}</div>
-    <a class="result-unit" href="{{ url_for('unit_summary') }}">
-        <p class="result-unit-code">{{unitcode}}</p>
-        <p class="result-unit-name">{{unitname}}</p>
+    <a class="result-unit" href="{{ url_for('unit_summary', unit_id=unit.id) }}">
+        <p class="result-unit-code">{{unit.code}}</p>
+        <p class="result-unit-name">{{unit.title}}</p>
     </a>
-    <div class="result-uni">{{uni}}</div>
+    <div class="result-uni">{{ unit.university_id }}</div>
 </div>
 {% endmacro %}
