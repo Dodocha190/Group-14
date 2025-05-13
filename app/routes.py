@@ -37,9 +37,15 @@ def dashboard():
     units_taken = get_diary_entries_from_user(current_user.id)
     return render_template('unitdiary.html', show_user_info=True, user_email=current_user.email, units_taken=units_taken)
 
+def get_diary_entries_from_user(user_email):
+    """
+    Fetches all diary entries associated with a given user email, including their units.
+    """ 
+    query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
+    results = query.filter(DiaryEntry.user_email == user_email).all()
+    return results
 
-
-@blueprint.route('/signup', methods=['GET', 'POST'])
+@application.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
