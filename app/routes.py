@@ -8,6 +8,7 @@ from .models import db, User, Unit, DiaryEntry, Faculty
 import difflib
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
+from sqlalchemy import text
 
 @application.route('/')
 def home():
@@ -30,6 +31,15 @@ def get_diary_entries_from_user(user_email):
     query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
     results = query.filter(DiaryEntry.user_email == user_email).all()
     return results
+
+def summarise_diary_entries(user_email):
+    data=get_diary_entries_from_user(user_email)
+    highest_wam_area=text("SELECT TOP 1 faculty_id FROM (SELECT AVG(grade), faculty_id FROM data GROUP BY faculty_id) ORDER BY grade DESC")
+    percent_by_faculty=text("SELECT faculty_id, COUNT(*)/SUM(COUNT(*)) FROM data GROUP BY faculty_id")
+    total_credits=text("SELECT 6*COUNT(*) FROM data WHERE grade>=50")
+    avg_difficulty=text("SELECT AVG(difficulty_rating) FROM data")
+    result=connection.execute(highest_wam_area, percent_by_faculty, total_credits, avg_difficulty)
+    return result
 
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
