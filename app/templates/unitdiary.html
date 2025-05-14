@@ -3,20 +3,20 @@
 
 {% block body %}
 
-<div class="summary-container">
+<div class="summary-container" style="margin:20;">
   <div class="unit-summary-card">
     <div class="summary-row">
       <div class="summary-section">
         <h5 class="section-title">Highest WAM area:</h5>
-        <p style="color:white">{{highest_wam_area}}</p>
+        <p style="color:white">{{highestWAM}}</p>
         <h5 class="section-title">Percentage of units taken in each faculty:</h5>
-        <p style="color:white">{{percent_by_faculty}}</p>
+        <canvas id="chart1" style="width:50%"></canvas>
       </div>
       <div class="summary-section">
         <h5 class="section-title">Total credit points:</h5>
-        <p style="color:white">{{total_credits}}</p>
+        <p style="color:white">{{creditPoints}}</p>
         <h5 class="section-title">Average difficulty of units taken:</h5>
-        <p style="color:white">{{avg_difficulty}}</p>
+        <p style="color:white">{{avgDiff}}</p>
       </div>
     </div>
   </div>
@@ -31,3 +31,21 @@
   {% endif %}
 </div>
 {% endblock %}
+
+<script scr="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script>
+  const chartColors = ["#B4E1FF", "#C6B5EF", "#FFACE4", "#F5FFC6"];
+  const c1 = {{ countByFaculty | tojson }}; //need to convert results to json for chart
+  const chart1labels = c1.map(item => item[0]); // Faculty code
+  const chart1data = c1.map(item => item[1]); // Percentages
+  const chart1 = new Chart("chart1", {
+        type: "doughnut",
+        data: {
+          labels: chart1labels,
+          datasets: [{
+            backgroundColor: chartColors,
+            data: chart1data,
+          },],
+        },
+    });
+</script>
