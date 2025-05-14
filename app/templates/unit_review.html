@@ -1,20 +1,36 @@
 {% extends 'header.html' %}
 {% block body %}
-<div class="form-container" style="margin:10%; background-color:var(--accent-color);">
+<div class="form-container"
+    style="margin:10%; background-color:var(--accent-color);">
     <h2>Submit a Review</h2>
-    <form action="" method="post">
+    <form action method="post">
         {{form.hidden_tag()}}
         <p>{{form.rev_uni.label}} {{form.rev_uni}}</p>
         <p>{{form.rev_semester.label}} {{form.rev_semester}}</p>
-        <p>{{form.rev_code.label}} {{form.rev_code(style="text-transform: uppercase;")}}</p> <!--capslocks inputted unit code (frontend only)-->
+        <p>{{form.rev_code.label}}
+            {{form.rev_code(style="text-transform: uppercase;")}}</p>
+        <!--capslocks inputted unit code (frontend only)-->
         <p>{{form.rev_year.label}} {{form.rev_year}}</p>
         <p>{{form.rev_unit_coord_rating.label}}<br>{{form.rev_unit_coord_rating}}</p>
         <p>{{form.rev_difficulty.label}}<br>{{form.rev_difficulty}}</p>
         <p>{{form.rev_hours.label}}<br>{{form.rev_hours}}</p>
-        <p>{{form.rev_assessments.label}}<br>{{form.rev_assessments}}</p>
+        <p>Assessments</p>
+        <div class="checkbox-group">
+            {% for field in form %}
+            {% if field.name.startswith('assessment_') %}
+                <div class="form-check">
+                    {{ field(class="form-check-input") }}
+                    <label class="form-check-label" for="{{ field.id }}">
+                        {{ field.label.text }}
+                    </label>
+                </div>
+            {% endif %}
+        {% endfor %}
+        </div>
         <p>{{form.rev_grade.label}} {{form.rev_grade}}</p>
         <p>{{form.rev_avg_hours.label}} {{form.rev_avg_hours}}</p>
         <p>{{form.rev_rating.label}}<br>{{form.rev_rating}}</p>
+        <p>{{form.rev_comments.label}}<br>{{ form.rev_comments}}</p>
         <p>{{form.rev_submit.label}} {{form.rev_submit}}</p>
     </form>
 </div>
