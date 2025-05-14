@@ -34,16 +34,10 @@ def unit_summary(unit_id):
 
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
-    units_taken = get_diary_entries_from_user(current_user.email)
+    units_taken = get_diary_entries_from_user(current_user.id)
     return render_template('unitdiary.html', show_user_info=True, user_email=current_user.email, units_taken=units_taken)
 
-def get_diary_entries_from_user(user_email):
-    """
-    Fetches all diary entries associated with a given user email, including their units.
-    """ 
-    query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
-    results = query.filter(DiaryEntry.user_email == user_email).all()
-    return results
+
 
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -93,7 +87,7 @@ def review():
             flash("Unit not found.")
             return redirect(url_for('add_unit'))
         existing_entry = DiaryEntry.query.filter_by(
-        user_email=current_user.email,
+        user_id=current_user.id,
         unit_id=unit.id,
         semester=form.rev_semester.data
         ).first()
@@ -103,7 +97,7 @@ def review():
             return redirect(url_for('dashboard')) 
 
         dataEntry = DiaryEntry(
-            user_email=current_user.email, 
+            user_id=current_user.id, 
             unit_id=unit.id,
             semester=form.rev_semester.data,
             year=form.rev_year.data,
