@@ -8,10 +8,10 @@ from app.config import TestConfig
 class UnitTests(unittest.TestCase):
     def setUp(self):
         testApplication = create_application(TestConfig)
-        print(testApplication.config)
         return super().setUp()
     
     def test_add_unit_form(self):
+        #PLACEHOLDER: to update
         form = AddUnitForm()
         self.assertIsInstance(form, AddUnitForm)
 
