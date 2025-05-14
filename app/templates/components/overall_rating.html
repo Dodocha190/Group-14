@@ -1,0 +1,12 @@
+{% macro overall_rating_bar_chart(ratings) %}
+<div class="overall-ratings-chart">
+
+    <ul class="ratings-list">
+    {% for rating_text, count in ratings.items() %}
+        <li class="rating-item">
+            <span class="rating-label">{{ rating_text }}: {{count}}</span>
+        </li>
+    {% endfor %}
+    </ul>
+</div>
+{% endmacro %}
