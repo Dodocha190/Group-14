@@ -1,0 +1,9 @@
+{% macro slider_bar(value, max_value, left_label, right_label) %}
+<div class="slider-bar">
+  <span class="slider-label left">{{ left_label }}</span>
+  <div class="slider-track">
+    <div class="slider-fill" style="width: {{ ((value / max_value) * 100) | round(1) }}%;"></div>
+  </div>
+  <span class="slider-label right">{{ right_label }}</span>
+</div>
+{% endmacro %}

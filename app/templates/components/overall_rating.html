@@ -1,12 +1,19 @@
 {% macro overall_rating_bar_chart(ratings) %}
 <div class="overall-ratings-chart">
-
+  <h3 class="rating-title"><i class="fa fa-star"></i> OVERALL RATINGS</h3>
+  <div class="ratings-chart-body">
     <ul class="ratings-list">
-    {% for rating_text, count in ratings.items() %}
+        {% set max_count = ratings.values() | max %}
+        {% for rating_text, count in ratings.items() %}
         <li class="rating-item">
-            <span class="rating-label">{{ rating_text }}: {{count}}</span>
+            <span class="rating-label">{{ rating_text }}</span>
+            <div class="rating-bar-container">
+            <div class="rating-bar" style="width: {{ (count / max_count) * 100 }}%;"></div>
+            </div>
+            <span class="rating-count">{{ count }}</span>
         </li>
-    {% endfor %}
+        {% endfor %}
     </ul>
+  </div>
 </div>
 {% endmacro %}

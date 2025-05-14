@@ -1,8 +1,8 @@
-"""Initial schema: users, units, diary, shares
+"""Clean reset
 
-Revision ID: 641c58f9dcfc
+Revision ID: 1b8f851c43a5
 Revises: 
-Create Date: 2025-05-05 00:04:40.884099
+Create Date: 2025-05-14 18:46:55.601934
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '641c58f9dcfc'
+revision = '1b8f851c43a5'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,24 +25,27 @@ def upgrade():
     sa.UniqueConstraint('name')
     )
     op.create_table('users',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('email', sa.String(length=64), nullable=False),
+    sa.Column('username', sa.String(length=64), nullable=False),
     sa.Column('password_hash', sa.String(length=128), nullable=False),
-    sa.PrimaryKeyConstraint('email'),
+    sa.Column('study_field', sa.String(length=100), nullable=False),
+    sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
     op.create_table('diary_shares',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('owner_email', sa.String(length=64), nullable=False),
     sa.Column('recipient_email', sa.String(length=64), nullable=False),
-    sa.ForeignKeyConstraint(['owner_email'], ['users.email'], ),
-    sa.ForeignKeyConstraint(['recipient_email'], ['users.email'], ),
+    sa.ForeignKeyConstraint(['owner_email'], ['users.email'], name='fk_diary_shares_users_owner_email'),
+    sa.ForeignKeyConstraint(['recipient_email'], ['users.email'], name='fk_diary_shares_users_recipient_email'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('faculties',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
     sa.Column('university_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['university_id'], ['universities.id'], ),
+    sa.ForeignKeyConstraint(['university_id'], ['universities.id'], name='fk_faculties_universities_university_id'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('name')
     )
@@ -52,7 +55,9 @@ def upgrade():
     sa.Column('title', sa.String(length=150), nullable=False),
     sa.Column('faculty_id', sa.Integer(), nullable=False),
     sa.Column('level', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['faculty_id'], ['faculties.id'], ),
+    sa.Column('university_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['faculty_id'], ['faculties.id'], name='fk_units_faculties_faculty_id'),
+    sa.ForeignKeyConstraint(['university_id'], ['universities.id'], name='fk_units_universities_university_id'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('code')
     )
@@ -60,14 +65,16 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('user_email', sa.String(length=64), nullable=False),
     sa.Column('unit_id', sa.Integer(), nullable=False),
-    sa.Column('semester', sa.String(length=20), nullable=False),
+    sa.Column('semester', sa.Integer(), nullable=False),
+    sa.Column('year', sa.Integer(), nullable=False),
     sa.Column('grade', sa.Float(), nullable=True),
     sa.Column('overall_rating', sa.Integer(), nullable=True),
     sa.Column('difficulty_rating', sa.Integer(), nullable=True),
     sa.Column('coordinator_rating', sa.Integer(), nullable=True),
     sa.Column('workload_hours_per_week', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['unit_id'], ['units.id'], ),
-    sa.ForeignKeyConstraint(['user_email'], ['users.email'], ),
+    sa.Column('optional_comments', sa.String(length=250), nullable=True),
+    sa.ForeignKeyConstraint(['unit_id'], ['units.id'], name='fk_diary_entries_units_unit_id'),
+    sa.ForeignKeyConstraint(['user_email'], ['users.email'], name='fk_diary_entries_users_user_email'),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('user_email', 'unit_id', 'semester', name='uix_user_unit_sem')
     )
@@ -76,7 +83,7 @@ def upgrade():
     sa.Column('entry_id', sa.Integer(), nullable=False),
     sa.Column('type', sa.String(length=50), nullable=False),
     sa.Column('percentage', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['entry_id'], ['diary_entries.id'], ),
+    sa.ForeignKeyConstraint(['entry_id'], ['diary_entries.id'], name='fk_assessment_breakdowns_diary_entries_entry_id'),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###

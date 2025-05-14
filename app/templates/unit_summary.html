@@ -1,5 +1,10 @@
 {% extends 'header.html' %}
 {% from 'components/overall_rating.html' import overall_rating_bar_chart %}
+{% from 'components/star_rating.html' import render_stars %}
+{% from 'components/assessment_pie_chart.html' import assessment_pie_chart %}
+{% from 'components/contact_hours_card.html' import contact_hours_card %}
+{% from 'components/review_card.html' import review_card %}
+{% from 'components/slider_bar.html' import slider_bar %}
 
 {% block body %}
 <main class="summary-page">
@@ -15,8 +20,8 @@
     <!-- LEFT PANEL: Unit Summary Card -->
     <div class="unit-summary-card">
 
-      <!-- Header: Unit Info + Overall Rating -->
       {% if not no_reviews %}
+      <!-- Header: Unit Info + Overall Rating -->
       <div class="usc-header">
         <div class="unit-info">
           <h2 class="usc-code">{{ unit.code }} <span class="usc-level-badge">LEV {{ level }}</span></h2>
@@ -24,7 +29,7 @@
           <small class="usc-subtitle">{{ unit.university_id }} · {{ unit.faculty_id }}</small>
         </div>
         <div class="overall-rating">
-          <div class="rating-stars">★ ★ ★ ★ ☆</div>
+          {{ render_stars(avg_rating) }}
           <small class="rating-text">{{ avg_rating }} Overall · {{ review_count }} Reviews</small>
         </div>
       </div>
@@ -33,11 +38,11 @@
       <div class="summary-row">
         <div class="summary-section">
           <h5 class="section-title">Overall Ratings</h5>
-         {{ overall_rating_bar_chart(overall_rating_count) }}
+          {{ overall_rating_bar_chart(overall_rating_count) }}
         </div>
         <div class="summary-section">
           <h5 class="section-title">Assessments</h5>
-          <canvas class="chart-placeholder"></canvas>
+          {{ assessment_pie_chart(assessment_breakdown) }}
         </div>
       </div>
 
@@ -45,34 +50,35 @@
       <div class="summary-row">
         <div class="summary-section">
           <h5 class="section-title">Unit Coordinator</h5>
-          <p class="section-title">{{ unit_coord_rating }}</p>
+          {{ slider_bar(unit_coord_rating, 5, "Poor", "Amazing") }}
           <h5 class="section-title">Difficulty Level</h5>
-          <p class="section-title"> {{ difficulty_level }}</p>
+          {{ slider_bar(difficulty_level, 10, "Difficult", "Easy") }}
         </div>
         <div class="summary-section">
-            <h5 class="section-title">Workload</h5>
-            <p class="section-title">{{ workload }} hours</p>
-          </div>
+          <h5 class="section-title">Workload</h5>
+          {{ contact_hours_card(workload) }}
+        </div>
       </div>
+      {% endif %}
 
     </div>
 
     <!-- RIGHT PANEL: Recent Reviews -->
     <div class="reviews-panel">
-      <h5 class="reviews-title">See students' reviews:</h5>
-      {% for review in unit_reviews %}
-      <div class="review-card">
-        <p>“{{ review.optional_comments }}”</p>
-        <div class="review-stars">review: {{review.overall_rating}}</div>
-        <small class="review-semester">semester: {{ review.semester }}</small>
-      </div>
-      {% endfor %}
+      <h5 class="reviews-title">See students’ reviews:</h5>
+
+      {% if unit_reviews %}
+        {% for review in unit_reviews %}
+          {{ review_card(unit_reviews) }}
+        {% endfor %}
+      {% else %}
+        <div class="no-reviews">
+          <h2>No reviews available for this unit yet.</h2>
+          <p>Be the first to share your experience!</p>
+        </div>
+      {% endif %}
     </div>
-    {% else %}
-    <div >
-      <h2>No reviews available for this unit yet.</h2>
-      <p>Be the first to share your experience!</p>
+
   </div>
-    {% endif %}
 </main>
 {% endblock %}

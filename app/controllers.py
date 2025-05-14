@@ -90,7 +90,7 @@ def get_assessment_breakdown_for_unit(unit_id):
         return None
     assessment_breakdown = {}
     for entry in entries:
-        assessments = entry.assessment_breakdowns
+        assessments = entry.assessments
         for assessment in assessments:
             if assessment.type not in assessment_breakdown:
                 assessment_breakdown[assessment.type] = 0

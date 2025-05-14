@@ -1,0 +1,14 @@
+{% macro contact_hours_card(hours) %}
+{% set capped = [hours, 20] | min %}
+{% set red = (capped / 20 * 255) | round(0) %}
+{% set blue = (255 - red) | round(0) %}
+{% set text_color = "rgb(" ~ red ~ ", 0, " ~ blue ~ ")" %}
+<div class="contact-hours-card" style="color: {{ text_color }};">
+  <div class="contact-hours-value">{{ hours }}</div>
+  <div class="contact-hours-label">
+    <div>CONTACT</div>
+    <div>HOURS</div>
+    <div class="per-week">/ WEEK</div>
+  </div>
+</div>
+{% endmacro %}

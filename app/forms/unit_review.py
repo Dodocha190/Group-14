@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, RadioField, IntegerField, SelectMultipleField, FloatField
+from wtforms import StringField, SubmitField, RadioField, IntegerField, SelectMultipleField, FloatField, TextAreaField
 from wtforms.validators import DataRequired, NumberRange
 
 
@@ -29,4 +29,5 @@ class ReviewForm(FlaskForm):
     rev_avg_hours = IntegerField("Average hours of study per week:", validators=[DataRequired()])
     rev_rating = RadioField("Rate the unit overall",
                             choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')], validators=[DataRequired()])
+    rev_comments = TextAreaField("Additional Comments (optional):")
     rev_submit = SubmitField("Submit")

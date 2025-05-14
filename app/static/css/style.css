@@ -461,14 +461,166 @@ a:hover {
   text-align: right;
 }
 
+.overall-ratings-chart {
+  background-color: var(--text-primary); /* same as your image background */
+  padding: 1.5rem;
+  border-radius: 1rem;
+  color: white;
+  font-family: sans-serif;
+}
+
+.ratings-chart-body {
+  position: relative;
+  padding-left: 10px; /* space for the line */
+}
+
+.ratings-chart-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 80px; /* aligns with start of bars (same width as .rating-label) */
+  bottom: 0;
+  width: 2px;
+  background-color: var(--primary-color);
+  border-radius: 1px;
+}
+
+.rating-title {
+  color: var(--accent-color);
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.ratings-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rating-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.rating-label {
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.rating-bar-container {
+  background-color: var(--text-primary);
+  border-radius: 1rem;
+  height: 12px;
+  flex-grow: 1;
+  margin: 0 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.rating-bar {
+  background-color: var(--background-light);
+  height: 100%;
+  border-radius: 1rem 0 0 1rem;
+}
+
+.rating-count {
+  width: 20px;
+  text-align: right;
+  color: white;
+}
+
+/* For overall rating in stars */
 .rating-stars {
+  position: relative;
+  display: inline-block;
   font-size: 3rem;
-  color: var(--background-light);
+  line-height: 1;
+}
+
+.rating-stars .back-stars,
+.rating-stars .front-stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.rating-stars .back-stars {
+  color: var(--text-primary);
+}
+
+.rating-stars .front-stars {
+  color: var(--background-light); /* filled stars */
+  z-index: 1;
+  pointer-events: none;
 }
 
 .rating-text {
   color: rgba(255, 255, 255, 0.75);
   font-size: 0.875rem;
+}
+
+.small-stars .rating-stars {
+  font-size: 1.25rem; /* or 1rem if you want even smaller */
+}
+
+/* Review cards */
+.reviews-panel {
+  background-color: #B4E1FF;
+  padding: 2rem 1.5rem;
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.review-button {
+  display: inline-block;
+  background-color: #ffffcc;
+  color: var(--text-primary);
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.75rem 2rem;
+  border-radius: 2rem;
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.review-button:hover {
+  background-color: #f5f5a5;
+}
+
+.reviews-title {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 1.5rem;
+}
+
+.review-card {
+  background-color: #C6B5EF;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  color: var(--text-tertiary);
+  font-size: 0.95rem;
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.review-card p {
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
+
+.review-semester {
+  display: block;
+  margin-top: 0.5rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: white;
+  font-weight: bold;
 }
 
 /* Rows inside card */
@@ -500,10 +652,101 @@ a:hover {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 0.5rem;
 }
+/* Styling for chart */
+.chart-container {
+  background-color: var(--text-primary);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  color: var(--text-tertiary);
+  font-family: sans-serif;
+  flex: 1;
+}
+
+.chart-title {
+  color: var(--accent-color);
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chart-canvas {
+  max-width: 300px;
+  max-height: 300px;
+  margin: 0 auto;
+  display: block;
+}
 
 #coordinatorChart,
 #difficultyChart{
   height: 90px;}
+
+.slider-bar { /*remember to change sizes after preview, 90px height ? */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.slider-label {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  width: 60px;
+  text-align: center;
+}
+
+.slider-track {
+  flex-grow: 1;
+  height: 18px;
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-fill {
+  background-color: var(--primary-color);
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+}
+
+/* Contact hours card*/
+.contact-hours-card {
+  background-color: var(--primary-color); /* Light blue */
+  width: 100px;
+  height: 140px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-hours-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  transform: rotate(-5deg);
+  line-height: 1;
+}
+
+.contact-hours-label {
+  margin-top: 0.25rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.contact-hours-label .per-week {
+  font-weight: normal;
+  font-size: 0.65rem;
+  opacity: 0.75;
+}
 
 .contact-hours {
   text-align: center;
