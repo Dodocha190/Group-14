@@ -1,7 +1,6 @@
 :root {
     --primary-color:#B4E1FF;      
     --secondary-color: #C6B5EF;     
-    --secondary-color: #C6B5EF;     
     --accent-color: #FFACE4;      
     --background-light: #F5FFC6;    
     --text-primary: #49438C;       
@@ -567,10 +566,12 @@ a:hover {
 
 
 .diary-box{
-  margin: 20px 20px;
+  margin-top: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
   background-color: var(--secondary-color);
   color: var(--accent-color);
-  border-radius: 10px;
+  border-radius: 20px;
   border: none;
   display: flex;
   justify-content: space-between;
@@ -591,7 +592,6 @@ a:hover {
   font-weight: bold;
   color: var(--text-primary);
   padding: 0 20px;
-  margin-bottom: 0;
 }
 
 .diary-box .diary-unit-year{
