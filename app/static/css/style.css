@@ -835,3 +835,127 @@ body.authenticated .main-content {
   display: block;           
   margin-bottom: 1.5rem;  
 }
+
+.share-form-wrapper {
+  background-color: var(--text-primary); /* dark purple card */
+  color: var(--text-tertiary);           /* white text */
+  padding: 3rem 4rem;
+  border-radius: 2rem;
+  max-width: 700px;
+  margin: 2rem auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.share-form-wrapper h2 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.form-label {
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.8rem 1.2rem;
+  border-radius: 30px;
+  border: 2px solid var(--text-tertiary);
+  background-color: transparent;
+  color: var(--text-tertiary);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.form-input:focus {
+  outline: none;
+  background-color: var(--text-tertiary);
+  color: var(--text-primary);
+}
+
+.share-submit-button {
+  background-color: var(--background-light);
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  padding: 0.75rem 2rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.share-submit-button:hover {
+  background-color: var(--success-color);
+}
+
+#-----------------
+
+/* ---- Shared Diaries Grid ---- */
+.shared-diaries {
+  padding: 2rem;
+}
+.sd-title {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+/* auto-wrapping grid of cards */
+.sd-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+/* each user’s diary card */
+.sd-card {
+  background: var(--secondary-color);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  text-align: center;
+}
+.sd-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* avatar image */
+.sd-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.5rem;
+}
+
+/* user name */
+.sd-name {
+  font-size: 1.25rem;
+  margin: 0.25rem 0;
+  color: var(--text-primary);
+}
+
+/* quick stats line */
+.sd-stats {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.75rem;
+}
+
+/* placeholder for a little sparkline / chart */
+.sd-preview-chart {
+  width: 100%;
+  height: 60px;
+  background: rgba(0,0,0,0.05);
+  border-radius: 0.5rem;
+}
