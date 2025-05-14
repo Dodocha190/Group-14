@@ -1,4 +1,4 @@
-"""empty message
+"""add optional comment column to diary_entries table
 
 Revision ID: 1fa03898cb61
 Revises: 1735d65236e0
