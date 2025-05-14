@@ -3,8 +3,8 @@ from flask import render_template, redirect, url_for, flash, request
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
 from app.forms.unit_review import AddUnitForm
-from app.forms.unit_review import ReviewForm
-from .models import db, User, Unit, DiaryEntry, Faculty, AssessmentBreakdown
+from app.forms.unit_review import create_review_form
+from .models import db, User, Unit, DiaryEntry, Faculty, AssessmentType, UnitAssessmentType
 import difflib
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
@@ -28,8 +28,8 @@ def unit_summary(unit_id):
     unit_coord_rating = avg_rating_for_unit_coord(unit_id)
     difficulty_level = get_difficulty_rating_avg_for_unit(unit_id)
     overall_rating_count = get_overall_rating_count_for_unit(unit_id)
-    assessment_breakdown = get_assessment_breakdown_for_unit(unit_id)
-    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_breakdown = assessment_breakdown )
+    assessment_types=get_assessment_types_for_unit(unit_id)
+    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types=assessment_types)
 
 
 @application.route('/dashboard') #temporary, somewhere to go to after successful login
@@ -86,7 +86,7 @@ def diary():
 
 @application.route('/submit_review', methods=['GET', 'POST'])
 def review():
-    form = ReviewForm()
+    form = create_review_form()
     if form.validate_on_submit():
         unit = Unit.query.filter_by(code=form.rev_code.data).first()
         if not unit:
@@ -101,6 +101,7 @@ def review():
         if existing_entry:
             flash("You have already submitted a review for this unit in this semester.")
             return redirect(url_for('dashboard')) 
+
         dataEntry = DiaryEntry(
             user_email=current_user.email, 
             unit_id=unit.id,
@@ -113,29 +114,27 @@ def review():
             workload_hours_per_week=form.rev_avg_hours.data,
             optional_comments=form.rev_comments.data
         )
-
         db.session.add(dataEntry)
-        db.session.commit()
-    # TODO: Refine this section to add assessment breakdowns
-    #     selected_assessments = form.rev_assessments.data
-    #     for assessment_value in selected_assessments:
-    #         weight_field_name = f'weight_{assessment_value}'
-    #         weight = request.form.get(weight_field_name)
-    #         if weight:
-    #             assessment = AssessmentBreakdown(
-    #                 entry_id=diary_entry.id,
-    #                 type=assessment_value,
-    #                 percentage=int(weight)
-    #             )
-    #             db.session.add(assessment)
 
-    # try:
-    #     db.session.commit()
-    #     flash('Review submitted successfully!', 'success')
-    # except Exception as e:
-    #     db.session.rollback()
-    #     flash(f'Error saving review: {str(e)}', 'error')
-    flash('Review submitted successfully!')
+        unit = Unit.query.filter_by(code=form.rev_code.data).first()
+        selected_assessments = form.get_selected_assessments()
+        if selected_assessments:
+            for assessment in selected_assessments:
+                assessment_id=AssessmentType.query.filter_by(name=assessment).first().id
+                existing_association = UnitAssessmentType.query.filter_by(
+                            unit_id=unit.id,
+                            assessment_type_id=assessment_id
+                        ).first()
+                if not existing_association:
+                    association = UnitAssessmentType(
+                        unit_id=unit.id,
+                        assessment_type_id=assessment_id
+                    )
+                    db.session.add(association)
+        
+        db.session.commit()
+        flash('Review submitted successfully!')
+        return redirect(url_for('dashboard'))
     return render_template('unit_review.html', form=form)
 
 @application.route('/add_unit', methods=['GET', 'POST'])
