@@ -10,7 +10,7 @@ def get_avg_rating_for_unit(unit_id):
         return None
     total_rating = sum(entry.overall_rating for entry in entries)
     avg_rating = total_rating / len(entries)
-    return avg_rating
+    return avg_rating.__round__(2)
 
 def get_optional_comments_for_unit(unit_id):
     """
@@ -36,7 +36,7 @@ def avg_rating_for_unit_coord(unit_id):
         return None
     total_rating = sum(entry.coordinator_rating for entry in entries)
     avg_rating = total_rating / len(entries)
-    return avg_rating
+    return avg_rating.__round__(2)
 
 def get_difficulty_rating_avg_for_unit(unit_id):
     """
@@ -47,7 +47,7 @@ def get_difficulty_rating_avg_for_unit(unit_id):
         return None
     total_rating = sum(entry.difficulty_rating for entry in entries)
     avg_rating = total_rating / len(entries)
-    return avg_rating
+    return avg_rating.__round__(2)
 
 def get_overall_rating_count_for_unit(unit_id):
     """
@@ -79,20 +79,15 @@ def get_workload_avg_for_unit(unit_id):
         return None
     total_workload = sum(entry.workload_hours_per_week for entry in entries)
     avg_workload = total_workload / len(entries)
-    return avg_workload
+    return avg_workload.__round__(2)
 
-def get_assessment_breakdown_for_unit(unit_id):
+def get_assessment_types_for_unit(unit_id):
     """
-    Get the assessment breakdown for a unit.
+    Get the assessment types for a unit.
     """
-    entries = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).all()
-    if not entries:
+    assessment_types = db.session.query(Unit).filter(Unit.id==unit_id).first()
+    assessment_selected = assessment_types.assessment_types
+    print(assessment_selected)
+    if not assessment_types:
         return None
-    assessment_breakdown = {}
-    for entry in entries:
-        assessments = entry.assessment_breakdowns
-        for assessment in assessments:
-            if assessment.type not in assessment_breakdown:
-                assessment_breakdown[assessment.type] = 0
-            assessment_breakdown[assessment.type] += assessment.percentage
-    return assessment_breakdown
+    return assessment_selected
