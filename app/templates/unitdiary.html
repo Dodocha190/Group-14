@@ -10,30 +10,21 @@
 {% endif %}
 
 <div class="summary-container">
-    <div class="unit-summary-card">
-
-      <div class="summary-row">
-        <div class="summary-section">
-          <h5 class="section-title">Chart</h5>
-          <canvas class="chart-placeholder"></canvas>
-        </div>
-        <div class="summary-section">
-          <h5 class="section-title">Another Chart</h5>
-          <canvas class="chart-placeholder"></canvas>
-        </div>
+  <div class="unit-summary-card">
+    <div class="summary-row">
+      <div class="summary-section">
+        <h5 class="section-title">Highest WAM area:</h5>
+        <p style="color:white">{{highest_wam_area}}</p>
+        <h5 class="section-title">Percentage of units taken in each faculty:</h5>
+        <p style="color:white">{{percent_by_faculty}}</p>
       </div>
-      <div class="summary-row">
-        <div class="summary-section">
-          <h5 class="section-title">Data Visualisation</h5>
-          <canvas class="chart-placeholder" id="coordinatorChart"></canvas>
-          <h5 class="section-title">Visualising Data</h5>
-          <canvas class="chart-placeholder" id="difficultyChart"></canvas>
-        </div>
-        <div class="summary-section">
-            <h5 class="section-title">Placeholder</h5>
-            <canvas class="chart-placeholder"></canvas>
-          </div>
+      <div class="summary-section">
+        <h5 class="section-title">Total credit points:</h5>
+        <p style="color:white">{{total_credits}}</p>
+        <h5 class="section-title">Average difficulty of units taken:</h5>
+        <p style="color:white">{{avg_difficulty}}</p>
       </div>
+    </div>
   </div>
 </div>
 
