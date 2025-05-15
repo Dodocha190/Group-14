@@ -32,20 +32,18 @@
 </div>
 {% endblock %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-<script>
-  const c1 = JSON.parse('{{countByFaculty | tojson}}');
-  const chart1labels = c1.map(item => item[0]); // Faculty code
-  const chart1data = c1.map(item => item[1]); // Percentages
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
   const chartColors = ["#B4E1FF", "#C6B5EF", "#FFACE4", "#F5FFC6"];
+  const chart1data = {{unitcount | list | tojson}};
+  const chart1labels = {{facultylabel | list | tojson}};
   const chart1 = new Chart("chart1", {
     type: "doughnut",
     data: {
       labels: chart1labels,
       datasets: [
         {
-          backgroundColor: chartColors,
           data: chart1data,
+          backgroundColor: chartColors,
         },
       ],
     },
