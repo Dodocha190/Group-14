@@ -40,8 +40,9 @@ class SystemTests(unittest.TestCase):
         self.server_process = multiprocessing.Process(target=run_test_server, args=(self.testApplication,), daemon=True)
         self.server_process.start()
         time.sleep(1)  
-
-        self.driver = webdriver.Chrome()
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless=new")
+        self.driver = webdriver.Chrome(options=options)
         return super().setUp()
 
     def populate_initial_data(self):
@@ -219,6 +220,7 @@ class SystemTests(unittest.TestCase):
 
     #Test: correctly add unit 
     def test_add_unit(self):
+        self.login_user(self.user1_email, "password")
         self.driver.get(localHost + "add_unit")
         university_field = self.driver.find_element(By.ID, "add_uni")
         faculty_field = self.driver.find_element(By.ID, "add_faculty")

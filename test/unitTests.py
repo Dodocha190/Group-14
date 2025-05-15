@@ -126,17 +126,6 @@ class UnitTests(unittest.TestCase):
         self.assertEqual(len(assessment_types), 2)
         self.assertIn("Exam", [at.name for at in assessment_types])
         self.assertIn("Project", [at.name for at in assessment_types])
-    #Test2: Test unit summary calculations
-
-
-    #Test3: Test Unit Diary calculations 
-
-    #Test4: Creating user that already exists 
-
-
-    #Test
-    
-
 
     def tearDown(self):
         db.session.remove()
