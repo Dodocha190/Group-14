@@ -4,18 +4,18 @@
 
 {% block body %}
 
-<div class="summary-container" style="margin:20px;">
+<div class="summary-container" style="margin-top:20px; margin-bottom: 40px; margin-left: 10%; margin-right:10%">
   <div class="unit-summary-card">
     <div class="summary-row">
       <div class="summary-section">
         <h5 class="section-title">Highest WAM area:</h5>
-        <p style="color:white">{{highestWAM[0]}}<br>{{highestWAM[1]}}</p>
+        <p style="color:white; font-size:3rem;">{{highestWAM[0]}}  <b>  {{highestWAM[1]}}</b></p>
         <h5 class="section-title">Units taken in each faculty:</h5>
-        <div>{{user_faculty_chart(facultylabel, unitcount)}}</div>
+        <div style="width:50%">{{user_faculty_chart(facultylabel, unitcount)}}</div>
       </div>
       <div class="summary-section">
         <h5 class="section-title">Total credit points:</h5>
-        <p style="color:white">{{creditPoints[0]}}</p>
+        <p style="color:white; font-size:3rem; font-weight: bold;">{{creditPoints[0]}}</p>
         <h5 class="section-title">Average difficulty of units taken:</h5>
         <p style="color:white">{{avgDiff[0]}}</p>
       </div>
