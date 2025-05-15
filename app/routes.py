@@ -36,15 +36,7 @@ def unit_summary(unit_id):
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
-    units_taken = get_diary_entries_from_user(current_user.id)
-#data summary for viz card
-    total_units = get_total_units_logged(current_user.id)
-    highest_wam_area = get_highest_wam_faculty(current_user.id)
-    percent_by_faculty = get_percentage_by_faculty(current_user.id)
-    total_credits = get_total_credits_passed(current_user.id)
-    avg_difficulty = get_average_difficulty(current_user.id)
-    return render_template('unitdiary.html', show_user_info=True, units_taken=units_taken,
-                           highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty)
+    return redirect(url_for('blueprint.diary', user_id=current_user.id))
 
 
 @blueprint.route('/signup', methods=['GET', 'POST'])
@@ -82,9 +74,21 @@ def login():
 
     return render_template('login_page.html', form=form)
   
-@blueprint.route('/unit_diary')
-def diary():
-    return render_template('unitdiary.html')
+@blueprint.route('/unit_diary/<int:user_id>', methods=['GET'])
+def diary(user_id):
+    units_taken = get_diary_entries_from_user(user_id)
+    total_units = get_total_units_logged(user_id)
+    highest_wam_area = get_highest_wam_faculty(user_id)
+    percent_by_faculty = get_percentage_by_faculty(user_id)
+    total_credits = get_total_credits_passed(user_id)
+    avg_difficulty = get_average_difficulty(user_id)
+    is_shared_view=False
+    user=current_user
+    if user_id != current_user.id:
+        user = User.query.get(user_id)
+        is_shared_view=True
+    return render_template('unitdiary.html', show_user_info=True, user=user,units_taken=units_taken,
+                           highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty, is_shared_view=is_shared_view)
 
 @blueprint.route('/submit_review', methods=['GET', 'POST'])
 def review():
@@ -245,13 +249,7 @@ def view_shared_diary(user_id):
     if not share:
         flash("You don't have permission to view this diary.", "danger")
         return redirect(url_for('blueprint.shared_diaries'))
-    
     owner = User.query.get_or_404(user_id)
     entries = DiaryEntry.query.filter_by(user_id=user_id).all()
 
-    return render_template(
-        "unitdiary.html",
-        user=owner,
-        entries=entries,
-        is_shared_view=True
-    )
+    return redirect(url_for('blueprint.diary', user_id=user_id))  
