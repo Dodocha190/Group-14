@@ -1,19 +1,31 @@
 #assert what is in controllers.py
 #python -m unittest unitTests.py
-
-from app import create_application
+import unittest
+from app import create_app, db
 from app.config import TestConfig
+from app.forms.login_form import LoginForm
+from app.models import User, AssessmentType
 # need to add 
 
 class UnitTests(unittest.TestCase):
     def setUp(self):
-        testApplication = create_application(TestConfig)
+        testApplication = create_app(TestConfig)
+        self.app_ctx=testApplication.app_context()  
+        self.app_ctx.push()
+        db.create_all()
         return super().setUp()
     
-    def test_add_unit_form(self):
+
+    def test_database_user_model(self):
         #PLACEHOLDER: to update
-        form = AddUnitForm()
-        self.assertIsInstance(form, AddUnitForm)
+        user = User(username='testuser', password_hash='password', email="test@gmail.com", study_field="test field")
+        db.session.add(user)
+        db.session.commit()
+        self.assertIsNotNone(User.query.filter_by(username='testuser').first())
+
 
     def tearDown(self):
+        db.session.remove()
+        db.drop_all()
+        self.app_ctx.pop()
         return super().tearDown()

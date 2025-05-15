@@ -3,13 +3,14 @@ from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
 from app.forms.unit_review import AddUnitForm
 from app.forms.unit_review import create_review_form
-from .models import db, User, Unit, DiaryEntry, Faculty, AssessmentType, UnitAssessmentType
+from .models import User, Unit, DiaryEntry, Faculty, AssessmentType, UnitAssessmentType
 import difflib
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import func
 from .controllers import *
 from app.blueprints import blueprint
+from app import db
 
 @blueprint.route('/')
 def home():
@@ -59,6 +60,9 @@ def signup():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+        print('User added:', user)
+        users = User.query.all()
+        print('All users:', users)
         flash("Registration successful. Please log in.")
         return redirect(url_for('blueprint.login'))
     flash("Please fill in all fields.")
@@ -68,12 +72,21 @@ def signup():
 def login():
 
     if current_user.is_authenticated:
-            return redirect(url_for('blueprint.dashboard'))  # Redirect if already logged in
+        return redirect(url_for('blueprint.dashboard'))  # Redirect if already logged in
 
     form = LoginForm()
     if form.validate_on_submit():
+        print('Form submitted')
+        print('Email entered:', form.email.data)
+        print("All users: ", User.query.all())
         user = User.query.filter_by(email=form.email.data).first()
+        print('User found:', user)
+        print('Password entered:', form.password.data)
+        if user:
+            print('User exists')
+            flash('User exists')
         if user and user.check_password(form.password.data):
+            print('Password is correct')
             login_user(user) 
             return redirect(url_for('blueprint.dashboard')) 
         else:
