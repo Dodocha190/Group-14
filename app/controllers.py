@@ -115,3 +115,28 @@ def get_diary_entries_from_user(user_id):
     query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
     results = query.filter(DiaryEntry.user_id == user_id).all()
     return results
+
+def get_review_card_data_for_unit(unit_id):
+    """
+    Return a list of dictionaries with review card data (optional_comments, overall_rating, semester, year)
+    for a specific unit.
+    """
+    results = db.session.query(
+        DiaryEntry.optional_comments,
+        DiaryEntry.overall_rating,
+        DiaryEntry.semester,
+        DiaryEntry.year
+    ).filter(
+        DiaryEntry.unit_id == unit_id,
+        DiaryEntry.optional_comments != None
+    ).all()
+
+    return [
+        {
+            'optional_comments': r.optional_comments,
+            'overall_rating': r.overall_rating,
+            'semester': r.semester,
+            'year': r.year
+        }
+        for r in results
+    ]

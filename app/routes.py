@@ -24,18 +24,13 @@ def unit_summary(unit_id):
         return render_template('unit_summary.html', no_reviews=True)
     avg_rating=get_avg_rating_for_unit(unit_id)
     avg_workload=get_workload_avg_for_unit(unit_id)
-    unit_reviews = get_optional_comments_for_unit(unit_id)  
     review_count = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).count()
     unit_coord_rating = avg_rating_for_unit_coord(unit_id)
     difficulty_level = get_difficulty_rating_avg_for_unit(unit_id)
     overall_rating_count = get_overall_rating_count_for_unit(unit_id)
-<<<<<<< HEAD
-    assessment_types=get_assessment_types_for_unit(unit_id)
-    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types=assessment_types)
-=======
-    assessment_breakdown = get_assessment_breakdown_for_unit(unit_id)
-    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_breakdown = assessment_breakdown)
->>>>>>> 4132502 (Conflict resolve and error fixing)
+    assessment_types = get_assessment_types_for_unit(unit_id)
+    review_card_data = get_review_card_data_for_unit(unit_id)
+    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, review_card_data = review_card_data, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types = assessment_types)
 
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
@@ -43,7 +38,7 @@ def dashboard():
     units_taken = get_diary_entries_from_user(current_user.id)
     return render_template('unitdiary.html', show_user_info=True, user_email=current_user.email, units_taken=units_taken)
 
-def get_diary_entries_from_user(user_email):
+def get_diary_entries_from_user(user_id):
     """
     Fetches all diary entries associated with a given user email, including their units.
     """ 
@@ -51,8 +46,8 @@ def get_diary_entries_from_user(user_email):
     results = query.filter(DiaryEntry.user_email == user_email).all()
     return results
 
-def summarise_diary_entries(user_email):
-    data=get_diary_entries_from_user(user_email)
+def summarise_diary_entries(user_id):
+    data=get_diary_entries_from_user(user_id)
     if len(data) >= 4:
         highest_wam_area=text("SELECT TOP 1 faculty_id FROM (SELECT AVG(grade), faculty_id FROM data GROUP BY faculty_id) ORDER BY grade DESC")
         percent_by_faculty=text("SELECT faculty_id, COUNT(*)/SUM(COUNT(*)) FROM data GROUP BY faculty_id")
@@ -61,7 +56,7 @@ def summarise_diary_entries(user_email):
         result=connection.execute(highest_wam_area, percent_by_faculty, total_credits, avg_difficulty)
         return result
 
-@application.route('/signup', methods=['GET', 'POST'])
+@blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():

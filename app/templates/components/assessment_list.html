@@ -1,0 +1,12 @@
+{% macro assessment_list(assessments) %}
+<div class="assessment-list-container">
+  <h3 class="assessment-title"><i class="fa fa-check-circle"></i> Assessment Types</h3>
+  <ul class="assessment-type-list">
+    {% for a in assessments %}
+      <li class="assessment-type-item">
+        <i class="fa fa-dot-circle"></i> {{ a.name }}
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endmacro %}

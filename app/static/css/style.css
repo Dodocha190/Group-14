@@ -566,6 +566,38 @@ a:hover {
   font-size: 1.25rem; /* or 1rem if you want even smaller */
 }
 
+/*Assessment list card*/
+.assessment-list-container {
+  background-color: var(--primary-color);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  color: var(--text-primary);
+}
+
+.assessment-title {
+  font-size: 1.25rem;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+}
+
+.assessment-type-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.assessment-type-item {
+  font-size: 1rem;
+  padding: 0.25rem 0;
+  color: var(--text-tertiary);
+}
+
+.assessment-type-item i {
+  color: var(--background-light);
+  margin-right: 0.5rem;
+}
+
 /* Review cards */
 .reviews-panel {
   background-color: #B4E1FF;

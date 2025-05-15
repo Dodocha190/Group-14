@@ -1,11 +1,10 @@
 {% macro review_card(review) %}
+{% from 'components/star_rating.html' import render_stars %}
 <div class="review-card">
   <p>“{{ review.optional_comments }}”</p>
-
   <div class="review-stars small-stars">
     {{ render_stars(review.overall_rating) }}
   </div>
-
-  <small class="review-semester">SEM {{ review.semester }}</small>
+  <small class="review-semester">SEM {{ review.semester }} · {{ review.year }}</small>
 </div>
 {% endmacro %}
