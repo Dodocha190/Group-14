@@ -46,40 +46,6 @@ def dashboard():
                            unitcount = unitcount, facultylabel=facultylabel, highestWAM = highestWAM, creditPoints=creditPoints, userdifficulty=userdifficulty, generaldifficulty=generaldifficulty)
 
 
-#data for data viz card
-def count_unit_by_faculty(user_id):
-    unitcount = db.session.query(func.count(Unit.id)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(
-        DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
-    result = [count[0] for count in unitcount] #flatten into list with single entries
-    return result
-def get_faculty_labels(user_id):
-    facultylabel = db.session.query(Unit.faculty_id).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(
-        DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
-    result = [label[0] for label in facultylabel] #flatten into list with single entries
-    return result
-    
-def highest_wam_area(user_id):
-    result = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(
-        DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
-    return result
-
-def total_credits(user_id):
-    result = db.session.query(6*func.count(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(
-        DiaryEntry.user_id == user_id, DiaryEntry.grade>=50).first()
-    return result
-
-def user_difficulty(user_id):
-    result = db.session.query(func.avg(DiaryEntry.difficulty_rating)).filter(
-        DiaryEntry.user_id == user_id).first()
-    return result
-def general_difficulty(user_id):
-    unitstakenbyuser = db.session.query(Unit.id).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(
-        DiaryEntry.user_id == user_id).all()
-    result = db.session.query(func.avg(DiaryEntry.difficulty_rating)).filter(
-        DiaryEntry.unit_id == unitstakenbyuser).all()
-    return result
-
-
 @application.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()

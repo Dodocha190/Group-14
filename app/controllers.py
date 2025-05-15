@@ -1,5 +1,6 @@
 from app import application
 from .models import db, User, Unit, DiaryEntry, Faculty
+from sqlalchemy import func
 
 def get_avg_rating_for_unit(unit_id):
     """
@@ -99,3 +100,37 @@ def get_diary_entries_from_user(user_id):
     query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
     results = query.filter(DiaryEntry.user_id == user_id).all()
     return results
+
+
+#data for data viz card
+def count_unit_by_faculty(user_id):
+    unitcount = db.session.query(func.count(Unit.id)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(
+        DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
+    result = [count[0] for count in unitcount] #flatten into list with single entries
+    return result
+def get_faculty_labels(user_id):
+    facultylabel = db.session.query(Unit.faculty_id).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(
+        DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
+    result = [label[0] for label in facultylabel] #flatten into list with single entries and make sure they're in order
+    return result
+    
+def highest_wam_area(user_id):
+    result = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(
+        DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
+    return result
+
+def total_credits(user_id):
+    result = db.session.query(6*func.count(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(
+        DiaryEntry.user_id == user_id, DiaryEntry.grade>=50).first()
+    return result
+
+def user_difficulty(user_id):
+    result = db.session.query(func.avg(DiaryEntry.difficulty_rating)).filter(
+        DiaryEntry.user_id == user_id).first()
+    return result
+def general_difficulty(user_id):
+    unitstakenbyuser = db.session.query(Unit.id).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(
+        DiaryEntry.user_id == user_id).all() #select units taken by the user
+    result = db.session.query(func.avg(DiaryEntry.difficulty_rating)).filter(
+        DiaryEntry.unit_id == unitstakenbyuser).all() #filter general data for units taken by the user
+    return result
