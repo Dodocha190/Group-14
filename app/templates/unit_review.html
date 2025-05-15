@@ -15,7 +15,7 @@
         <p>{{form.rev_difficulty.label}}<br>{{form.rev_difficulty}}</p>
         <p>{{form.rev_hours.label}}<br>{{form.rev_hours}}</p>
         <p>Assessments</p>
-        <div class="checkbox-group">
+        <div class="checkbox-group" id="rev_assessments">
             {% for field in form %}
             {% if field.name.startswith('assessment_') %}
                 <div class="form-check">
