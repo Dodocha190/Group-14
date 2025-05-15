@@ -1,5 +1,6 @@
 from .models import User, Unit, DiaryEntry, Faculty
 from app import db
+from sqlalchemy import func
 
 def get_avg_rating_for_unit(unit_id):
     """
@@ -99,3 +100,77 @@ def get_diary_entries_from_user(user_id):
     query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
     results = query.filter(DiaryEntry.user_id == user_id).all()
     return results
+
+def get_total_units_logged(user_id):
+    """
+    Retrieves the total number of units logged by a specific user.
+
+    Args:
+        user_id: The id of the user.
+
+    Returns:
+        The total count of units logged by the user.
+    """
+    entries = db.session.query(DiaryEntry).filter(DiaryEntry.user_id == user_id).all()
+    return len(entries)
+
+def get_highest_wam_faculty(user_id):
+    """
+    Retrieves the faculty with the highest average grade (WAM) for a specific user.
+
+    Args:
+        user_id: The id of the user.
+
+    Returns:
+        A tuple containing the faculty name and the average grade,
+        or None if no diary entries are found for the user.
+    """ 
+    return db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
+
+
+def get_percentage_by_faculty(user_id):
+    """
+    Retrieves the percentage of units logged by a specific user for each faculty.
+
+    Args:
+        user_id: The id of the user.
+
+    Returns:
+        A list of tuples, where each tuple contains the faculty name and the
+        percentage of units logged in that faculty.
+    """
+    total_units_logged = get_total_units_logged(user_id)
+    return db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
+
+
+
+def get_total_credits_passed(user_id):
+    """
+    Retrieves the total credits for units passed (grade >= 50) by a specific user.
+    Assuming each unit is worth 6 credits.
+
+    Args:
+        user_id: The id of the user.
+
+    Returns:
+        The total credits for passed units.
+    """
+    passed_entries = db.session.query(DiaryEntry).filter(DiaryEntry.user_id == user_id, DiaryEntry.grade >= 50).all()
+    return len(passed_entries) * 6
+
+def get_average_difficulty(user_id):
+    """
+    Retrieves the average difficulty rating for a specific user.
+
+    Args:
+        user_id: The id of the user.
+
+    Returns:
+        The average difficulty rating, or None if no diary entries are found.
+    """
+    entries = db.session.query(DiaryEntry).filter(DiaryEntry.user_id == user_id).all()
+    if not entries:
+        return None
+    total_difficulty = sum(entry.difficulty_rating for entry in entries)
+    avg_difficulty = total_difficulty / len(entries)
+    return avg_difficulty.__round__(2)
