@@ -29,24 +29,39 @@ def unit_summary(unit_id):
     unit_coord_rating = avg_rating_for_unit_coord(unit_id)
     difficulty_level = get_difficulty_rating_avg_for_unit(unit_id)
     overall_rating_count = get_overall_rating_count_for_unit(unit_id)
+<<<<<<< HEAD
     assessment_types=get_assessment_types_for_unit(unit_id)
     return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types=assessment_types)
+=======
+    assessment_breakdown = get_assessment_breakdown_for_unit(unit_id)
+    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_breakdown = assessment_breakdown)
+>>>>>>> 4132502 (Conflict resolve and error fixing)
 
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
-    units_taken = get_diary_entries_from_user(current_user.email)
-#data summary for viz card
-    total_units_logged = db.session.query(func.count(DiaryEntry.unit_id)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email)
-    highest_wam_area = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
-    percent_by_faculty = db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email).group_by(Unit.faculty_id).all()
-    total_credits = db.session.query(6*func.count(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email, DiaryEntry.grade>=50).first()
-    avg_difficulty = db.session.query(func.avg(DiaryEntry.difficulty_rating)).filter(DiaryEntry.user_email == current_user.email).first()
-    return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email', units_taken=units_taken,
-                           highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty)
+    units_taken = get_diary_entries_from_user(current_user.id)
+    return render_template('unitdiary.html', show_user_info=True, user_email=current_user.email, units_taken=units_taken)
 
+def get_diary_entries_from_user(user_email):
+    """
+    Fetches all diary entries associated with a given user email, including their units.
+    """ 
+    query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
+    results = query.filter(DiaryEntry.user_email == user_email).all()
+    return results
 
-@blueprint.route('/signup', methods=['GET', 'POST'])
+def summarise_diary_entries(user_email):
+    data=get_diary_entries_from_user(user_email)
+    if len(data) >= 4:
+        highest_wam_area=text("SELECT TOP 1 faculty_id FROM (SELECT AVG(grade), faculty_id FROM data GROUP BY faculty_id) ORDER BY grade DESC")
+        percent_by_faculty=text("SELECT faculty_id, COUNT(*)/SUM(COUNT(*)) FROM data GROUP BY faculty_id")
+        total_credits=text("SELECT 6*COUNT(*) FROM data WHERE grade>=50")
+        avg_difficulty=text("SELECT AVG(difficulty_rating) FROM data")
+        result=connection.execute(highest_wam_area, percent_by_faculty, total_credits, avg_difficulty)
+        return result
+
+@application.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():

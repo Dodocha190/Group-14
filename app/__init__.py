@@ -9,7 +9,7 @@ db=SQLAlchemy()
 login_manager = LoginManager()
 
 
-def create_app(config=None):
+def create_app(config=DeploymentConfig):
     application = Flask(__name__)
     application.config.from_object(config)
 
@@ -18,6 +18,7 @@ def create_app(config=None):
 
     db.init_app(application)
     login_manager.init_app(application)
+    migrate = Migrate(application, db)
 
     from app.models import User, AssessmentType
     
