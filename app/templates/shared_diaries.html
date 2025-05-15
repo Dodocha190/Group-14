@@ -1,0 +1,64 @@
+{% extends "header.html" %}
+{% block body %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }} text-center" role="alert" style="border-radius: 1rem;">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<section class="shared-diaries">
+  <h1 class="sd-title">Diaries Shared With You</h1>
+  <div class="sd-grid">
+    {% for d in diaries %}
+    <a href="{{ url_for('blueprint.view_shared_diary', user_id=d.user_id) }}" class="sd-card" style="text-decoration: none;">
+        <article>
+          <h2 class="sd-name">{{ d.username }}’s Diary</h2>
+          <p class="sd-faculty">{{ d.faculty }}</p>
+        </article>
+      </a>
+    {% endfor %}
+
+    {% if diaries|length == 0 %}
+      <p>No one has shared their diary with you yet.</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Trigger Button -->
+<button class="primary-button" data-toggle="modal" data-target="#shareDiaryModal">
+    Share Diary
+    </button>
+
+  <!-- Modal Structure -->
+  <div class="modal fade" id="shareDiaryModal" tabindex="-1" aria-labelledby="shareDiaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="border-radius: 2rem; background-color: var(--text-primary); color: var(--text-tertiary);">
+        <div class="modal-header">
+          <h5 class="modal-title" id="shareDiaryModalLabel">Share Your Diary</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{{ url_for('blueprint.share_form') }}">
+            {{ share_form.hidden_tag() }}
+  
+            <label class="form-label">{{ share_form.recipient_email.label.text }}</label>
+            {{ share_form.recipient_email(class="form-input", placeholder="Enter email") }}
+            {% for error in share_form.recipient_email.errors %}
+              <div class="error-message">{{ error }}</div>
+            {% endfor %}
+  
+            <div class="text-center">
+              {{ share_form.submit(class="share-submit-button") }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}

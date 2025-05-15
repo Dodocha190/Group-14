@@ -1,9 +1,10 @@
 from flask import render_template, redirect, url_for, flash, request
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
-from app.forms.unit_review import AddUnitForm
-from app.forms.unit_review import create_review_form
-from .models import db, User, Unit, DiaryEntry, Faculty, AssessmentType, UnitAssessmentType
+
+from app.forms.unit_review import AddUnitForm, create_review_form
+from app.forms.share_form import ShareDiaryForm
+from .models import db, User, Unit, DiaryEntry, Faculty, AssessmentType, UnitAssessmentType, DiaryShare
 import difflib
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
@@ -35,15 +36,7 @@ def unit_summary(unit_id):
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
-    units_taken = get_diary_entries_from_user(current_user.id)
-#data summary for viz card
-    total_units = get_total_units_logged(current_user.id)
-    highest_wam_area = get_highest_wam_faculty(current_user.id)
-    percent_by_faculty = get_percentage_by_faculty(current_user.id)
-    total_credits = get_total_credits_passed(current_user.id)
-    avg_difficulty = get_average_difficulty(current_user.id)
-    return render_template('unitdiary.html', show_user_info=True, units_taken=units_taken,
-                           highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty)
+    return redirect(url_for('blueprint.diary', user_id=current_user.id))
 
 
 @blueprint.route('/signup', methods=['GET', 'POST'])
@@ -81,9 +74,21 @@ def login():
 
     return render_template('login_page.html', form=form)
   
-@blueprint.route('/unit_diary')
-def diary():
-    return render_template('unitdiary.html')
+@blueprint.route('/unit_diary/<int:user_id>', methods=['GET'])
+def diary(user_id):
+    units_taken = get_diary_entries_from_user(user_id)
+    total_units = get_total_units_logged(user_id)
+    highest_wam_area = get_highest_wam_faculty(user_id)
+    percent_by_faculty = get_percentage_by_faculty(user_id)
+    total_credits = get_total_credits_passed(user_id)
+    avg_difficulty = get_average_difficulty(user_id)
+    is_shared_view=False
+    user=current_user
+    if user_id != current_user.id:
+        user = User.query.get(user_id)
+        is_shared_view=True
+    return render_template('unitdiary.html', show_user_info=True, user=user,units_taken=units_taken,
+                           highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty, is_shared_view=is_shared_view)
 
 @blueprint.route('/submit_review', methods=['GET', 'POST'])
 def review():
@@ -178,9 +183,73 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('blueprint.login'))
 
-@blueprint.route('/shared_diary', methods=['GET', 'POST'])
-def shared_diary():
-    """
-    Displays the shared diary entries for the current user.
-    """
-    return render_template('unit_search.html')
+
+#shared diaries page!!
+@blueprint.route('/shared-diaries')
+@login_required
+def shared_diaries():
+    # Get shares where the current user is the recipient
+    shares = DiaryShare.query.filter_by(recipient_id=current_user.id).all()
+
+    diaries = []
+    for s in shares:
+        owner = User.query.get(s.owner_id)
+        if owner:
+            diaries.append({
+                "user_id": owner.id,
+                "username": owner.username,
+                "faculty": owner.study_field
+            })
+    
+    form = ShareDiaryForm()
+
+    return render_template(
+        "shared_diaries.html",
+        diaries=diaries,
+        show_user_info=True,
+        share_form=form
+    )
+
+
+#pop up form to share your diary with new user
+@blueprint.route('/share-form', methods=['POST'])
+@login_required
+def share_form():
+    form = ShareDiaryForm()
+    
+    if form.validate_on_submit():
+        recipient = User.query.filter_by(email=form.recipient_email.data).first()
+
+        if not recipient:
+            flash('User not found with that email.', 'danger')
+        elif recipient.id == current_user.id:
+            flash('You cannot share your diary with yourself.', 'warning')
+        else:
+            existing_share = DiaryShare.query.filter_by(owner_id=current_user.id, recipient_id=recipient.id).first()
+            if existing_share:
+                flash('You’ve already shared your diary with this user.', 'info')
+            else:
+                new_share = DiaryShare(owner_id=current_user.id, recipient_id=recipient.id)
+                db.session.add(new_share)
+                db.session.commit()
+                flash(f'Shared your diary with {recipient.email}!', 'success')
+
+        return redirect(url_for('blueprint.shared_diaries'))
+
+    return render_template('shared_diaries.html', form=form)
+
+
+# view shared diary page
+@blueprint.route('/shared-diary/<int:user_id>')
+@login_required
+def view_shared_diary(user_id):
+    # Check permission
+    share = DiaryShare.query.filter_by(recipient_id=current_user.id, owner_id=user_id).first()
+
+    if not share:
+        flash("You don't have permission to view this diary.", "danger")
+        return redirect(url_for('blueprint.shared_diaries'))
+    owner = User.query.get_or_404(user_id)
+    entries = DiaryEntry.query.filter_by(user_id=user_id).all()
+
+    return redirect(url_for('blueprint.diary', user_id=user_id))  
