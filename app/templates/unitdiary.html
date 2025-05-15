@@ -1,5 +1,6 @@
 {% extends 'header.html' %}
 {% from 'components/diary_entry.html' import diary_entry %}
+{% from 'components/user_faculty_chart.html' import user_faculty_chart %}
 
 {% block body %}
 
@@ -9,8 +10,8 @@
       <div class="summary-section">
         <h5 class="section-title">Highest WAM area:</h5>
         <p style="color:white">{{highestWAM[0]}}<br>{{highestWAM[1]}}</p>
-        <h5 class="section-title">Percentage of units taken in each faculty:</h5>
-        <canvas id="chart1" style="width:100%;max-width:600px"></canvas>
+        <h5 class="section-title">Units taken in each faculty:</h5>
+        <div>{{user_faculty_chart(facultylabel, unitcount)}}</div>
       </div>
       <div class="summary-section">
         <h5 class="section-title">Total credit points:</h5>
@@ -31,21 +32,3 @@
   {% endif %}
 </div>
 {% endblock %}
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-  const chartColors = ["#B4E1FF", "#C6B5EF", "#FFACE4", "#F5FFC6"];
-  const chart1data = {{unitcount | list | tojson}};
-  const chart1labels = {{facultylabel | list | tojson}};
-  const chart1 = new Chart("chart1", {
-    type: "doughnut",
-    data: {
-      labels: chart1labels,
-      datasets: [
-        {
-          data: chart1data,
-          backgroundColor: chartColors,
-        },
-      ],
-    },
-  });
-</script>
