@@ -1,20 +1,21 @@
-from app import application
 from flask import render_template, redirect, url_for, flash, request
 from app.forms.login_form import LoginForm
 from app.forms.sign_up_form import SignUpForm
 from app.forms.unit_review import AddUnitForm
-from app.forms.unit_review import ReviewForm
-from .models import db, User, Unit, DiaryEntry, Faculty, AssessmentBreakdown
+from app.forms.unit_review import create_review_form
+from .models import db, User, Unit, DiaryEntry, Faculty, AssessmentType, UnitAssessmentType
 import difflib
 from werkzeug.security import generate_password_hash
 from flask_login import login_user, current_user, logout_user, login_required
+from sqlalchemy import func
 from .controllers import *
+from app.blueprints import blueprint
 
-@application.route('/')
+@blueprint.route('/')
 def home():
     return render_template('intro.html')
 
-@application.route('/unit-summary/<unit_id>')
+@blueprint.route('/unit-summary/<unit_id>')
 def unit_summary(unit_id):
     unit= db.session.get(Unit, unit_id)
     review_exists = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).first()
@@ -28,24 +29,24 @@ def unit_summary(unit_id):
     unit_coord_rating = avg_rating_for_unit_coord(unit_id)
     difficulty_level = get_difficulty_rating_avg_for_unit(unit_id)
     overall_rating_count = get_overall_rating_count_for_unit(unit_id)
-    assessment_breakdown = get_assessment_breakdown_for_unit(unit_id)
-    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_breakdown = assessment_breakdown )
+    assessment_types=get_assessment_types_for_unit(unit_id)
+    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types=assessment_types)
 
 
-@application.route('/dashboard') #temporary, somewhere to go to after successful login
+@blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
     units_taken = get_diary_entries_from_user(current_user.email)
-    return render_template('unitdiary.html', show_user_info=True, user_email=current_user.email, units_taken=units_taken)
+#data summary for viz card
+    total_units_logged = db.session.query(func.count(DiaryEntry.unit_id)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email)
+    highest_wam_area = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
+    percent_by_faculty = db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email).group_by(Unit.faculty_id).all()
+    total_credits = db.session.query(6*func.count(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email, DiaryEntry.grade>=50).first()
+    avg_difficulty = db.session.query(func.avg(DiaryEntry.difficulty_rating)).filter(DiaryEntry.user_email == current_user.email).first()
+    return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email', units_taken=units_taken,
+                           highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty)
 
-def get_diary_entries_from_user(user_email):
-    """
-    Fetches all diary entries associated with a given user email, including their units.
-    """ 
-    query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
-    results = query.filter(DiaryEntry.user_email == user_email).all()
-    return results
 
-@application.route('/signup', methods=['GET', 'POST'])
+@blueprint.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
     if form.validate_on_submit():
@@ -59,50 +60,51 @@ def signup():
         db.session.add(user)
         db.session.commit()
         flash("Registration successful. Please log in.")
-        return redirect(url_for('login'))
+        return redirect(url_for('blueprint.login'))
     flash("Please fill in all fields.")
     return render_template('sign_up_page.html', form=form)
 
-@application.route('/login', methods=['GET', 'POST'])
+@blueprint.route('/login', methods=['GET', 'POST'])
 def login():
 
     if current_user.is_authenticated:
-            return redirect(url_for('dashboard'))  # Redirect if already logged in
+            return redirect(url_for('blueprint.dashboard'))  # Redirect if already logged in
 
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user) 
-            return redirect(url_for('dashboard')) 
+            return redirect(url_for('blueprint.dashboard')) 
         else:
             flash('Invalid email or password.')
 
     return render_template('login_page.html', form=form)
   
-@application.route('/unit_diary')
+@blueprint.route('/unit_diary')
 def diary():
     return render_template('unitdiary.html')
 
-@application.route('/submit_review', methods=['GET', 'POST'])
+@blueprint.route('/submit_review', methods=['GET', 'POST'])
 def review():
-    form = ReviewForm()
+    form = create_review_form()
     if form.validate_on_submit():
         unit = Unit.query.filter_by(code=form.rev_code.data).first()
         if not unit:
             flash("Unit not found.")
-            return redirect(url_for('add_unit'))
+            return redirect(url_for('blueprint.add_unit'))
         existing_entry = DiaryEntry.query.filter_by(
-        user_email=current_user.email,
+        user_id=current_user.id,
         unit_id=unit.id,
         semester=form.rev_semester.data
         ).first()
 
         if existing_entry:
             flash("You have already submitted a review for this unit in this semester.")
-            return redirect(url_for('dashboard')) 
+            return redirect(url_for('blueprint.dashboard')) 
+
         dataEntry = DiaryEntry(
-            user_email=current_user.email, 
+            user_id=current_user.id, 
             unit_id=unit.id,
             semester=form.rev_semester.data,
             year=form.rev_year.data,
@@ -113,32 +115,30 @@ def review():
             workload_hours_per_week=form.rev_avg_hours.data,
             optional_comments=form.rev_comments.data
         )
-
         db.session.add(dataEntry)
-        db.session.commit()
-    # TODO: Refine this section to add assessment breakdowns
-    #     selected_assessments = form.rev_assessments.data
-    #     for assessment_value in selected_assessments:
-    #         weight_field_name = f'weight_{assessment_value}'
-    #         weight = request.form.get(weight_field_name)
-    #         if weight:
-    #             assessment = AssessmentBreakdown(
-    #                 entry_id=diary_entry.id,
-    #                 type=assessment_value,
-    #                 percentage=int(weight)
-    #             )
-    #             db.session.add(assessment)
 
-    # try:
-    #     db.session.commit()
-    #     flash('Review submitted successfully!', 'success')
-    # except Exception as e:
-    #     db.session.rollback()
-    #     flash(f'Error saving review: {str(e)}', 'error')
-    flash('Review submitted successfully!')
+        unit = Unit.query.filter_by(code=form.rev_code.data).first()
+        selected_assessments = form.get_selected_assessments()
+        if selected_assessments:
+            for assessment in selected_assessments:
+                assessment_id=AssessmentType.query.filter_by(name=assessment).first().id
+                existing_association = UnitAssessmentType.query.filter_by(
+                            unit_id=unit.id,
+                            assessment_type_id=assessment_id
+                        ).first()
+                if not existing_association:
+                    association = UnitAssessmentType(
+                        unit_id=unit.id,
+                        assessment_type_id=assessment_id
+                    )
+                    db.session.add(association)
+        
+        db.session.commit()
+        flash('Review submitted successfully!')
+        return redirect(url_for('blueprint.dashboard'))
     return render_template('unit_review.html', form=form)
 
-@application.route('/add_unit', methods=['GET', 'POST'])
+@blueprint.route('/add_unit', methods=['GET', 'POST'])
 def add_unit():
     form = AddUnitForm()
     if form.validate_on_submit():
@@ -159,16 +159,16 @@ def add_unit():
         db.session.commit()
 
         flash("Unit added successfully!")
-        return redirect(url_for('search_results'))
+        return redirect(url_for('blueprint.search_results'))
     return render_template('add_unit.html', form=form)
 
-@application.route('/search_results', methods=['GET'])
+@blueprint.route('/search_results', methods=['GET'])
 def search_results():  
     all_units = Unit.query.all()
 
     return render_template('unit_search.html', results=all_units)
 
-@application.route('/logout')
+@blueprint.route('/logout')
 @login_required
 def logout():
     """
@@ -176,9 +176,9 @@ def logout():
     """
     logout_user()
     flash('You have been logged out.')
-    return redirect(url_for('login'))
+    return redirect(url_for('blueprint.login'))
 
-@application.route('/shared_diary', methods=['GET', 'POST'])
+@blueprint.route('/shared_diary', methods=['GET', 'POST'])
 def shared_diary():
     """
     Displays the shared diary entries for the current user.

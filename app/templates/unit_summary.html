@@ -11,8 +11,8 @@
 
   <!-- Action Bar: Back & Review -->
   <div class="action-bar">
-    <a class="back-button" href="{{ url_for('search_results') }}">← Back</a>
-    <a class="review-button" href="{{ url_for('review') }}">Review This Unit!</a>
+    <a class="back-button" href="{{ url_for('blueprint.search_results') }}">← Back</a>
+    <a class="review-button" href="{{ url_for('blueprint.review') }}">Review This Unit!</a>
   </div>
 
   <div class="summary-container">
@@ -42,7 +42,11 @@
         </div>
         <div class="summary-section">
           <h5 class="section-title">Assessments</h5>
-          {{ assessment_pie_chart(assessment_breakdown) }}
+          {% if assessment_types %}
+          {% for assessment in assessment_types %}
+          <li>{{assessment.name}}</li>
+          {% endfor %}
+          {% endif %}
         </div>
       </div>
 
