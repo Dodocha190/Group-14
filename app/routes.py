@@ -35,14 +35,14 @@ def unit_summary(unit_id):
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
 def dashboard():
-    units_taken = get_diary_entries_from_user(current_user.email)
+    units_taken = get_diary_entries_from_user(current_user.id)
 #data summary for viz card
-    total_units_logged = db.session.query(func.count(DiaryEntry.unit_id)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email)
-    highest_wam_area = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
-    percent_by_faculty = db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email).group_by(Unit.faculty_id).all()
-    total_credits = db.session.query(6*func.count(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_email == current_user.email, DiaryEntry.grade>=50).first()
-    avg_difficulty = db.session.query(func.avg(DiaryEntry.difficulty_rating)).filter(DiaryEntry.user_email == current_user.email).first()
-    return render_template('unitdiary.html', show_user_info=True, user_email='current_user.email', units_taken=units_taken,
+    total_units = get_total_units_logged(current_user.id)
+    highest_wam_area = get_highest_wam_faculty(current_user.id)
+    percent_by_faculty = get_percentage_by_faculty(current_user.id)
+    total_credits = get_total_credits_passed(current_user.id)
+    avg_difficulty = get_average_difficulty(current_user.id)
+    return render_template('unitdiary.html', show_user_info=True, units_taken=units_taken,
                            highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty)
 
 
