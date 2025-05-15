@@ -13,11 +13,19 @@
         <h5 class="section-title">Units taken in each faculty:</h5>
         <div style="width:50%">{{user_faculty_chart(facultylabel, unitcount)}}</div>
       </div>
-      <div class="summary-section">
-        <h5 class="section-title">Total credit points:</h5>
-        <p style="color:white; font-size:3rem; font-weight: bold;">{{creditPoints[0]}}</p>
-        <h5 class="section-title">Average difficulty of units taken:</h5>
-        <p style="color:white">{{avgDiff[0]}}</p>
+      <div class="summary-section" style="justify-content: space-between;">
+        <div>
+          <h5 class="section-title">Total credit points:</h5>
+          <p style="color:white; font-size:3rem; font-weight: bold;">{{creditPoints[0]}}</p>
+        </div>
+        <div>
+          <h5 class="section-title">How you rated the difficulty of your units:</h5>
+          <p style="color:white; font-size:3rem;">{{userdifficulty[0]}}</p>
+        </div>
+        <div>
+          <h5 class="section-title">How others rated the difficulty of your units:</h5>
+          <p style="color:white; font-size:3rem;">{{generaldifficulty[0]}}</p>
+        </div>
       </div>
     </div>
   </div>
