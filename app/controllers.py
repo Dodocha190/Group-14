@@ -97,8 +97,6 @@ def get_diary_entries_from_user(user_id):
     """ 
     query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
     results = query.filter(DiaryEntry.user_id == user_id).all()
-<<<<<<< HEAD
-=======
     return results
 
 def get_assessment_breakdown_for_unit(unit_id):
@@ -116,5 +114,4 @@ def get_diary_entries_from_user(user_id):
     """ 
     query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
     results = query.filter(DiaryEntry.user_id == user_id).all()
->>>>>>> 4132502 (Conflict resolve and error fixing)
     return results
