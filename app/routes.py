@@ -28,8 +28,13 @@ def unit_summary(unit_id):
     unit_coord_rating = avg_rating_for_unit_coord(unit_id)
     difficulty_level = get_difficulty_rating_avg_for_unit(unit_id)
     overall_rating_count = get_overall_rating_count_for_unit(unit_id)
+<<<<<<< HEAD
     assessment_types=get_assessment_types_for_unit(unit_id)
     return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types=assessment_types)
+=======
+    assessment_breakdown = get_assessment_breakdown_for_unit(unit_id)
+    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_breakdown = assessment_breakdown)
+>>>>>>> 4132502 (Conflict resolve and error fixing)
 
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login

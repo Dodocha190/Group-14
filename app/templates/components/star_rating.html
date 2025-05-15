@@ -1,17 +1,6 @@
 {% macro render_stars(rating) %}
-  {% set full_stars = rating | int %}
-  {% set half_star = 1 if rating - full_stars >= 0.5 else 0 %}
-  {% set empty_stars = 5 - full_stars - half_star %}
-
-  <div class="rating-stars">
-    {% for _ in range(full_stars) %}
-      <span class="star filled">★</span>
-    {% endfor %}
-    {% if half_star %}
-      <span class="star half">★</span>
-    {% endif %}
-    {% for _ in range(empty_stars) %}
-      <span class="star empty">★</span>
-    {% endfor %}
-  </div>
+<div class="rating-stars">
+  <div class="star-rating-back">★★★★★</div>
+  <div class="star-rating-front" style="width: {{ (rating / 5 * 100) | round(1) }}%">★★★★★</div>
+</div>
 {% endmacro %}

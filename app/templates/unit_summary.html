@@ -42,11 +42,15 @@
         </div>
         <div class="summary-section">
           <h5 class="section-title">Assessments</h5>
+<<<<<<< HEAD
           {% if assessment_types %}
           {% for assessment in assessment_types %}
           <li>{{assessment.name}}</li>
           {% endfor %}
           {% endif %}
+=======
+          {{assessment_pie_chart(assessment_breakdown)}}
+>>>>>>> 4132502 (Conflict resolve and error fixing)
         </div>
       </div>
 

@@ -97,4 +97,24 @@ def get_diary_entries_from_user(user_id):
     """ 
     query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
     results = query.filter(DiaryEntry.user_id == user_id).all()
+<<<<<<< HEAD
+=======
+    return results
+
+def get_assessment_breakdown_for_unit(unit_id):
+    """
+    Get the assessment breakdown for a unit.
+    """
+    entries = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).all()
+    if not entries:
+        return None
+    return assessment_selected
+
+def get_diary_entries_from_user(user_id):
+    """
+    Fetches all diary entries associated with a given user id, including their units.
+    """ 
+    query = db.session.query(DiaryEntry, Unit).join(Unit, DiaryEntry.unit_id == Unit.id).order_by(DiaryEntry.year.desc(), DiaryEntry.semester.desc())
+    results = query.filter(DiaryEntry.user_id == user_id).all()
+>>>>>>> 4132502 (Conflict resolve and error fixing)
     return results
