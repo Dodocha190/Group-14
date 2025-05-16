@@ -59,12 +59,63 @@ unit5=Unit(code="CODE01",
             title="A unit at another uni",
             faculty_id="4",
             level=1,
-            university_id="2")
+            university_id="2") #to test uni filtering
 
+#diary entries
+entry1=DiaryEntry(user_id=1, 
+            unit_id="PHIL2001",
+            semester=1,
+            year=2025,
+            grade=70,
+            overall_rating=5,
+            difficulty_rating=3,
+            coordinator_rating=5,
+            workload_hours_per_week=10,
+            optional_comments="cool unit")
+entry2=DiaryEntry(user_id=2, #review of same unit by diff user to check results unit summary
+            unit_id="PHIL2001",
+            semester=1,
+            year=2025,
+            grade=60,
+            overall_rating=4,
+            difficulty_rating=4,
+            coordinator_rating=4,
+            workload_hours_per_week=10)
+entry3=DiaryEntry(user_id=1, 
+            unit_id="CITS3401",
+            semester=1,
+            year=2025,
+            grade=65,
+            overall_rating=5,
+            difficulty_rating=5,
+            coordinator_rating=5,
+            workload_hours_per_week=10,
+            optional_comments="challenging")
+entry4=DiaryEntry(user_id=1, 
+            unit_id="CITS3403", #second cits unit
+            semester=1,
+            year=2025,
+            grade=80, #should result in cits being highest wam area
+            overall_rating=5,
+            difficulty_rating=4,
+            coordinator_rating=5,
+            workload_hours_per_week=8,
+            optional_comments="great")
+entry5=DiaryEntry(user_id=1, 
+            unit_id="STAT2402",
+            semester=2,
+            year=2024,
+            grade=69,
+            overall_rating=3,
+            difficulty_rating=3,
+            coordinator_rating=3,
+            workload_hours_per_week=8)
+#search phil2001 to see if a unit with 2 reviews summarised
+#look at user1 diary for user summary
 
 db.session.add_all([user1, user2,
                     uni1, uni2,
                     faculty1, faculty2, faculty3, faculty4,
                     unit1, unit2, unit3, unit4, unit5,
-                    ])
+                    entry1,entry2,entry3,entry4,entry5])
 db.session.commit()
