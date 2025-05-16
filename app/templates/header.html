@@ -3,18 +3,18 @@
 <header class="main-header">
   <div class="stretch-container" style="height: 100px">
     <h1 style="font-weight: 600">
-      <a class="home-button" href="{{ url_for('dashboard') if current_user.is_authenticated else url_for('home') }}">ClassMate</a>
+      <a class="home-button" href="{{ url_for('blueprint.dashboard') if current_user.is_authenticated else url_for('blueprint.home') }}">ClassMate</a>
     </h1>
 
     {% if show_user_info %}
       <div class="user-info">
         Welcome, <span id="user-name">{{ current_user.username }}</span>
-        <a href="{{ url_for('logout') }}" class="log-in-button">Log Out</a>
+        <a href="{{ url_for('blueprint.logout') }}" class="log-in-button">Log Out</a>
       </div>
     {% else %}
       <div>
-        <a href="{{ url_for('signup') }}" class="sign-up-button">Join </a>
-        <a href="{{ url_for('login') }}" class="log-in-button">Log In</a>
+        <a href="{{ url_for('blueprint.signup') }}" class="sign-up-button">Join </a>
+        <a href="{{ url_for('blueprint.login') }}" class="log-in-button">Log In</a>
       </div>
     {% endif %}
     
@@ -26,36 +26,36 @@
     <h2 class="side-nav__title">NAVIGATION</h2>
     <ul class="side-nav__list">
       <li class="side-nav__item">
-        <a href="{{ url_for('dashboard') }}"
+        <a href="{{ url_for('blueprint.dashboard') }}"
           class="side-nav__link{% if active_page=='dashboard' %} is-active{% endif %}">
           <span class="side-nav__icon">★</span>
           Unit diary
         </a>
       </li>
       <li class="side-nav__item">
-        <a href="{{ url_for('search_results') }}"
+        <a href="{{ url_for('blueprint.search_results') }}"
           class="side-nav__link{% if active_page=='add' %} is-active{% endif %}">
           <span class="side-nav__icon">☆</span>
           Find a unit
         </a>
       </li>
       <li class="side-nav__item">
-        <a href="{{ url_for('review') }}"
+        <a href="{{ url_for('blueprint.review') }}"
           class="side-nav__link{% if active_page=='shared' %} is-active{% endif %}">
           <span class="side-nav__icon">☆</span>
           Log a unit
         </a>
       </li>
       <li class="side-nav__item">
-        <a href="{{ url_for('add_unit') }}"
+        <a href="{{ url_for('blueprint.add_unit') }}"
           class="side-nav__link{% if active_page=='finder' %} is-active{% endif %}">
           <span class="side-nav__icon">☆</span>
           Add new unit
         </a>
       </li>
       <li class="side-nav__item">
-        <a href="{{ url_for('shared_diary') }}"
-          class="side-nav__link{% if active_page=='shared_diary' %} is-active{% endif %}">
+        <a href="{{ url_for('blueprint.shared_diaries') }}"
+          class="side-nav__link{% if active_page=='diary' %} is-active{% endif %}">
           <span class="side-nav__icon">☆</span>
           Shared diares
         </a>

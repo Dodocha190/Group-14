@@ -23,7 +23,7 @@ search_result %} {% block body %}
 
 <div id="searchResultsContainer">
     {% for unit in results %}
-        <div class="search-result-item" href="{{ url_for('unit_summary', unit_id=unit.id) }}"
+        <div class="search-result-item" href="{{ url_for('blueprint.unit_summary', unit_id=unit.id) }}"
                 data-title="{{ unit.title|lower() }}"
                 data-code="{{ unit.code|lower() }}"
                 data-university-id="{{ unit.university_id }}"
