@@ -18,14 +18,14 @@ def get_optional_comments_for_unit(unit_id):
     Get all comments for a unit.
     """
     entries = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).all()
-    commmented_reviews=[]
+    commented_reviews=[]
     if entries is None:
         return commented_reviews
 
     for entry in entries:
         if entry.optional_comments:
-            commmented_reviews.append(entry)
-    return commmented_reviews
+            commented_reviews.append(entry)
+    return commented_reviews
 
 def avg_rating_for_unit_coord(unit_id):
     """

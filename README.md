@@ -1,5 +1,9 @@
 # Group-14
-ClassMate: A web application designed to help you manage and review your university units
+ClassMate: A web application designed to help you manage, review and choose your university units. 
+The features of this unit include:
+- Being able to browse other users reviews of university units, and seeing its perceived difficulty, ratings, and assessment types
+- Keeping track of your own units, metrics regarding your highest WAM areas, most popular faculties and total credits
+- Being able to share and receive data from other users about their University journey! This includes the unit's they've taken, their grades, and their most popular faculties
 ### Members:
 1. 23340238, Rhianna Hepburn, username=rhiannahep
 2. 23859997, Katherine Thio, username = Dodocha190
@@ -7,8 +11,8 @@ ClassMate: A web application designed to help you manage and review your univers
 5. 24160206, Haidee Diamanta, username=haideedoo
 
 #### Prerequisites:
-python3
-pip
+- python3
+- pip
 
 ### Config:
 1. Create a virtual environment and activate it
