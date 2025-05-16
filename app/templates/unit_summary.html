@@ -7,7 +7,7 @@
   <!-- Action Bar: Back & Review -->
   <div class="action-bar">
     <a class="back-button" href="{{ url_for('blueprint.search_results') }}">← Back</a>
-    <a class="review-button" href="{{ url_for('blueprint.review') }}">Review This Unit!</a>
+    <a class="review-button" href="{{ url_for('blueprint.review', unit_id=unit_id) }}">Review This Unit!</a>
   </div>
 
   <div class="summary-container">
