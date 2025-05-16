@@ -39,3 +39,8 @@ pip
 2. To run unit tests:
     b.`python -m unittest test.unitTests`
 
+### Optional
+To pre-populate database for easy testing:
+    ```bash
+    python3 sampleDB.py
+    ```
