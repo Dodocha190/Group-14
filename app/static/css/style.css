@@ -396,20 +396,31 @@ a:hover {
 }
 
 .back-button {
-  background-color: var(--accent-color);
-  color: var(--text-tertiary);
-  padding: 0.5rem 1rem;
+  display: inline-block;
+  background-color: var(--background-light);
+  color: var(--text-primary);
+  padding: 0.5rem 1.5rem;
   border-radius: 1rem;
-  font-size: 1rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-left: 2rem;
 }
 
 .review-button {
   background-color: var(--background-light);
   color: var(--text-primary);
-  padding: 0.75rem 2rem;
-  border-radius: 2rem;
-  font-size: 1.5rem;
+  padding: 1.5rem 4rem;
+  border-radius: 3rem;
+  font-size: 2.5rem; /* was 1.5rem */
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* optional emphasis */
+  transition: transform 0.2s ease;
 }
+
+.review-button:hover {
+  transform: scale(1.05);
+}
+
 
 /* Layout container */
 .summary-container {
@@ -433,12 +444,20 @@ a:hover {
 /* Header inside card */
 .usc-header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 0rem;
+  flex-wrap: nowrap; /* prevent wrapping of inner content */
 }
 
-/* Unit info */
-.unit-info {}
+.unit-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  max-width: fit-content; /* allow unit-info to grow just enough */
+  white-space: nowrap; /* prevent text wrapping inside */
+}
 
 .usc-code {
   font-size: 3.5rem;
@@ -450,8 +469,9 @@ a:hover {
   background-color: var(--secondary-color);
   color: #ffffff;
   padding: 0.25rem 0.75rem;
-  border-radius: 0.75rem;
-  font-size: 0.85rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  vertical-align: center;
 }
 
 .usc-title {
@@ -460,6 +480,19 @@ a:hover {
   font-size: 2rem;
   opacity: 0.85;
 }
+
+.usc-school {
+  color: white;
+  font-size: 2rem;
+  font-weight: 550;
+  margin-left: 5rem;
+}
+
+.usc-faculty {
+  color: white;
+  font-size: 1rem;
+}
+
 
 .usc-subtitle {
   color: rgba(255, 255, 255, 0.7);
@@ -471,14 +504,267 @@ a:hover {
   text-align: right;
 }
 
-.rating-stars {
-  font-size: 3rem;
-  color: var(--background-light);
+.overall-ratings-chart {
+  background-color: var(--text-primary); /* same as your image background */
+  padding: 1.5rem;
+  border-radius: 1rem;
+  color: white;
+  font-family: sans-serif;
 }
 
+.ratings-chart-body {
+  position: relative;
+  padding-left: 10px; /* space for the line */
+}
+
+.ratings-chart-body::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 80px; /* aligns with start of bars (same width as .rating-label) */
+  bottom: 0;
+  width: 2px;
+  background-color: var(--primary-color);
+  border-radius: 1px;
+}
+
+.rating-title {
+  color: var(--accent-color);
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.rating-header {
+  width: 35%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* align stars and text to the right */
+  text-align: right;
+}
+
+.ratings-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.rating-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.rating-label {
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.rating-bar-container {
+  background-color: var(--text-primary);
+  border-radius: 1rem;
+  height: 12px;
+  flex-grow: 1;
+  margin: 0 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.rating-bar {
+  background-color: var(--background-light);
+  height: 100%;
+  border-radius: 1rem 0 0 1rem;
+}
+
+.rating-count {
+  width: 20px;
+  text-align: right;
+  color: white;
+}
+
+/* For overall rating in stars */
+.fa-stars {
+  display: inline-block;
+  line-height: 1;
+}
+
+.fa-stars i {
+  color: var(--background-light); /* pastel yellow: #F5FFC6 */
+  font-size: 3rem;              /* large by default */
+  margin-right: 0.15rem;
+  margin-bottom: 1rem;
+}
+
+/* Optional small variant (used in reviews) */
+.small-stars .fa-stars i {
+  font-size: 1rem;
+}
+
+/* Optional accompanying text */
 .rating-text {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  color: var(--text-tertiary); /* usually white or light gray */
+}
+
+/* Ensure stars don't overlap adjacent content */
+.star-rating-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
+/*Assessment list card*/
+.assessment-list-container {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  box-shadow: none;
+}
+
+.assessment-type-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.assessment-type-item {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0.25rem 0;
+  margin-top: 0.4rem;
+}
+
+/* Color cycle using your palette */
+.assessment-type-item:nth-child(1) {
+  color: var(--primary-color);      /* #B4E1FF – light blue */
+}
+.assessment-type-item:nth-child(2) {
+  color: var(--secondary-color);    /* #C6B5EF – soft violet */
+}
+.assessment-type-item:nth-child(3) {
+  color: var(--accent-color);       /* #FFACE4 – pink */
+}
+.assessment-type-item:nth-child(4) {
+  color: var(--background-light);   /* #F5FFC6 – pastel yellow */
+}
+.assessment-type-item:nth-child(5) {
+  color: var(--success-color);      /* #C1FF9B – soft green */
+}
+
+/* Review cards */
+.review-card {
+  background-color: var(--secondary-color);
+  border-radius: 20px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  color: var(--text-tertiary);
+}
+
+.review-card-comment {
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+  color: var(--text-tertiary);
+}
+
+.review-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.review-card-rating-stars .fa-stars {
+  display: flex;
+  gap: 0.2rem;
+}
+
+.review-card-meta {
+  color: var(--text-tertiary); /* or white */
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.slider-bar-summary { /*remember to change sizes after preview, 90px height ? */
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.slider-label-summary {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  width: 60px;
+  text-align: center;
+}
+
+.slider-track-summary {
+  flex-grow: 1;
+  height: 18px;
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-fill-summary {
+  background-color: var(--primary-color);
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+}
+
+/* Contact hours card*/
+
+.summary-section.workload-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;        /* center horizontally */
+  justify-content: center;    /* center vertically if height allows */
+}
+
+.contact-hours-card {
+  background-color: var(--primary-color); /* Light blue */
+  width: 150px;
+  height: 140px;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.contact-hours-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.contact-hours-label {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.contact-hours-label .per-week {
+  font-weight: normal;
+  font-size: 0.65rem;
+  opacity: 0.75;
+}
+
+.contact-hours {
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
   color: rgba(255, 255, 255, 0.75);
-  font-size: 0.875rem;
 }
 
 /* Rows inside card */
@@ -527,10 +813,24 @@ a:hover {
   flex-basis: 350px;
 }
 
+.review-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .reviews-title {
   color: var(--text-primary);
   margin-bottom: 1rem;
   font-size: 1.125rem;
+}
+
+.summary-reviews-title {
+  color: var(--text-primary);
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  font-weight: 400;
 }
 
 /* Individual review card */
@@ -1020,4 +1320,12 @@ body.authenticated .main-content {
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 0;
+}
+
+.no-reviews {
+  color: var(--accent-color);
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+  margin: 10px;
 }
