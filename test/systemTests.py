@@ -64,7 +64,7 @@ class SystemTests(unittest.TestCase):
         faculty = Faculty(name="Test Faculty", university_id=university.id)
         db.session.add(faculty)
         db.session.commit()
-        self.unit = Unit(code="TEST101", title="Test Unit", faculty_id=faculty.id, level=1, university_id=university.id)  # You might need to create Faculty and University instances as well
+        self.unit = Unit(code="TEST101", title="Test Unit", faculty_id=faculty.id, level=1, university_id=university.id)  
         db.session.add(self.unit)
         db.session.commit()
         self.diary_entry = DiaryEntry(user_id=self.user1.id, unit_id=self.unit.id, semester=1, year=2024, grade=80, overall_rating=5, difficulty_rating=3, coordinator_rating=4, workload_hours_per_week=10, optional_comments="Good unit")
@@ -72,7 +72,6 @@ class SystemTests(unittest.TestCase):
         db.session.commit()
 
     def share_review(owner_id, recipient_id):
-        # Fetch the review entry from the database
         new_share = DiaryShare(owner_id=current_user.id, recipient_id=recipient.id)
         db.session.add(new_share)
         db.session.commit()
@@ -84,12 +83,12 @@ class SystemTests(unittest.TestCase):
         # Create user with hashed password
         user = User(
             username=username,
-            password_hash=password_hash,  # Use the generated hash, not plain text
+            password_hash=password_hash,  
             email=email,
             study_field=study_field
         )
         
-        # Add to session and commit
+
         db.session.add(user)
         db.session.commit()
         
@@ -120,10 +119,11 @@ class SystemTests(unittest.TestCase):
         self.driver.get(localHost + "shared-diaries")
         time.sleep(5)
 
-        # 2. Fill in the share form (assuming it's on the same page)
+        # 2. Fill in the share form
         share_diary_form_button = self.driver.find_element(By.ID, "share_diary_form")
-        #need to wait until form pops up
         share_diary_form_button.click()  
+
+        # 3. Wait for the modal to appear and fill in the recipient's email
         modal = WebDriverWait(self.driver, 15).until(
         EC.visibility_of_element_located((By.ID, "shareDiaryModal"))
         )
@@ -135,8 +135,7 @@ class SystemTests(unittest.TestCase):
         share_button.click()
 
         WebDriverWait(self.driver, 5).until(EC.presence_of_element_located((By.CLASS_NAME, "alert-success")))
-        # 4. Assert that the share was created in the database
-        # 5. Log out user1
+
         logout_button = self.driver.find_element(By.ID, "logout") 
         logout_button.click()
 
@@ -149,13 +148,13 @@ class SystemTests(unittest.TestCase):
 
         # 8. Determine if the shared diary entry is visible
         diary_link = WebDriverWait(self.driver, 5).until(
-            EC.presence_of_element_located((By.ID, 'shared-diary')) # Link text to user1's username
+            EC.presence_of_element_located((By.ID, 'shared-diary')) 
         )
         diary_link.click()
 
         # 9. Assert that user2 is on the diary page and sees the entry
         WebDriverWait(self.driver, 5).until(
-            EC.url_contains(localHost + "unit_diary" + "/" + str(self.user1.id)) # Check if the URL contains /diary
+            EC.url_contains(localHost + "unit_diary" + "/" + str(self.user1.id))
         )
         time.sleep(5)
         self.assertIn("TEST101", self.driver.page_source, "Diary entry content not found") 
@@ -200,7 +199,6 @@ class SystemTests(unittest.TestCase):
         self.driver.execute_script("arguments[0].scrollIntoView({block: 'center'});", submit_button)
         time.sleep(1)  # Give the page time to scroll
         
-        # Try clicking with JavaScript if regular click fails
         try:
             submit_button.click()
         except Exception as e:
@@ -214,11 +212,6 @@ class SystemTests(unittest.TestCase):
         
         self.assertEqual(self.driver.current_url, localHost + "login")
     
-
-    #Test: Creating a review for a unit that doesn't exist 
-
-
-    #Test: correctly add unit 
     def test_add_unit(self):
         self.login_user(self.user1_email, "password")
         self.driver.get(localHost + "add_unit")
@@ -255,7 +248,7 @@ class SystemTests(unittest.TestCase):
 
 
     def test_add_review_to_database(self):
-        #Test that it is added to the users unit summary 
+
         self.login_user(self.user2_email, "tester2")
         self.driver.get(localHost + "submit_review")
 

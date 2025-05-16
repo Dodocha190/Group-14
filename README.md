@@ -9,3 +9,10 @@ CITS3403 2025/1 Group 14 Project
 4. set FLASK_APP to the following: export FLASK_APP=run.py
 4. Run `flask run`
 
+
+### Testing
+1. To run selenium system tests:
+    a. `python -m unittest test.systemTests`
+2. To run unit tests:
+    b.`python -m unittest test.unitTests`
+
