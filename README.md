@@ -11,8 +11,8 @@ The features of this unit include:
 5. 24160206, Haidee Diamanta, username=haideedoo
 
 #### Prerequisites:
-python3
-pip
+- python3
+- pip
 
 ### Config:
 1. Create a virtual environment and activate it
