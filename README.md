@@ -15,7 +15,9 @@ CITS3403 2025/1 Group 14 Project
     ```
     *(Replace `venv` with your preferred environment name if needed)*
 2. Install all necessary requirements
-    a. `pip install -r requirements.txt`
+    ```bash
+    pip install -r requirements.txt
+    ```
 3. Create a `.env` file
     * Create a file named `.env` in the root directory of your project.
     * Populate the `.env` file based on the format provided in the `.env.template` file.
