@@ -24,7 +24,7 @@ def unit_summary(unit_id):
     review_exists = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).first()
     if not review_exists:
         flash("No reviews found for this unit.")
-        return render_template('blueprint.review', unit_id=unit.id, no_reviews=True)
+        return render_template('unit_summary.html', unit_id=unit.id, no_reviews=True)
     avg_rating=get_avg_rating_for_unit(unit_id)
     avg_workload=get_workload_avg_for_unit(unit_id)
     unit_reviews = get_optional_comments_for_unit(unit_id)  

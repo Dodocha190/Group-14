@@ -190,9 +190,11 @@ def get_review_card_data_for_unit(unit_id):
         DiaryEntry.year
     ).filter(
         DiaryEntry.unit_id == unit_id,
-        DiaryEntry.optional_comments != None
+        DiaryEntry.optional_comments != None,
+        DiaryEntry.optional_comments != ''
     ).all()
-
+    if not results:
+        return []
     return [
         {
             'optional_comments': r.optional_comments,

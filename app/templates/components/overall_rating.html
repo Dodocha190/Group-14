@@ -7,7 +7,8 @@
         <li class="rating-item">
             <span class="rating-label">{{ rating_text }}</span>
             <div class="rating-bar-container">
-            <div class="rating-bar" style="width: {{ (count / max_count) * 100 }}%;"></div>
+            {% set width_percent = (count / max_count) * 100 %}
+            <div class="rating-bar" style="--width-percent: {{ width_percent }}%; width: var(--width-percent);"></div>
             </div>
             <span class="rating-count">{{ count }}</span>
         </li>
