@@ -24,7 +24,7 @@ def unit_summary(unit_id):
     review_exists = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).first()
     if not review_exists:
         flash("No reviews found for this unit.")
-        return render_template('unit_summary.html', no_reviews=True)
+        return render_template('unit_summary.html', unit_id=unit.id, no_reviews=True)
     avg_rating=get_avg_rating_for_unit(unit_id)
     avg_workload=get_workload_avg_for_unit(unit_id)
     unit_reviews = get_optional_comments_for_unit(unit_id)  
@@ -33,7 +33,7 @@ def unit_summary(unit_id):
     difficulty_level = get_difficulty_rating_avg_for_unit(unit_id)
     overall_rating_count = get_overall_rating_count_for_unit(unit_id)
     assessment_types=get_assessment_types_for_unit(unit_id)
-    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types=assessment_types)
+    return render_template('unit_summary.html', unit=unit, unit_id=unit.id, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types=assessment_types)
 
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
@@ -95,26 +95,32 @@ def diary(user_id):
     return render_template('unitdiary.html', show_user_info=True, user=user,units_taken=units_taken,
                            highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty, is_shared_view=is_shared_view)
 
-@blueprint.route('/submit_review', methods=['GET', 'POST'])
+
+@blueprint.route('/submit_review/<int:unit_id>', methods=['GET', 'POST'])
 @login_required
-def review():
+def review(unit_id):
+    unit = Unit.query.filter_by(id=unit_id).first()
+    if not unit:
+        # Handle case where the unit doesn't exist (for both GET and POST)
+        flash("Unit not found.", 'error_unit_review')
+        return redirect(url_for('blueprint.add_unit'))
+    
     form = create_review_form()
+
     if form.validate_on_submit():
-        form_code = form.rev_code.data.upper()    
-        unit = Unit.query.filter_by(code=form_code).first()
-        if not unit:
-            flash("Unit not found.", 'error_unit_review')
-            return redirect(url_for('blueprint.add_unit'))
+        # Prevent duplicate review for same unit + semester
         existing_entry = DiaryEntry.query.filter_by(
         user_id=current_user.id,
-        unit_id=unit.id,
+        unit_id=unit_id,
         semester=form.rev_semester.data
         ).first()
 
         if existing_entry:
-            flash("You have already submitted a review for this unit in this semester.", 'error_unit_review')
+            # entry already exists
+            flash("You have already submitted a review for this unit in this semester.", 'error_dashboard')
             return redirect(url_for('blueprint.dashboard')) 
 
+        # Create new review entry
         dataEntry = DiaryEntry(
             user_id=current_user.id, 
             unit_id=unit.id,
@@ -129,7 +135,6 @@ def review():
         )
         db.session.add(dataEntry)
 
-        unit = Unit.query.filter_by(code=form_code).first()
         selected_assessments = form.get_selected_assessments()
         if selected_assessments:
             for assessment in selected_assessments:
@@ -148,7 +153,7 @@ def review():
         db.session.commit()
         flash('Review submitted successfully!', 'success_unit_review')
         return redirect(url_for('blueprint.dashboard'))
-    return render_template('unit_review.html', form=form)
+    return render_template('unit_review.html', form=form, unit=unit)
 
 @blueprint.route('/add_unit', methods=['GET', 'POST'])
 @login_required

@@ -4,6 +4,16 @@
 {% from 'components/info_card.html' import info_card %}
 
 {% block body %}
+<!-- Flash messages (merged from main) -->
+{% with messages = get_flashed_messages(category_filter=['error_dashboard']) %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-{{ 'success' if 'success_' in message else 'danger' }}" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
 
 {% if is_shared_view %}
   <h1>Viewing {{ user.username }}'s Diary</h1>

@@ -14,9 +14,7 @@ class AddUnitForm(FlaskForm):
 
 def create_review_form():
     class ReviewForm(FlaskForm):
-        rev_uni = StringField("University:", validators=[DataRequired()])
         rev_semester = IntegerField("Semester:", validators=[DataRequired(), NumberRange(min=1, max=5, message="Please enter a valid semester")])
-        rev_code = StringField("Unit code:", validators=[DataRequired()])
         rev_year = IntegerField("Year taken:", validators=[DataRequired(), NumberRange(min=1900, max=2050, message="Please enter a valid year")])
         rev_unit_coord_rating = RadioField("Rate the unit coordinator from 1 to 5 (1 being poor, 5 being amazing)",
                                 choices=[('1', '1'), ('2', '2'), ('3', '3'), ('4', '4'), ('5', '5')], validators=[DataRequired()])
