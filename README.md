@@ -4,7 +4,7 @@ ClassMate: A web application designed to help you manage and review your univers
 1. 23340238, Rhianna Hepburn, username=rhiannahep
 2. 23859997
 3. 23670072
-4. 24160206
+4. 24160206, Haidee Diamanta, username=haideedoo
 
 #### Prerequisites:
 python3
