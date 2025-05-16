@@ -4,7 +4,8 @@
     --secondary-color: #C6B5EF;     
     --accent-color: #FFACE4;      
     --background-light: #F5FFC6;    
-    --text-primary: #49438C;       
+    --text-primary: #49438C;    
+    --text-primary-light: #746eb7;
     --text-secondary: #666666;  
     --text-tertiary: white;   
     --success-color: #C1FF9B;
@@ -961,4 +962,56 @@ body.authenticated .main-content {
   height: 60px;
   background: rgba(0,0,0,0.05);
   border-radius: 0.5rem;
+}
+
+.slider-bar { 
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.slider-label {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  width: 60px;
+  text-align: center;
+}
+
+.slider-track {
+  flex-grow: 1;
+  height: 18px;
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.slider-fill {
+  background-color: var(--primary-color);
+  height: 100%;
+  border-radius: 10px 0 0 10px;
+}
+
+.info-card {
+  background-color: var(--text-primary-light); 
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.card-title {
+  color: var(--accent-color);
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1em;
+}
+
+.card-value {
+  color: var(--accent-color);
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 0;
 }

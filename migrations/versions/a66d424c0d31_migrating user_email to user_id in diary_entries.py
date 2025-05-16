@@ -24,7 +24,6 @@ def upgrade():
         )
         # Alter the user_id column to be NOT NULL
         batch_op.alter_column('user_id', existing_type=sa.INTEGER(), nullable=False)
-        batch_op.drop_constraint('fk_diary_entries_user_email_users', type_='foreignkey')
         batch_op.drop_column('user_email')
 
     # ### end Alembic commands ###

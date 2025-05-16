@@ -1,5 +1,7 @@
 {% extends 'header.html' %}
 {% from 'components/diary_entry.html' import diary_entry %}
+{% from 'components/slider_bar.html' import slider_bar %}
+{% from 'components/info_card.html' import info_card %}
 
 {% block body %}
 
@@ -13,16 +15,16 @@
   <div class="unit-summary-card">
     <div class="summary-row">
       <div class="summary-section">
-        <h5 class="section-title">Highest WAM area:</h5>
-        <p style="color:white">{{highest_wam_area}}</p>
-        <h5 class="section-title">Percentage of units taken in each faculty:</h5>
-        <p style="color:white">{{percent_by_faculty}}</p>
+        <div class="summary-section faculty-chart-container" data-faculty-data="{{ percent_by_faculty_for_chart }}">
+          <h5>Percentage of units taken in each faculty:</h5></div>
+        <div style="width: 100%; max-width: 500px; margin: 0 auto;">
+          <canvas id="facultyPieChart"></canvas>
+        </div>
       </div>
       <div class="summary-section">
-        <h5 class="section-title">Total credit points:</h5>
-        <p style="color:white">{{total_credits}}</p>
-        <h5 class="section-title">Average difficulty of units taken:</h5>
-        <p style="color:white">{{avg_difficulty}}</p>
+        {{info_card("Total credit points", total_credits)}}
+       {{info_card("Highest WAM Area: ",highest_wam_area)}}
+        {{ info_card("Average difficulty of units taken: ",slider_bar(avg_difficulty, 5, 'Easy', 'Hard')) }}
       </div>
     </div>
   </div>
@@ -36,4 +38,73 @@
   {% endfor %}
   {% endif %}
 </div>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Extract unit.id from the server-side variable
+    percentByFaculty = JSON.parse('{{ percent_by_faculty|tojson|safe }}');
+    console.log(percentByFaculty);
+
+    // Prepare unit.id for Chart.js
+    const labels = [];
+    const chartData = [];
+    const backgroundColors = [
+      'rgba(255, 99, 132, 0.8)',
+      'rgba(54, 162, 235, 0.8)',
+      'rgba(255, 206, 86, 0.8)',
+      'rgba(75, 192, 192, 0.8)',
+      'rgba(153, 102, 255, 0.8)',
+      'rgba(255, 159, 64, 0.8)'
+    ];
+
+    // Parse the data from the tuple format
+    percentByFaculty.forEach(item => {
+      labels.push(item.faculty); // Access the 'faculty' property
+      chartData.push(parseFloat(item.percentage)); // Access the 'percentage' property and ensure it's a number
+    });
+    console.log(labels);
+    console.log(chartData);
+
+    // Create the pie chart
+    const ctx = document.getElementById('facultyPieChart').getContext('2d');
+    const facultyPieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: labels,
+        datasets: [{
+          data: chartData,
+          backgroundColor: backgroundColors.slice(0, labels.length),
+          borderColor: 'white',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: {
+              color: 'black', // Changed to black for better default visibility
+              font: {
+                size: 12
+              }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const label = context.label || '';
+                const value = context.parsed || 0; // Changed to context.parsed
+                return `${label}: ${value.toFixed(1)}%`;
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
 {% endblock %}
+

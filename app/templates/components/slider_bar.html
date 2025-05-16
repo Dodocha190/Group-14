@@ -1,0 +1,14 @@
+{% macro slider_bar(value, max_value, left_label, right_label) %}
+<div class="slider-bar" style="margin-top:10px; margin-bottom: 10px;">
+  <span class="slider-label left">{{ left_label }}</span>
+  <div class="slider-track">
+    {% if max_value and max_value > 0 %}
+      {% set width_percent = ((value|float / max_value|float) * 100)|round(1) %}
+      <div class="slider-fill" style="--width-percent: {{ width_percent }}%; width: var(--width-percent);"></div>
+    {% else %}
+      <div class="slider-fill" style="width: 0%;"></div>
+    {% endif %}
+  </div>
+  <span class="slider-label right">{{ right_label }}</span>
+</div>
+{% endmacro %}
