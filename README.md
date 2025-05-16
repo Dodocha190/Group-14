@@ -1,5 +1,11 @@
 # Group-14
 CITS3403 2025/1 Group 14 Project
+### Members:
+1. 23340238
+2. 23859997
+3. 23670072
+4. 24160206
+
 
 ### Config:
 1. Create a virtual environment and activate it 
