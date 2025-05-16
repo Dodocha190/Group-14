@@ -2,9 +2,9 @@
 ClassMate: A web application designed to help you manage and review your university units
 ### Members:
 1. 23340238, Rhianna Hepburn, username=rhiannahep
-2. 23859997
-3. 23670072
-4. 24160206, Haidee Diamanta, username=haideedoo
+2. 23859997, Katherine Thio, username = Dodocha190
+4. 23670072
+5. 24160206, Haidee Diamanta, username=haideedoo
 
 #### Prerequisites:
 python3
