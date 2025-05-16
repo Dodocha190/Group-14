@@ -8,11 +8,13 @@
 
 {% block body %}
 <main class="summary-page">
-  <a href="{{ url_for('blueprint.search_results') }}" class="back-button">← Back</a>
-  <div class="summary-container">
-
+    <a class="back-button" style="margin-bottom: 10px;" href="{{ url_for('blueprint.search_results') }}">← Back</a>
+    
+    <div class="summary-container">
     <!-- LEFT PANEL -->
     <div class="unit-summary-card">
+
+      {% if not no_reviews %}
 
       <!-- Top Header -->
       <div class="usc-header">
@@ -28,9 +30,8 @@
         <div class="rating-meta">{{ avg_rating }} Overall Rating | {{ review_count }} Reviews</div>
       </div>
       </div>
-
+      
       <!-- Stars and average -->
-
 
       <!-- Overall Ratings and Assessments -->
       <div class="summary-row">
@@ -39,9 +40,13 @@
           {{ overall_rating_bar_chart(overall_rating_count) }}
         </div>
 
-        <div class="summary-section" style = "flex: 1;">
-          <h5 class="section-title"><i class="fa fa-file-alt"></i> ASSESSMENTS</h5>
+      <div class="summary-section" style = "flex: 1;">
+        <h5 class="section-title"><i class="fa fa-file-alt"></i> ASSESSMENTS</h5>
+          {% if assessment_types %}
           {{ assessment_list(assessment_types) }}
+          {% else %}
+          <p>No assessments currently available</p>
+          {% endif %}
         </div>
       </div>
 
@@ -60,32 +65,35 @@
           {{ contact_hours_card(workload) }}
         </div>
       </div>
+      {% else %}
+      <div class="no-reviews">
+        <h2>No reviews available for this unit yet.</h2>
+        <p>Be the first to share your experience!</p>
+      </div>
+  {% endif %}
     </div>
 
     <!-- RIGHT PANEL -->
     <div class="reviews-panel">
-  
-  <!-- Wrap only the button and heading in a centering container -->
-  <div class="review-header">
-    <a class="review-button" href="{{ url_for('blueprint.review', unit_id=unit.id) }}">
-      Review This Unit!
-    </a>
 
-    <h5 class="summary-reviews-title">See students’ reviews:</h5>
+      <div class="review-header">
+        <a class="review-button" href="{{ url_for('blueprint.review', unit_id=unit_id) }}">
+          Review This Unit!
+        </a>
+      </div>
+
+      {% if review_card_data %}
+      <h5 class="summary-reviews-title">See students’ reviews:</h5>
+        {% for review in review_card_data %}
+          {{ review_card(review) }}
+        {% endfor %}
+      {% else %}
+        <div class="no-reviews">
+          <p>Be the first to share your experience!</p>
+        </div>
+      {% endif %}
+        </div>
   </div>
 
-  {% if review_card_data %}
-    {% for review in review_card_data %}
-      {{ review_card(review) }}
-    {% endfor %}
-  {% else %}
-    <div class="no-reviews">
-      <h2>No reviews available for this unit yet.</h2>
-      <p>Be the first to share your experience!</p>
-    </div>
-  {% endif %}
-    </div>
-
-  </div>
 </main>
 {% endblock %}
