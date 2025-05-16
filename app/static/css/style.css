@@ -199,6 +199,12 @@ a:hover {
   color: var(--tertiary-color);
 }
 
+.form-input li {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
 .error-message {
   color: red;
   font-size: 14px;
