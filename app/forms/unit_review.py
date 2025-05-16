@@ -38,11 +38,9 @@ def create_review_form():
         def get_selected_assessments(self):
             selected_assessments = []
             for field_name, field in self._fields.items():
-                print(f"Field name: {field_name}, Field data: {field.data}")
                 if field_name.startswith("assessment_") and field.data == True:
                     assessment_name = field_name.replace("assessment_", "").replace("_", " ").title()
                     selected_assessments.append(assessment_name)
-                    print(f"Selected assessment: {assessment_name}")
             return selected_assessments
 
     return ReviewForm()

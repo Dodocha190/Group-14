@@ -100,9 +100,7 @@ def diary(user_id):
 def review():
     form = create_review_form()
     if form.validate_on_submit():
-        form_code = form.rev_code.data.upper()
-        print(f"Form code: {form_code}")
-        
+        form_code = form.rev_code.data.upper()    
         unit = Unit.query.filter_by(code=form_code).first()
         if not unit:
             flash("Unit not found.", 'error_unit_review')

@@ -25,7 +25,6 @@ def get_optional_comments_for_unit(unit_id):
     for entry in entries:
         if entry.optional_comments:
             commmented_reviews.append(entry)
-            print(entry.optional_comments.strip())
     return commmented_reviews
 
 def avg_rating_for_unit_coord(unit_id):
@@ -88,7 +87,6 @@ def get_assessment_types_for_unit(unit_id):
     """
     assessment_types = db.session.query(Unit).filter(Unit.id==unit_id).first()
     assessment_selected = assessment_types.assessment_types
-    print(assessment_selected)
     if not assessment_types:
         return None
     return assessment_selected
@@ -146,7 +144,6 @@ def get_percentage_by_faculty(user_id):
         return []
     percentage_by_fac= db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
     json_friendly_data = [{"faculty": item[0], "percentage": float(item[1])} for item in percentage_by_fac]
-    print(json_friendly_data)
     return json_friendly_data
 
 
