@@ -26,9 +26,8 @@ CITS3403 2025/1 Group 14 Project
     ```bash
     export FLASK_APP=run.py:application
     ```
-5. Run `flask db migrate`
-6. Run `flask db upgrade`
-7. Run `flask run`
+5. Run `flask db upgrade`
+6. Run `flask run`
 
 
 ### Testing
