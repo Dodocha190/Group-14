@@ -109,7 +109,6 @@ $(document).ready(function () {
                 '1': ['University of Western Australia', 'UWA'],
                 '2': ['Murdoch University', 'Murdoch', 'MU'],
                 '3': ['Curtin University', 'Curtin', 'CU'],
-                '4': ['Other']  // Keep "Other" as is
             };
 
             $unitElements.each(function () {
@@ -131,7 +130,7 @@ $(document).ready(function () {
                         universityMatch = (normalizedUniversity === selectedUniversity);
                     }
                 } else if (selectedUniversity === 'Other') {
-                    universityMatch = (universityId === 'Other');
+                    universityMatch =true;
                 }
 
                 // Perform the filtering logic (search term on title or code, and university)
