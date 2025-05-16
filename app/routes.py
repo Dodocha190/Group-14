@@ -104,7 +104,7 @@ def review(unit_id):
         # Handle case where the unit doesn't exist (for both GET and POST)
         flash("Unit not found.", 'error_unit_review')
         return redirect(url_for('blueprint.add_unit'))
-
+    
     form = create_review_form()
 
     if form.validate_on_submit():
@@ -117,7 +117,7 @@ def review(unit_id):
 
         if existing_entry:
             # entry already exists
-            flash("You have already submitted a review for this unit in this semester.", 'error_unit_review')
+            flash("You have already submitted a review for this unit in this semester.", 'error_dashboard')
             return redirect(url_for('blueprint.dashboard')) 
 
         # Create new review entry

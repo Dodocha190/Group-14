@@ -1,6 +1,5 @@
 {% extends 'header.html' %}
 {% block body %}
-
 {% with messages = get_flashed_messages(category_filter=['success_unit_review', 'error_unit_review']) %}
 {% if messages %}
   {% for message in messages %}
@@ -9,8 +8,8 @@
     </div>
   {% endfor %}
 {% endif %}
-{% endwith %}                 
-                          
+{% endwith %}
+
 <div class="d-flex justify-content-center align-items-center" style="min-height: 90vh;">
     <div class="form-container review-form">
         <h3 class="form-header">Submit a Review for {{ unit.code }}</h3>
@@ -38,8 +37,7 @@
         <p>{{ form.rev_hours(class="form-input") }}</p>
 
         <p class="form-label">Assessments</p>
-        <div class="checkbox-group">
-
+        <div class="checkbox-group" id="rev_assessments">
             {% for field in form %}
             {% if field.name.startswith('assessment_') %}
             <div class="form-check">

@@ -250,7 +250,7 @@ class SystemTests(unittest.TestCase):
     def test_add_review_to_database(self):
 
         self.login_user(self.user2_email, "tester2")
-        self.driver.get(localHost + "submit_review")
+        unit = Unit.query.filter_by(code="TEST101").first()
 
         if Unit.query.filter_by(code="TEST101").first() is None:
             print(Unit.query.all())
@@ -262,9 +262,9 @@ class SystemTests(unittest.TestCase):
             print("Diary entry already exists for this user and unit.")
             return
 
-        university_field = self.driver.find_element(By.ID, "rev_uni")
+        self.driver.get(localHost + "submit_review" + "/" + str(unit.id))
+
         semester_field = self.driver.find_element(By.ID, "rev_semester")
-        unit_code = self.driver.find_element(By.ID, "rev_code")
         unit_year = self.driver.find_element(By.ID, "rev_year")
         unit_coord_rating_field = self.driver.find_element(By.CSS_SELECTOR, "input[name='rev_unit_coord_rating'][value='4']")
         difficulty_rating_field = self.driver.find_element(By.CSS_SELECTOR, "input[name='rev_difficulty'][value='3']")
@@ -276,9 +276,7 @@ class SystemTests(unittest.TestCase):
         comments_field = self.driver.find_element(By.ID, "rev_comments")
         submit_button = self.driver.find_element(By.ID, "rev_submit")
 
-        university_field.send_keys("Test University")
         semester_field.send_keys("1")
-        unit_code.send_keys("TEST101")
         unit_year.send_keys("2024")
 
         #Scroll to the unit coordinator rating to make it visible and clickable
@@ -312,7 +310,7 @@ class SystemTests(unittest.TestCase):
         time.sleep(1)
         submit_button.click()
         WebDriverWait(self.driver, 10).until(
-            EC.url_changes(localHost + "submit_review")
+            EC.url_changes(localHost + "submit_review" + "/" + str(unit.id))
         )
         self.assertEqual(self.driver.current_url, localHost + "unit_diary/" + str(self.user2.id))
 
