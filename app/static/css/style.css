@@ -245,7 +245,7 @@ a:hover {
   text-align: center;
   color: var(--text-primary);
   font-weight: 500;
-  opacity: 0;
+  opacity: 1;
   transform: translateY(50px);
   transition: all 0.8s ease-in-out;
   min-height: unset;
