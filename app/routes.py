@@ -100,7 +100,8 @@ def diary(user_id):
 def review():
     form = create_review_form()
     if form.validate_on_submit():
-        unit = Unit.query.filter_by(code=form.rev_code.data).first()
+        form_code = form.rev_code.data.upper()    
+        unit = Unit.query.filter_by(code=form_code).first()
         if not unit:
             flash("Unit not found.", 'error_unit_review')
             return redirect(url_for('blueprint.add_unit'))
@@ -128,7 +129,7 @@ def review():
         )
         db.session.add(dataEntry)
 
-        unit = Unit.query.filter_by(code=form.rev_code.data).first()
+        unit = Unit.query.filter_by(code=form_code).first()
         selected_assessments = form.get_selected_assessments()
         if selected_assessments:
             for assessment in selected_assessments:
