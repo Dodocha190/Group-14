@@ -1,6 +1,7 @@
 #fill db with examples for testing, do not merge
-from .models import db, User, University, Unit, DiaryEntry, Faculty, AssessmentType, UnitAssessmentType, DiaryShare
-from werkzeug.security import generate_password_hash, check_password_hash
+from app import application, db
+from app.models import User, University, Unit, DiaryEntry, Faculty, AssessmentType, UnitAssessmentType, DiaryShare
+from werkzeug.security import generate_password_hash
 
 #users
 user1=User(id=1,
@@ -113,9 +114,10 @@ entry5=DiaryEntry(user_id=1,
 #search phil2001 to see if a unit with 2 reviews summarised
 #look at user1 diary for user summary
 
-db.session.add_all([user1, user2,
-                    uni1, uni2,
-                    faculty1, faculty2, faculty3, faculty4,
-                    unit1, unit2, unit3, unit4, unit5,
-                    entry1,entry2,entry3,entry4,entry5])
-db.session.commit()
+with application.app_context():
+    db.session.add_all([user1, user2,
+                        uni1, uni2,
+                        faculty1, faculty2, faculty3, faculty4,
+                        unit1, unit2, unit3, unit4, unit5,
+                        entry1,entry2,entry3,entry4,entry5])
+    db.session.commit()
