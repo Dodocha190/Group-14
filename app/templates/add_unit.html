@@ -1,15 +1,31 @@
 {% extends 'header.html' %}
 {% block body %}
-<div class="form-container" style="margin:10%; background-color:var(--accent-color);">
-    <h2>Add a Unit</h2>
-    <form action="" method="post">
-        {{form.hidden_tag()}}
-        <p>{{form.add_uni.label}}<br>{{form.add_uni}}</p>
-        <p>{{form.add_faculty.label}}<br>{{form.add_faculty}}</p>
-        <p>{{form.add_code.label}}<br>{{form.add_code(style="text-transform: uppercase;")}}</p> <!--capslocks inputted unit code (frontend only)-->
-        <p>{{form.add_unit_name.label}}<br>{{form.add_unit_name}}</p>
-        <p>{{form.add_unit_level.label}}<br>{{form.add_unit_level}}</p>
-        <p>{{form.add_submit.label}}<br>{{form.add_submit}}</p>
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+  <div class="form-container review-form">
+    <h3 class="form-header">Add a New Unit!</h3>
+
+    <form method="POST">
+      {{ form.hidden_tag() }}
+
+      <p class="form-label">{{ form.add_uni.label }}</p>
+      <p>{{ form.add_uni(class="form-input") }}</p>
+
+      <p class="form-label">{{ form.add_faculty.label }}</p>
+      <p>{{ form.add_faculty(class="form-input") }}</p>
+
+      <p class="form-label">{{ form.add_code.label }}</p>
+      <p>{{ form.add_code(class="form-input", style="text-transform: uppercase;") }}</p>
+
+      <p class="form-label">{{ form.add_unit_name.label }}</p>
+      <p>{{ form.add_unit_name(class="form-input") }}</p>
+
+      <p class="form-label">{{ form.add_unit_level.label }}</p>
+      <p>{{ form.add_unit_level(class="form-input") }}</p>
+
+      <p>{{ form.add_submit(class="form-submit") }}</p>
     </form>
+  </div>
 </div>
+
 {% endblock %}
