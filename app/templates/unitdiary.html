@@ -16,25 +16,25 @@
 {% endwith %}
 
 {% if is_shared_view %}
-  <h1>Viewing {{ user.username }}'s Diary</h1>
+  <h1 style="margin-left:20px">Viewing {{ user.username }}'s Diary</h1>
 {% else %}
-  <h1>Your Unit Diary</h1>
+  <h1 style="margin-left:20px">Your Unit Diary</h1>
 {% endif %}
 
-<div class="summary-container">
+<div class="summary-container" style="margin:20px">
   <div class="unit-summary-card">
     <div class="summary-row">
       <div class="summary-section">
         <div class="summary-section faculty-chart-container" data-faculty-data="{{ percent_by_faculty_for_chart }}">
-          <h5>Percentage of units taken in each faculty:</h5></div>
-        <div style="width: 100%; max-width: 500px; margin: 0 auto;">
+          <h5 class="card-title">Percentage of units taken in each faculty:</h5></div>
+        <div style="width: 60%; max-width: 500px; margin: 10px auto;">
           <canvas id="facultyPieChart"></canvas>
         </div>
       </div>
-      <div class="summary-section">
-        {{info_card("Total credit points", total_credits)}}
-       {{info_card("Highest WAM Area: ",highest_wam_area)}}
-        {{ info_card("Average difficulty of units taken: ",slider_bar(avg_difficulty, 5, 'Easy', 'Hard')) }}
+      <div class="summary-section" style="justify-content: space-between;">
+        {{info_card("Credit points achieved:", total_credits)}}
+       {{info_card("Area you performed best in: ",highest_wam_area)}}
+        {{ info_card("How difficult you found your units:",slider_bar(avg_difficulty, 5, 'Easy', 'Hard')) }}
       </div>
     </div>
   </div>
@@ -60,13 +60,8 @@
     const labels = [];
     const chartData = [];
     const backgroundColors = [
-      'rgba(255, 99, 132, 0.8)',
-      'rgba(54, 162, 235, 0.8)',
-      'rgba(255, 206, 86, 0.8)',
-      'rgba(75, 192, 192, 0.8)',
-      'rgba(153, 102, 255, 0.8)',
-      'rgba(255, 159, 64, 0.8)'
-    ];
+      '#B4E1FF', '#C6B5EF', '#FFACE4', 'F5FFC6', 'white'
+    ]; //changed colors to fit with app's theme
 
     // Parse the data from the tuple format
     percentByFaculty.forEach(item => {
@@ -94,9 +89,9 @@
         maintainAspectRatio: true,
         plugins: {
           legend: {
-            position: 'right',
+            position: 'bottom',
             labels: {
-              color: 'black', // Changed to black for better default visibility
+              color: 'white',
               font: {
                 size: 12
               }
