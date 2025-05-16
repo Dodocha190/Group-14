@@ -40,7 +40,4 @@ pip
     b.`python -m unittest test.unitTests`
 
 ### Optional
-To pre-populate database for easy testing:
-    ```bash
-    python3 sampleDB.py
-    ```
+To pre-populate database for easy testing: `python sampleDB.PY`
