@@ -1,5 +1,14 @@
 {% extends 'header.html' %}
 {% block body %}
+{% with messages = get_flashed_messages(category_filter=['success_add_unit', 'error_add_unit']) %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ 'success' if 'success_' in category else 'danger' }}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+{% endwith %}
 <div class="form-container" style="margin:10%; background-color:var(--accent-color);">
     <h2>Add a Unit</h2>
     <form action="" method="post">
