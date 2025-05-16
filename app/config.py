@@ -10,8 +10,8 @@ class Config:
 
 class TestConfig(Config):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
-    SECRET_KEY = secrets.token_hex(16)  # Generate a random secret key for testing
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:' 
+    SECRET_KEY = secrets.token_hex(16) # Generate a random secret key for testing
 
 class DeploymentConfig(Config):
     DEBUG = False

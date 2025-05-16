@@ -1,5 +1,14 @@
 {% extends 'header.html' %}
 {% block body %}
+{% with messages = get_flashed_messages(category_filter=['success_unit_review', 'error_unit_review']) %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ 'success' if 'success_' in category else 'danger' }}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+{% endwith %}
 <div class="form-container"
     style="margin:10%; background-color:var(--accent-color);">
     <h2>Submit a Review</h2>
@@ -15,7 +24,7 @@
         <p>{{form.rev_difficulty.label}}<br>{{form.rev_difficulty}}</p>
         <p>{{form.rev_hours.label}}<br>{{form.rev_hours}}</p>
         <p>Assessments</p>
-        <div class="checkbox-group">
+        <div class="checkbox-group" id="rev_assessments">
             {% for field in form %}
             {% if field.name.startswith('assessment_') %}
                 <div class="form-check">

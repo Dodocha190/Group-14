@@ -11,12 +11,14 @@ from flask_login import login_user, current_user, logout_user, login_required
 from sqlalchemy import func
 from .controllers import *
 from app.blueprints import blueprint
+from app import db
 
 @blueprint.route('/')
 def home():
     return render_template('intro.html')
 
 @blueprint.route('/unit-summary/<unit_id>')
+@login_required
 def unit_summary(unit_id):
     unit= db.session.get(Unit, unit_id)
     review_exists = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).first()
@@ -52,16 +54,17 @@ def signup():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash("Registration successful. Please log in.")
+        users = User.query.all()
+        flash("Registration successful. Please log in.", 'success_signup')
         return redirect(url_for('blueprint.login'))
-    flash("Please fill in all fields.")
+    flash("Please fill in all fields.", 'error_signup')
     return render_template('sign_up_page.html', form=form)
 
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
 
     if current_user.is_authenticated:
-            return redirect(url_for('blueprint.dashboard'))  # Redirect if already logged in
+        return redirect(url_for('blueprint.dashboard'))  # Redirect if already logged in
 
     form = LoginForm()
     if form.validate_on_submit():
@@ -70,11 +73,13 @@ def login():
             login_user(user) 
             return redirect(url_for('blueprint.dashboard')) 
         else:
-            flash('Invalid email or password.')
+            flash('Invalid email or password.', 'error_login')
+
 
     return render_template('login_page.html', form=form)
   
 @blueprint.route('/unit_diary/<int:user_id>', methods=['GET'])
+@login_required
 def diary(user_id):
     units_taken = get_diary_entries_from_user(user_id)
     total_units = get_total_units_logged(user_id)
@@ -91,12 +96,13 @@ def diary(user_id):
                            highest_wam_area=highest_wam_area, percent_by_faculty=percent_by_faculty, total_credits=total_credits, avg_difficulty=avg_difficulty, is_shared_view=is_shared_view)
 
 @blueprint.route('/submit_review', methods=['GET', 'POST'])
+@login_required
 def review():
     form = create_review_form()
     if form.validate_on_submit():
         unit = Unit.query.filter_by(code=form.rev_code.data).first()
         if not unit:
-            flash("Unit not found.")
+            flash("Unit not found.", 'error_unit_review')
             return redirect(url_for('blueprint.add_unit'))
         existing_entry = DiaryEntry.query.filter_by(
         user_id=current_user.id,
@@ -105,7 +111,7 @@ def review():
         ).first()
 
         if existing_entry:
-            flash("You have already submitted a review for this unit in this semester.")
+            flash("You have already submitted a review for this unit in this semester.", 'error_unit_review')
             return redirect(url_for('blueprint.dashboard')) 
 
         dataEntry = DiaryEntry(
@@ -139,11 +145,12 @@ def review():
                     db.session.add(association)
         
         db.session.commit()
-        flash('Review submitted successfully!')
+        flash('Review submitted successfully!', 'success_unit_review')
         return redirect(url_for('blueprint.dashboard'))
     return render_template('unit_review.html', form=form)
 
 @blueprint.route('/add_unit', methods=['GET', 'POST'])
+@login_required
 def add_unit():
     form = AddUnitForm()
     if form.validate_on_submit():
@@ -153,6 +160,10 @@ def add_unit():
             faculty = Faculty(name=form.add_faculty.data, university_id=form.add_uni.data)
             db.session.add(faculty)
             db.session.commit()
+        unit = Unit.query.filter_by(code=form.add_code.data).first()
+        if unit:
+            flash("Unit already exists.", 'error_add_unit')
+            return redirect(url_for('blueprint.add_unit'))
         unit = Unit(
             code=form.add_code.data.upper(), #capslocks unit code before adding to database
             title=form.add_unit_name.data,
@@ -163,7 +174,7 @@ def add_unit():
         db.session.add(unit)
         db.session.commit()
 
-        flash("Unit added successfully!")
+        flash("Unit added successfully!", 'success_add_unit')
         return redirect(url_for('blueprint.search_results'))
     return render_template('add_unit.html', form=form)
 
@@ -180,7 +191,6 @@ def logout():
     Logs the user out and redirects them to the login page.
     """
     logout_user()
-    flash('You have been logged out.')
     return redirect(url_for('blueprint.login'))
 
 
@@ -219,7 +229,6 @@ def share_form():
     
     if form.validate_on_submit():
         recipient = User.query.filter_by(email=form.recipient_email.data).first()
-
         if not recipient:
             flash('User not found with that email.', 'danger')
         elif recipient.id == current_user.id:

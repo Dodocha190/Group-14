@@ -15,7 +15,7 @@
   <h1 class="sd-title">Diaries Shared With You</h1>
   <div class="sd-grid">
     {% for d in diaries %}
-    <a href="{{ url_for('blueprint.view_shared_diary', user_id=d.user_id) }}" class="sd-card" style="text-decoration: none;">
+    <a href="{{ url_for('blueprint.view_shared_diary', user_id=d.user_id) }}" class="sd-card" id="shared-diary" style="text-decoration: none;">
         <article>
           <h2 class="sd-name">{{ d.username }}’s Diary</h2>
           <p class="sd-faculty">{{ d.faculty }}</p>
@@ -30,7 +30,7 @@
 </section>
 
 <!-- Trigger Button -->
-<button class="primary-button" data-toggle="modal" data-target="#shareDiaryModal">
+<button class="primary-button" data-toggle="modal" data-target="#shareDiaryModal" id="share_diary_form">
     Share Diary
     </button>
 
@@ -47,13 +47,13 @@
             {{ share_form.hidden_tag() }}
   
             <label class="form-label">{{ share_form.recipient_email.label.text }}</label>
-            {{ share_form.recipient_email(class="form-input", placeholder="Enter email") }}
+            {{ share_form.recipient_email(class="form-input", placeholder="Enter email", id="recipient_email") }}
             {% for error in share_form.recipient_email.errors %}
               <div class="error-message">{{ error }}</div>
             {% endfor %}
   
             <div class="text-center">
-              {{ share_form.submit(class="share-submit-button") }}
+              {{ share_form.submit(class="share-submit-button", id="share_diary_button") }}
             </div>
           </form>
         </div>

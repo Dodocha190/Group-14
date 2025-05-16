@@ -1,4 +1,5 @@
-from .models import db, User, Unit, DiaryEntry, Faculty
+from .models import User, Unit, DiaryEntry, Faculty
+from app import db
 from sqlalchemy import func
 
 def get_avg_rating_for_unit(unit_id):
