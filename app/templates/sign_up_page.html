@@ -25,8 +25,8 @@
           <div>
             {{ form.hidden_tag() }}
             <p class="form-label">{{ form.email.label }}</p>
+            <span class="email-error-message error-message">{{ error }}</span>
             <p>
-              <!-- TODO: Add validation-->
               {{ form.email(class="form-input", id="email") }} {% for error in
               form.email.errors %}
               <span class="error-message">[{{ error }}]</span>
@@ -42,6 +42,7 @@
             </p>
 
             <p class="form-label">{{ form.password.label }}</p>
+            <span class="password-error-message error-message">{{ error }}</span>
             <p>
               {{ form.password(class="form-input", id="password") }} {% for
               error in form.password.errors %}
