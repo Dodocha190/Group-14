@@ -444,12 +444,20 @@ a:hover {
 /* Header inside card */
 .usc-header {
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
+  justify-content: space-between;
+  gap: 0rem;
+  flex-wrap: nowrap; /* prevent wrapping of inner content */
 }
 
-/* Unit info */
-.unit-info {}
+.unit-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  max-width: fit-content; /* allow unit-info to grow just enough */
+  white-space: nowrap; /* prevent text wrapping inside */
+}
 
 .usc-code {
   font-size: 3.5rem;
@@ -482,7 +490,7 @@ a:hover {
 
 .usc-faculty {
   color: white;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 
