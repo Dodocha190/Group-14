@@ -26,15 +26,15 @@
     <div class="summary-row">
       <div class="summary-section">
         <div class="summary-section faculty-chart-container" data-faculty-data="{{ percent_by_faculty_for_chart }}">
-          <h5>Percentage of units taken in each faculty:</h5></div>
+          <h5 class="card-title">Percentage of units taken in each faculty:</h5></div>
         <div style="width: 100%; max-width: 500px; margin: 0 auto;">
           <canvas id="facultyPieChart"></canvas>
         </div>
       </div>
-      <div class="summary-section">
-        {{info_card("Total credit points", total_credits)}}
-       {{info_card("Highest WAM Area: ",highest_wam_area)}}
-        {{ info_card("Average difficulty of units taken: ",slider_bar(avg_difficulty, 5, 'Easy', 'Hard')) }}
+      <div class="summary-section" style="justify-content: space-between;">
+        {{info_card("Credit points achieved:", total_credits)}}
+       {{info_card("Area you performed best in: ",highest_wam_area)}}
+        {{ info_card("How difficult you found your units:",slider_bar(avg_difficulty, 5, 'Easy', 'Hard')) }}
       </div>
     </div>
   </div>
@@ -60,13 +60,8 @@
     const labels = [];
     const chartData = [];
     const backgroundColors = [
-      'rgba(255, 99, 132, 0.8)',
-      'rgba(54, 162, 235, 0.8)',
-      'rgba(255, 206, 86, 0.8)',
-      'rgba(75, 192, 192, 0.8)',
-      'rgba(153, 102, 255, 0.8)',
-      'rgba(255, 159, 64, 0.8)'
-    ];
+      '#C6B5EF', '#C6B5EF', '#FFACE4', 'F5FFC6', 'white'
+    ]; //changed colors to fit with app's theme
 
     // Parse the data from the tuple format
     percentByFaculty.forEach(item => {
