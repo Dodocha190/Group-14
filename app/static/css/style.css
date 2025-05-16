@@ -199,6 +199,12 @@ a:hover {
   color: var(--tertiary-color);
 }
 
+.form-input li {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
 .error-message {
   color: red;
   font-size: 14px;
@@ -1010,7 +1016,7 @@ body.authenticated .main-content {
 }
 
 .card-value {
-  color: var(--accent-color);
+  color: var(--tertiary-color);
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 0;
