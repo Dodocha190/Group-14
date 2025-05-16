@@ -33,7 +33,7 @@ The features of this unit include:
     ```bash
     export FLASK_APP=run.py:application
     ```
-5. Run `flask db upgrade`
+5. Run `flask db upgrade` (if not using the sample database)
 6. Run `flask run`
 
 
@@ -44,7 +44,7 @@ The features of this unit include:
     b.`python -m unittest test.unitTests`
 
 ### Optional
-To pre-populate database for easy testing: `python sampleDB.PY`
+- To pre-populate database for easy testing: `python sampleDB.PY`.
 
 ### Technologies and packages used
 #### Required components:
