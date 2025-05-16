@@ -57,7 +57,6 @@ def signup():
         users = User.query.all()
         flash("Registration successful. Please log in.", 'success_signup')
         return redirect(url_for('blueprint.login'))
-    flash("Please fill in all fields.", 'error_signup')
     return render_template('sign_up_page.html', form=form)
 
 @blueprint.route('/login', methods=['GET', 'POST'])
