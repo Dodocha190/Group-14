@@ -16,18 +16,18 @@
 {% endwith %}
 
 {% if is_shared_view %}
-  <h1>Viewing {{ user.username }}'s Diary</h1>
+  <h1 style="margin-left:20px">Viewing {{ user.username }}'s Diary</h1>
 {% else %}
-  <h1>Your Unit Diary</h1>
+  <h1 style="margin-left:20px">Your Unit Diary</h1>
 {% endif %}
 
-<div class="summary-container">
+<div class="summary-container" style="margin:20px">
   <div class="unit-summary-card">
     <div class="summary-row">
       <div class="summary-section">
         <div class="summary-section faculty-chart-container" data-faculty-data="{{ percent_by_faculty_for_chart }}">
           <h5 class="card-title">Percentage of units taken in each faculty:</h5></div>
-        <div style="width: 100%; max-width: 500px; margin: 0 auto;">
+        <div style="width: 60%; max-width: 500px; margin: 10px auto;">
           <canvas id="facultyPieChart"></canvas>
         </div>
       </div>
