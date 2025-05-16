@@ -26,14 +26,28 @@ def unit_summary(unit_id):
         flash("No reviews found for this unit.")
         return render_template('blueprint.review', unit_id=unit.id, no_reviews=True)
     avg_rating=get_avg_rating_for_unit(unit_id)
-    avg_workload=get_workload_avg_for_unit(unit_id) 
+    avg_workload=get_workload_avg_for_unit(unit_id)
+    unit_reviews = get_optional_comments_for_unit(unit_id)  
     review_count = db.session.query(DiaryEntry).filter(DiaryEntry.unit_id == unit_id).count()
     unit_coord_rating = avg_rating_for_unit_coord(unit_id)
     difficulty_level = get_difficulty_rating_avg_for_unit(unit_id)
     overall_rating_count = get_overall_rating_count_for_unit(unit_id)
     assessment_types=get_assessment_types_for_unit(unit_id)
     review_card_data = get_review_card_data_for_unit(unit_id)
-    return render_template('unit_summary.html', unit=unit, avg_rating=avg_rating, review_card_data = review_card_data, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types = assessment_types)
+    template_data = {
+    'unit': unit,
+    'unit_id': unit.id,
+    'avg_rating': avg_rating,
+    'unit_reviews': unit_reviews,
+    'review_count': review_count,
+    'workload': avg_workload,
+    'difficulty_level': difficulty_level,
+    'unit_coord_rating': unit_coord_rating,
+    'overall_rating_count': overall_rating_count,
+    'assessment_types': assessment_types,
+    'review_card_data': review_card_data,
+    }
+    return render_template('unit_summary.html', **template_data)
 
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
@@ -57,7 +71,6 @@ def signup():
         users = User.query.all()
         flash("Registration successful. Please log in.", 'success_signup')
         return redirect(url_for('blueprint.login'))
-    flash("Please fill in all fields.", 'error_signup')
     return render_template('sign_up_page.html', form=form)
 
 @blueprint.route('/login', methods=['GET', 'POST'])
