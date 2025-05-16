@@ -9,7 +9,7 @@
     {% if show_user_info %}
       <div class="user-info">
         Welcome, <span id="user-name">{{ current_user.username }}</span>
-        <a href="{{ url_for('blueprint.logout') }}" class="log-in-button">Log Out</a>
+        <a href="{{ url_for('blueprint.logout') }}" class="log-in-button" id="logout">Log Out</a>
       </div>
     {% else %}
       <div>

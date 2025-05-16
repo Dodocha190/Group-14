@@ -1,5 +1,14 @@
 {% extends 'header.html' %}
 {% block body %}
+{% with messages = get_flashed_messages(category_filter=['success_login', 'error_login']) %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ 'success' if 'success_' in category else 'danger' }}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+{% endwith %}
 <main class="container-fluid" style="margin-left: 60px">
   <div class="row">
     <div class="col-sm-5" style="margin-top: 100px">

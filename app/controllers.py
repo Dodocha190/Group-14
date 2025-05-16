@@ -1,4 +1,5 @@
-from .models import db, User, Unit, DiaryEntry, Faculty
+from .models import User, Unit, DiaryEntry, Faculty
+from app import db
 from sqlalchemy import func
 
 def get_avg_rating_for_unit(unit_id):
@@ -24,7 +25,6 @@ def get_optional_comments_for_unit(unit_id):
     for entry in entries:
         if entry.optional_comments:
             commmented_reviews.append(entry)
-            print(entry.optional_comments.strip())
     return commmented_reviews
 
 def avg_rating_for_unit_coord(unit_id):
@@ -87,7 +87,6 @@ def get_assessment_types_for_unit(unit_id):
     """
     assessment_types = db.session.query(Unit).filter(Unit.id==unit_id).first()
     assessment_selected = assessment_types.assessment_types
-    print(assessment_selected)
     if not assessment_types:
         return None
     return assessment_selected
@@ -124,8 +123,10 @@ def get_highest_wam_faculty(user_id):
         A tuple containing the faculty name and the average grade,
         or None if no diary entries are found for the user.
     """ 
-    return db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
-
+    highest_wam_area_data = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
+    if not highest_wam_area_data:
+        return "No data available"
+    return f"{highest_wam_area_data[0]}: Average grade of {highest_wam_area_data[1]}%"
 
 def get_percentage_by_faculty(user_id):
     """
@@ -139,8 +140,11 @@ def get_percentage_by_faculty(user_id):
         percentage of units logged in that faculty.
     """
     total_units_logged = get_total_units_logged(user_id)
-    return db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
-
+    if total_units_logged == 0:
+        return []
+    percentage_by_fac= db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
+    json_friendly_data = [{"faculty": item[0], "percentage": float(item[1])} for item in percentage_by_fac]
+    return json_friendly_data
 
 
 def get_total_credits_passed(user_id):

@@ -1,6 +1,15 @@
 {% extends 'header.html' %}
 {% block body %}
 
+{% with messages = get_flashed_messages(category_filter=['success_add_unit', 'error_add_unit', 'error_unit_review']) %}
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert alert-{{ 'success' if 'success_' in category else 'danger' }}" role="alert">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+{% endwith %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 90vh;">
   <div class="form-container review-form">
     <h3 class="form-header">Add a New Unit!</h3>
@@ -25,7 +34,6 @@
 
       <p>{{ form.add_submit(class="form-submit") }}</p>
     </form>
-  </div>
 </div>
 
 {% endblock %}
