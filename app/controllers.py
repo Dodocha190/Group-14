@@ -125,8 +125,8 @@ def get_highest_wam_faculty(user_id):
         A tuple containing the faculty name and the average grade,
         or None if no diary entries are found for the user.
     """ 
-    return db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
-
+    highest_wam_area_data = db.session.query(Unit.faculty_id, func.avg(DiaryEntry.grade)).join(Unit, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).order_by(func.avg(DiaryEntry.grade).desc()).first()
+    return f"{highest_wam_area_data[0]}: Average grade of {highest_wam_area_data[1]}%"
 
 def get_percentage_by_faculty(user_id):
     """
@@ -140,8 +140,10 @@ def get_percentage_by_faculty(user_id):
         percentage of units logged in that faculty.
     """
     total_units_logged = get_total_units_logged(user_id)
-    return db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
-
+    percentage_by_fac= db.session.query(Unit.faculty_id, (100*func.count(Unit.id)/total_units_logged)).join(DiaryEntry, DiaryEntry.unit_id == Unit.id).filter(DiaryEntry.user_id == user_id).group_by(Unit.faculty_id).all()
+    json_friendly_data = [{"faculty": item[0], "percentage": float(item[1])} for item in percentage_by_fac]
+    print(json_friendly_data)
+    return json_friendly_data
 
 
 def get_total_credits_passed(user_id):
