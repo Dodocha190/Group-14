@@ -95,7 +95,7 @@ $(document).ready(function () {
         const $universitySelect = $('#universitySelect');
         const $searchResultsContainer = $('#searchResultsContainer');
         const $noResultsMessage = $('#noResults');
-        $noResultsMessage.css('display', 'none');
+        filterUnits(); 
 
         // Function to filter units based on search term and selected university
         function filterUnits() {

@@ -177,3 +177,30 @@ def get_average_difficulty(user_id):
     total_difficulty = sum(entry.difficulty_rating for entry in entries)
     avg_difficulty = total_difficulty / len(entries)
     return avg_difficulty.__round__(2)
+
+def get_review_card_data_for_unit(unit_id):
+    """
+    Return a list of dictionaries with review card data (optional_comments, overall_rating, semester, year)
+    for a specific unit.
+    """
+    results = db.session.query(
+        DiaryEntry.optional_comments,
+        DiaryEntry.overall_rating,
+        DiaryEntry.semester,
+        DiaryEntry.year
+    ).filter(
+        DiaryEntry.unit_id == unit_id,
+        DiaryEntry.optional_comments != None,
+        DiaryEntry.optional_comments != ''
+    ).all()
+    if not results:
+        return []
+    return [
+        {
+            'optional_comments': r.optional_comments,
+            'overall_rating': r.overall_rating,
+            'semester': r.semester,
+            'year': r.year
+        }
+        for r in results
+    ]

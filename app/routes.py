@@ -33,7 +33,21 @@ def unit_summary(unit_id):
     difficulty_level = get_difficulty_rating_avg_for_unit(unit_id)
     overall_rating_count = get_overall_rating_count_for_unit(unit_id)
     assessment_types=get_assessment_types_for_unit(unit_id)
-    return render_template('unit_summary.html', unit=unit, unit_id=unit.id, avg_rating=avg_rating, unit_reviews=unit_reviews, review_count=review_count, workload=avg_workload, difficulty_level=difficulty_level, unit_coord_rating=unit_coord_rating, overall_rating_count=overall_rating_count, assessment_types=assessment_types)
+    review_card_data = get_review_card_data_for_unit(unit_id)
+    template_data = {
+    'unit': unit,
+    'unit_id': unit.id,
+    'avg_rating': avg_rating,
+    'unit_reviews': unit_reviews,
+    'review_count': review_count,
+    'workload': avg_workload,
+    'difficulty_level': difficulty_level,
+    'unit_coord_rating': unit_coord_rating,
+    'overall_rating_count': overall_rating_count,
+    'assessment_types': assessment_types,
+    'review_card_data': review_card_data,
+    }
+    return render_template('unit_summary.html', **template_data)
 
 
 @blueprint.route('/dashboard') #temporary, somewhere to go to after successful login
