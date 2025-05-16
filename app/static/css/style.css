@@ -479,6 +479,9 @@ a:hover {
   margin: 0.25rem 0;
   font-size: 2rem;
   opacity: 0.85;
+  white-space: normal;        
+  overflow-wrap: break-word;   
+  word-break: break-word;     
 }
 
 .usc-school {
