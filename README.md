@@ -41,3 +41,8 @@ pip
 
 ### Optional
 To pre-populate database for easy testing: `python sampleDB.PY`
+
+### Technologies and packages used
+#### Required components:
+Front-end: HTML, CSS , JavaScript, jQuery, Char.js, Bootstrap, Font Awesome
+Backend: Flask, SQLAlchemy
