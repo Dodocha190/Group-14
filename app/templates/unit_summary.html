@@ -67,7 +67,7 @@
   
   <!-- Wrap only the button and heading in a centering container -->
   <div class="review-header">
-    <a class="review-button" href="{{ url_for('blueprint.review') }}">
+    <a class="review-button" href="{{ url_for('blueprint.review', unit_id=unit.id) }}">
       Review This Unit!
     </a>
 
